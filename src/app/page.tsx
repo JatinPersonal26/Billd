@@ -1,103 +1,541 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { RadioGroup } from "@/components/ui/radio-group";
+
+import axiosInstance from "@/lib/AxiosInstance";
+import { Company } from "./types/types";
+import { billAndQuote, billAndQuoteSchema } from "@/lib/Schema/generator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Cross, DeleteIcon, Plus, Trash2 } from "lucide-react";
+import TemplateRegistry, {
+  generateBillPdfBlob,
+  Template_Types,
+  Template_Use,
+} from "@/lib/TemplateRegistry";
+import { BillOrQuoteFinalType } from "@/lib/BillAndQouteCalculator";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [companyCount, setCompanyCount] = useState(3);
+  const [primaryCompany, setPrimaryCompany] = useState("");
+  const [url, setUrl] = useState<string | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const [perCompanyQuote, setPerCompanyQuote] =
+    useState<BillOrQuoteFinalType>();
+
+  const { data: allCompanies = [], isLoading } = useQuery({
+    queryKey: ["companies"],
+    queryFn: async (): Promise<Company[]> => {
+      const res = await axiosInstance.get("/company");
+      return res.data.data;
+    },
+  });
+
+  const form = useForm<billAndQuote>({
+    resolver: zodResolver(billAndQuoteSchema),
+    defaultValues: {
+      companyCount: 3,
+      companies: [],
+      items: [{ desc: "", deno: "", qty: 0, rate: 0, total: 0 }],
+      primary: "",
+      gst: 23,
+      variationMin: 3,
+      variationMax: 7,
+      to: {
+        name: "Roshan",
+        address: "43-road,delhi",
+        post: "Malik",
+      },
+    },
+  });
+
+  const { control, watch, setValue } = form;
+  const { fields, replace } = useFieldArray({
+    control,
+    name: "companies",
+  });
+
+  const handleCountSubmit = () => {
+    replace(
+      Array.from({ length: companyCount }, () => ({
+        name: "",
+        fis: "",
+        address: "",
+        phone: "",
+      }))
+    );
+    setValue("primary", "");
+  };
+
+  const {
+    fields: itemFields,
+    append: itemAppend,
+    remove: itemRemove,
+  } = useFieldArray({
+    control,
+    name: "items",
+  });
+
+  const previewBillAndQuoteMutation = useMutation({
+    mutationFn: async (data: billAndQuote) => {
+      const response = await axiosInstance.post("/preview", data);
+      return response.data;
+    },
+    onSuccess: (response) => {
+      console.log("Preview response final bill:", response.finalBillOrQuote[0]);
+      setPerCompanyQuote(response.finalBillOrQuote[0]);
+      handleGenerate(response.finalBillOrQuote[0]);
+    },
+    onError: (error) => {
+      console.error("Error generating preview:", error);
+    },
+  });
+
+  const handleGenerate = async (bill: BillOrQuoteFinalType) => {
+    const blob = await generateBillPdfBlob(bill);
+    console.log("blob", blob);
+    const pdfUrl = URL.createObjectURL(blob);
+    console.log("pdf url ", pdfUrl);
+    setUrl(pdfUrl);
+  };
+
+  const onSubmit = (data: billAndQuote) => {
+    const selected = allCompanies.find((c) => c.fis === data.primary);
+    console.log("Submitted Data:", data);
+    console.log("Primary Company:", selected?.name);
+    previewBillAndQuoteMutation.mutate(data);
+  };
+
+  return (
+    <div className="font-sans min-h-screen p-6 ">
+      <div className="flex justify-end mb-6">
+        <Button asChild>
+          <Link href="/manage">Manage</Link>
+        </Button>
+      </div>
+
+      <form
+        onSubmit={form.handleSubmit(onSubmit, (errors) => {
+          console.error("form erros", errors);
+        })}
+        className="space-y-10 border-2 p-5"
+      >
+        <Form {...form}>
+          {/* Company Count and Generate */}
+          <div className="flex gap-2 divide-x-2">
+            <div>
+              <div className="flex items-end gap-4">
+                <div>
+                  <FormField
+                    control={control}
+                    name="companyCount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Enter company count</FormLabel>
+                        <Input
+                          {...field}
+                          onChange={(e) => {
+                            const val = Number(e.target.value);
+                            setCompanyCount(val); // update local state
+                            field.onChange(val); // update react-hook-form value
+                          }}
+                        />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <Button type="button" onClick={handleCountSubmit}>
+                  Generate
+                </Button>
+              </div>
+
+              {/* Companies Dropdowns */}
+              <div className="w-110">
+                {fields.length > 0 && (
+                  <div className=" flex flex-col gap-1">
+                    <Label className="text-lg font-semibold">
+                      Select Companies
+                    </Label>
+
+                    {fields.map((field, index) => (
+                      <div
+                        key={field.id}
+                        className="border rounded-lg p-2 flex items-center justify-between shadow-sm"
+                      >
+                        <Label className="text-sm text-gray-600">
+                          Company #{index + 1}
+                        </Label>
+                        <Controller
+                          control={control}
+                          name={`companies.${index}.name`}
+                          render={({ field }) => (
+                            <Select
+                              onValueChange={(val) => {
+                                const selectedCompany = allCompanies.find(
+                                  (c) => c.fis === val
+                                );
+                                if (selectedCompany) {
+                                  setValue(
+                                    `companies.${index}`,
+                                    selectedCompany
+                                  );
+                                }
+                              }}
+                              value={watch(`companies.${index}.fis`)}
+                            >
+                              <SelectTrigger className="w-72">
+                                <SelectValue placeholder="Select company" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {allCompanies.map((company) => (
+                                  <SelectItem
+                                    key={company.fis}
+                                    value={company.fis}
+                                  >
+                                    {company.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Primary Company Selector */}
+              <div className="mt-8">
+                <FormField
+                  control={control}
+                  name="primary"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Primary Company
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="w-72">
+                          <SelectValue placeholder="Select Primary Company" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {watch("companies")
+                            .filter((c) => c?.fis)
+                            .map((company, idx) => (
+                              <SelectItem key={idx} value={company.fis}>
+                                {allCompanies.find((c) => c.fis === company.fis)
+                                  ?.name || `Company #${idx + 1}`}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+                {form.formState.errors.primary && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {form.formState.errors.primary.message}
+                  </p>
+                )}
+              </div>
+
+              {/* TO Section */}
+              <div className="mt-8 space-y-4">
+                <Label className="font-semibold">Recipient (To)</Label>
+                <div className=" rounded-lg border shadow-sm p-4 space-y-4 w-[400px]">
+                  <FormField
+                    control={control}
+                    name="to.name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <Input {...field} />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="to.post"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Post</FormLabel>
+                        <Input {...field} />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="to.address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address</FormLabel>
+                        <Input {...field} />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4 mt-4">
+                {/* GST Field */}
+                <FormField
+                  control={control}
+                  name="gst"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>GST</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="w-60"
+                          type="number"
+                          min={0}
+                          max={100}
+                          {...field}
+                          value={field.value}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Variation Fields */}
+                <div className="flex gap-5">
+                  <FormField
+                    control={control}
+                    name="variationMin"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Variation Min</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="w-30"
+                            type="number"
+                            min={2}
+                            max={5}
+                            value={field.value}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={control}
+                    name="variationMax"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Variation Max</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="w-30"
+                            type="number"
+                            min={5}
+                            max={10}
+                            value={field.value}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <Button
+                className="float-end flex items-center"
+                type="button"
+                onClick={() =>
+                  itemAppend({ desc: "", deno: "", qty: 0, rate: 0, total: 0 })
+                }
+              >
+                <span>Add Item</span> <Plus />
+              </Button>
+              <Table className="w-full">
+                <TableHeader>
+                  <TableRow>
+                    <TableCell>Description</TableCell>
+                    <TableCell>Deno</TableCell>
+                    <TableCell>Qty</TableCell>
+                    <TableCell>Price</TableCell>
+                    <TableCell>Total</TableCell>
+                  </TableRow>
+                </TableHeader>
+              </Table>
+
+              <TableBody>
+                {itemFields.map((item, index) => {
+                  const qty = watch(`items.${index}.qty`) || 0;
+                  const rate = watch(`items.${index}.rate`) || 0;
+                  const total = qty * rate;
+
+                  return (
+                    <TableRow key={item.id} className="flex gap-2 items-center">
+                      <TableCell>
+                        <Controller
+                          control={control}
+                          name={`items.${index}.desc`}
+                          render={({ field }) => (
+                            <Input placeholder="Description" {...field} />
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {" "}
+                        <Controller
+                          control={control}
+                          name={`items.${index}.deno`}
+                          render={({ field }) => (
+                            <Input placeholder="Denomination" {...field} />
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Controller
+                          control={control}
+                          name={`items.${index}.qty`}
+                          render={({ field }) => (
+                            <Input
+                              type="number"
+                              placeholder="Qty"
+                              {...field}
+                              onChange={(e) => {
+                                const newQty = Number(e.target.value);
+                                setValue(`items.${index}.qty`, newQty);
+                                const rate = watch(`items.${index}.rate`) || 0;
+                                setValue(`items.${index}.total`, newQty * rate);
+                              }}
+                            />
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Controller
+                          control={control}
+                          name={`items.${index}.rate`}
+                          render={({ field }) => (
+                            <Input
+                              type="number"
+                              placeholder="Rate"
+                              {...field}
+                              onChange={(e) => {
+                                const newRate = Number(e.target.value);
+                                setValue(`items.${index}.rate`, newRate);
+                                const qty = watch(`items.${index}.qty`) || 0;
+                                setValue(`items.${index}.total`, qty * newRate);
+                              }}
+                            />
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Controller
+                          control={control}
+                          name={`items.${index}.total`}
+                          render={({ field }) => (
+                            <Input
+                              type="number"
+                              disabled
+                              placeholder="Total"
+                              value={total}
+                              onChange={(e) => {
+                                field.onChange(Number(e.target.value));
+                                setValue(`items.${index}.total`, total);
+                              }}
+                            />
+                          )}
+                        />
+                      </TableCell>
+                      <Button
+                        type="button"
+                        variant={"destructive"}
+                        onClick={() => itemRemove(index)}
+                      >
+                        <Trash2 />
+                      </Button>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </div>
+          </div>
+          {/* Submit Button */}
+
+          <Button type="submit" className="mt-6">
+            Submit
+          </Button>
+          {/* {perCompanyQuote !== undefined &&
+            TemplateRegistry(
+              perCompanyQuote.fis,
+              perCompanyQuote,
+              Template_Types.Quote,
+              Template_Use.Preview
+            )} */}
+          {url && (
+            <object
+              data={url}
+              type="application/pdf"
+              width="100%"
+              height="1000px"
+              className="mt-4 border"
+            >
+              <p>
+                This browser doesn't support PDF preview.{" "}
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  Download PDF
+                </a>
+                .
+              </p>
+            </object>
+          )}
+        </Form>
+      </form>
     </div>
   );
 }
