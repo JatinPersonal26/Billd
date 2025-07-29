@@ -1,4 +1,5 @@
 import { billAndQuote } from "./Schema/generator";
+import { Template_Types } from "./TemplateRegistry";
 
 export type BillItem = {
   desc: string;
@@ -16,16 +17,17 @@ export type BillOrQuoteFinalType = {
   fis: string;
   items: BillItem[];
   total: number;
-  gstCharges:number,
+  gstCharges: number;
   totalWithGst: number;
   isPrimary: boolean;
   invoiceNo: string;
-  date:string,
-  to:{
-    name:string,
-    post:string,
-    address:string
-  }
+  date: string;
+  to: {
+    name: string;
+    post: string;
+    address: string;
+  };
+  type: Template_Types;
 };
 
 export function CalculateBillOrQuote(
@@ -45,11 +47,12 @@ export function CalculateBillOrQuote(
       items: [],
       total: 0,
       totalWithGst: 0,
-      gstCharges:0,
+      gstCharges: 0,
       isPrimary: bill.primary === company.fis,
-      invoiceNo:generateInvoiceNo(),
-      date: (new Date()).toISOString().split("T")[0],
-      to:bill.to
+      invoiceNo: "",
+      date: new Date().toISOString().split("T")[0],
+      to: bill.to,
+      type: Template_Types.Quote,
     };
 
     const variation =
@@ -76,9 +79,15 @@ export function CalculateBillOrQuote(
 
     finalBill.items = finalBillItems;
     finalBill.total = totalAmountOnBill;
-    finalBill.gstCharges=Math.ceil(totalAmountOnBill*(bill.gst)/100)
-    finalBill.totalWithGst=finalBill.total+finalBill.gstCharges
+    finalBill.gstCharges = Math.ceil((totalAmountOnBill * bill.gst) / 100);
+    finalBill.totalWithGst = finalBill.total + finalBill.gstCharges;
     perCompanyBill.push(finalBill);
+    if (finalBill.isPrimary) {
+      const clonedBill = { ...finalBill };
+      clonedBill.type = Template_Types.Bill;
+      clonedBill.invoiceNo = generateInvoiceNo();
+      perCompanyBill.push(clonedBill);
+    }
   }
 
   return perCompanyBill;
