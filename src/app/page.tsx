@@ -145,7 +145,7 @@ export default function Home() {
       bills.map(async (bill) => {
         const blob = await generateBillPdfBlob(bill, bill.type);
         const pdfUrl = URL.createObjectURL(blob);
-
+        
         return {
           pdfType: bill.type,
           isPrimary: bill.isPrimary,
@@ -589,7 +589,7 @@ export default function Home() {
             onOpenChange={setPreviewDialogOpen}
             open={isPreviewDialogOpen}
           >
-            <DialogContent className="h-[60vh] w-[100vw] !max-w-fit flex flex-col">
+            <DialogContent className="h-[80vh] w-[100vw] !max-w-fit flex flex-col">
               <div className="overflow-y-auto flex-1">
                 <PreviewDialogContent previewData={previewData} />
               </div>
