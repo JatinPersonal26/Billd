@@ -407,102 +407,114 @@ export default function Home() {
                     <TableCell>Total</TableCell>
                   </TableRow>
                 </TableHeader>
-              </Table>
 
-              <TableBody>
-                {itemFields.map((item, index) => {
-                  const qty = watch(`items.${index}.qty`) || 0;
-                  const rate = watch(`items.${index}.rate`) || 0;
-                  const total = qty * rate;
+                <TableBody>
+                  {itemFields.map((item, index) => {
+                    const qty = watch(`items.${index}.qty`) || 0;
+                    const rate = watch(`items.${index}.rate`) || 0;
+                    const total = qty * rate;
 
-                  return (
-                    <TableRow key={item.id} className="flex gap-2 items-center">
-                      <TableCell>
-                        <Controller
-                          control={control}
-                          name={`items.${index}.desc`}
-                          render={({ field }) => (
-                            <Input placeholder="Description" {...field} />
-                          )}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        {" "}
-                        <Controller
-                          control={control}
-                          name={`items.${index}.deno`}
-                          render={({ field }) => (
-                            <Input placeholder="Denomination" {...field} />
-                          )}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Controller
-                          control={control}
-                          name={`items.${index}.qty`}
-                          render={({ field }) => (
-                            <Input
-                              type="number"
-                              placeholder="Qty"
-                              {...field}
-                              onChange={(e) => {
-                                const newQty = Number(e.target.value);
-                                setValue(`items.${index}.qty`, newQty);
-                                const rate = watch(`items.${index}.rate`) || 0;
-                                setValue(`items.${index}.total`, newQty * rate);
-                              }}
-                            />
-                          )}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Controller
-                          control={control}
-                          name={`items.${index}.rate`}
-                          render={({ field }) => (
-                            <Input
-                              type="number"
-                              placeholder="Rate"
-                              {...field}
-                              onChange={(e) => {
-                                const newRate = Number(e.target.value);
-                                setValue(`items.${index}.rate`, newRate);
-                                const qty = watch(`items.${index}.qty`) || 0;
-                                setValue(`items.${index}.total`, qty * newRate);
-                              }}
-                            />
-                          )}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Controller
-                          control={control}
-                          name={`items.${index}.total`}
-                          render={({ field }) => (
-                            <Input
-                              type="number"
-                              disabled
-                              placeholder="Total"
-                              value={total}
-                              onChange={(e) => {
-                                field.onChange(Number(e.target.value));
-                                setValue(`items.${index}.total`, total);
-                              }}
-                            />
-                          )}
-                        />
-                      </TableCell>
-                      <Button
+                    return (
+                      <TableRow
+                        key={item.id}
+                        className=""
+                      >
+                        <TableCell>
+                          <Controller
+                            control={control}
+                            name={`items.${index}.desc`}
+                            render={({ field }) => (
+                              <Input placeholder="Description" {...field} />
+                            )}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <Controller
+                            control={control}
+                            name={`items.${index}.deno`}
+                            render={({ field }) => (
+                              <Input placeholder="Denomination" {...field} />
+                            )}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Controller
+                            control={control}
+                            name={`items.${index}.qty`}
+                            render={({ field }) => (
+                              <Input
+                                type="number"
+                                placeholder="Qty"
+                                {...field}
+                                onChange={(e) => {
+                                  const newQty = Number(e.target.value);
+                                  setValue(`items.${index}.qty`, newQty);
+                                  const rate =
+                                    watch(`items.${index}.rate`) || 0;
+                                  setValue(
+                                    `items.${index}.total`,
+                                    newQty * rate
+                                  );
+                                }}
+                              />
+                            )}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Controller
+                            control={control}
+                            name={`items.${index}.rate`}
+                            render={({ field }) => (
+                              <Input
+                                type="number"
+                                placeholder="Rate"
+                                {...field}
+                                onChange={(e) => {
+                                  const newRate = Number(e.target.value);
+                                  setValue(`items.${index}.rate`, newRate);
+                                  const qty = watch(`items.${index}.qty`) || 0;
+                                  setValue(
+                                    `items.${index}.total`,
+                                    qty * newRate
+                                  );
+                                }}
+                              />
+                            )}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Controller
+                            control={control}
+                            name={`items.${index}.total`}
+                            render={({ field }) => (
+                              <Input
+                                type="number"
+                                disabled
+                                placeholder="Total"
+                                value={total}
+                                onChange={(e) => {
+                                  field.onChange(Number(e.target.value));
+                                  setValue(`items.${index}.total`, total);
+                                }}
+                              />
+                            )}
+                          />
+                        </TableCell>
+                        <Button
                         type="button"
                         variant={"destructive"}
                         onClick={() => itemRemove(index)}
+                        className="mt-2"
                       >
                         <Trash2 />
                       </Button>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
+                       
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
             </div>
           </div>
           {/* Submit Button */}
