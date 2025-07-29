@@ -27,7 +27,7 @@ import {
 import { RadioGroup } from "@/components/ui/radio-group";
 
 import axiosInstance from "@/lib/AxiosInstance";
-import { Company } from "./types/types";
+import { Company, PreviewPayload } from "./types/types";
 import { billAndQuote, billAndQuoteSchema } from "@/lib/Schema/generator";
 import {
   Table,
@@ -37,18 +37,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Cross, DeleteIcon, Plus, Trash2 } from "lucide-react";
+import {
+  Cross,
+  DeleteIcon,
+  Loader2,
+  Loader2Icon,
+  LoaderCircle,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import TemplateRegistry, {
   generateBillPdfBlob,
   Template_Types,
   Template_Use,
 } from "@/lib/TemplateRegistry";
 import { BillOrQuoteFinalType } from "@/lib/BillAndQouteCalculator";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { PreviewDialogContent } from "@/components/custom/PreviewDialogContent";
 
 export default function Home() {
   const [companyCount, setCompanyCount] = useState(3);
   const [primaryCompany, setPrimaryCompany] = useState("");
-  const [url, setUrl] = useState<string | null>(null);
+  const [isPreviewMode, setPreviewMode] = useState<boolean>(false);
+  const [previewData, setPreviewData] = useState<PreviewPayload[]>([]);
+  const [isPreviewDialogOpen, setPreviewDialogOpen] = useState<boolean>(false);
 
   const [perCompanyQuote, setPerCompanyQuote] =
     useState<BillOrQuoteFinalType>();
@@ -113,20 +131,32 @@ export default function Home() {
     },
     onSuccess: (response) => {
       console.log("Preview response final bill:", response.finalBillOrQuote[0]);
+      // TODO: generate for all
       setPerCompanyQuote(response.finalBillOrQuote[0]);
-      handleGenerate(response.finalBillOrQuote[0]);
+      if (isPreviewMode) showPreview(response.finalBillOrQuote);
     },
     onError: (error) => {
       console.error("Error generating preview:", error);
     },
   });
 
-  const handleGenerate = async (bill: BillOrQuoteFinalType) => {
-    const blob = await generateBillPdfBlob(bill);
-    console.log("blob", blob);
-    const pdfUrl = URL.createObjectURL(blob);
-    console.log("pdf url ", pdfUrl);
-    setUrl(pdfUrl);
+  const showPreview = async (bills: BillOrQuoteFinalType[]) => {
+    const billsPreviewPayload = await Promise.all(
+      bills.map(async (bill) => {
+        const blob = await generateBillPdfBlob(bill, bill.type);
+        const pdfUrl = URL.createObjectURL(blob);
+
+        return {
+          pdfType: bill.type,
+          isPrimary: bill.isPrimary,
+          url: pdfUrl,
+          companyName: bill.companyName,
+        } as PreviewPayload;
+      })
+    );
+
+    setPreviewData(billsPreviewPayload);
+    setPreviewDialogOpen(true);
   };
 
   const onSubmit = (data: billAndQuote) => {
@@ -134,6 +164,10 @@ export default function Home() {
     console.log("Submitted Data:", data);
     console.log("Primary Company:", selected?.name);
     previewBillAndQuoteMutation.mutate(data);
+  };
+
+  const handlePreview = () => {
+    setPreviewMode(true);
   };
 
   return (
@@ -166,6 +200,10 @@ export default function Home() {
                           {...field}
                           onChange={(e) => {
                             const val = Number(e.target.value);
+                            if (isNaN(val)) {
+                              console.log("This is Not-a-Number (NaN) ");
+                              return;
+                            }
                             setCompanyCount(val); // update local state
                             field.onChange(val); // update react-hook-form value
                           }}
@@ -198,36 +236,52 @@ export default function Home() {
                         <Controller
                           control={control}
                           name={`companies.${index}.name`}
-                          render={({ field }) => (
-                            <Select
-                              onValueChange={(val) => {
-                                const selectedCompany = allCompanies.find(
-                                  (c) => c.fis === val
-                                );
-                                if (selectedCompany) {
-                                  setValue(
-                                    `companies.${index}`,
-                                    selectedCompany
+                          render={({ field }) => {
+                            const selectedCompanies = watch("companies");
+                            const currentFIS = selectedCompanies?.[index]?.fis;
+
+                            const options = allCompanies.filter((company) => {
+                              // Keep the current company in the list, and exclude others that are already selected
+                              const isAlreadySelected =
+                                selectedCompanies?.some(
+                                  (c, i) => i !== index && c.fis === company.fis
+                                ) ?? false;
+                              return (
+                                !isAlreadySelected || company.fis === currentFIS
+                              );
+                            });
+
+                            return (
+                              <Select
+                                onValueChange={(val) => {
+                                  const selectedCompany = allCompanies.find(
+                                    (c) => c.fis === val
                                   );
-                                }
-                              }}
-                              value={watch(`companies.${index}.fis`)}
-                            >
-                              <SelectTrigger className="w-72">
-                                <SelectValue placeholder="Select company" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {allCompanies.map((company) => (
-                                  <SelectItem
-                                    key={company.fis}
-                                    value={company.fis}
-                                  >
-                                    {company.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
+                                  if (selectedCompany) {
+                                    setValue(
+                                      `companies.${index}`,
+                                      selectedCompany
+                                    );
+                                  }
+                                }}
+                                value={currentFIS}
+                              >
+                                <SelectTrigger className="w-72">
+                                  <SelectValue placeholder="Select company" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {options.map((company) => (
+                                    <SelectItem
+                                      key={company.fis}
+                                      value={company.fis}
+                                    >
+                                      {company.name}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            );
+                          }}
                         />
                       </div>
                     ))}
@@ -415,10 +469,7 @@ export default function Home() {
                     const total = qty * rate;
 
                     return (
-                      <TableRow
-                        key={item.id}
-                        className=""
-                      >
+                      <TableRow key={item.id} className="">
                         <TableCell>
                           <Controller
                             control={control}
@@ -502,14 +553,13 @@ export default function Home() {
                           />
                         </TableCell>
                         <Button
-                        type="button"
-                        variant={"destructive"}
-                        onClick={() => itemRemove(index)}
-                        className="mt-2"
-                      >
-                        <Trash2 />
-                      </Button>
-                       
+                          type="button"
+                          variant={"destructive"}
+                          onClick={() => itemRemove(index)}
+                          className="mt-2"
+                        >
+                          <Trash2 />
+                        </Button>
                       </TableRow>
                     );
                   })}
@@ -519,33 +569,39 @@ export default function Home() {
           </div>
           {/* Submit Button */}
 
-          <Button type="submit" className="mt-6">
-            Submit
-          </Button>
-          {/* {perCompanyQuote !== undefined &&
-            TemplateRegistry(
-              perCompanyQuote.fis,
-              perCompanyQuote,
-              Template_Types.Quote,
-              Template_Use.Preview
-            )} */}
-          {url && (
-            <object
-              data={url}
-              type="application/pdf"
-              width="100%"
-              height="1000px"
-              className="mt-4 border"
-            >
-              <p>
-                This browser doesn't support PDF preview.{" "}
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  Download PDF
-                </a>
-                .
-              </p>
-            </object>
-          )}
+          <div className="flex gap-2">
+            <Button onClick={handlePreview} className="mt-6 min-w-30">
+              {previewBillAndQuoteMutation.isPending && isPreviewMode ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                "Preview"
+              )}
+            </Button>
+            <Button type="submit" className="mt-6 min-w-30">
+              {previewBillAndQuoteMutation.isPending && !isPreviewMode ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                "Submit"
+              )}
+            </Button>
+          </div>
+          <Dialog
+            onOpenChange={setPreviewDialogOpen}
+            open={isPreviewDialogOpen}
+          >
+            <DialogContent className="h-[60vh] w-[100vw] !max-w-fit flex flex-col">
+              <div className="overflow-y-auto flex-1">
+                <PreviewDialogContent previewData={previewData} />
+              </div>
+              <DialogFooter className="shrink-0">
+                <DialogClose asChild>
+                  <Button variant="destructive" type="button">
+                    Cancel
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </Form>
       </form>
     </div>

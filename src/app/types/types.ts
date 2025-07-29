@@ -1,3 +1,5 @@
+import { Template_Types, Template_Use } from "@/lib/TemplateRegistry";
+
 export type QuoteProps = {
   to: {
     name: string;
@@ -55,4 +57,11 @@ export type CreateCompanyPayload = Company;
 export type CreateCompanyResponse = {
   success: true;
   data: Company[];
+};
+
+export type PreviewPayload = {
+  pdfType:Template_Types;
+  url: string;
+  isPrimary: boolean;
+  companyName:string
 };

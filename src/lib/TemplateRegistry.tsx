@@ -49,8 +49,9 @@ if(template_use===Template_Use.Preview){
   return <NothingFound  />;
 };
 
-export async function generateBillPdfBlob(bill: BillOrQuoteFinalType) {
-  const doc = <Bill_SRKA_PDF bill={bill} />;
+export async function generateBillPdfBlob(bill: BillOrQuoteFinalType,templateType:Template_Types) {
+  const Template:BillTemplateComponent = getTemplateForBill(bill.fis,templateType);
+  const doc = <Template bill={bill} />;
   const asPdf = pdf();
   asPdf.updateContainer(doc);
   const blob = await asPdf.toBlob();
@@ -58,4 +59,11 @@ export async function generateBillPdfBlob(bill: BillOrQuoteFinalType) {
   return blob;
 }
 
+type BillTemplateComponent = React.FC<{ bill: BillOrQuoteFinalType }>;
+
+
+export function getTemplateForBill(fis:string,templateType:Template_Types):BillTemplateComponent{
+  // TODO: fetch fis_templateType.tsx and return if not found throw error to contact admin and get template generated .
+  return Bill_SRKA_PDF
+}
 export default TemplateRegistry;
