@@ -172,3 +172,77 @@ export const SRKAQuotation = ({
     </Page>
   </Document>
 );
+export const SRKABill = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      {/* Company Info */}
+      <Text style={styles.companyName}>Shree Radha Krishna Associates</Text>
+      <Text style={styles.companyDetails}>
+        GSTIN: 36AAGPM6789J1ZR | Mobile: +91-9876543210
+      </Text>
+      <Text style={styles.companyDetails}>
+        H.No. 9-12/34, Shivaji Nagar, Near Marine Drive, Secunderabad – 500003, Telangana
+      </Text>
+
+      {/* Quotation Label */}
+      <Text style={styles.quotationHeader}>Bill</Text>
+
+      {/* Billed To */}
+      <View style={styles.toBlock}>
+        <Text>To</Text>
+        <Text>{bill.to.name}</Text>
+        <Text>{bill.to.address}</Text>
+        <Text>Date: {bill.date}</Text>
+      </View>
+
+      {/* Table Header */}
+      <View style={styles.tableHeader}>
+        <Text style={{ ...styles.cell, ...styles.sno }}>S.No</Text>
+        <Text style={{ ...styles.cell, ...styles.desc }}>Description</Text>
+        <Text style={{ ...styles.cell, ...styles.deno }}>Deno</Text>
+        <Text style={{ ...styles.cell, ...styles.qty }}>Qty</Text>
+        <Text style={{ ...styles.cell, ...styles.rate }}>Rate</Text>
+        <Text style={{ ...styles.cell, ...styles.total }}>Total</Text>
+      </View>
+
+      {/* Table Rows */}
+      {bill.items.map((item, index) => (
+        <View key={index} style={styles.tableRow}>
+          <Text style={{ ...styles.cell, ...styles.sno }}>{index + 1}</Text>
+          <Text style={{ ...styles.cell, ...styles.desc }}>{item.desc}</Text>
+          <Text style={{ ...styles.cell, ...styles.deno }}>{item.deno}</Text>
+          <Text style={{ ...styles.cell, ...styles.qty }}>{item.qty}</Text>
+          <Text style={{ ...styles.cell, ...styles.rate }}>
+            ₹{item.rate.toFixed(2)}
+          </Text>
+          <Text style={{ ...styles.cell, ...styles.total }}>
+            ₹{item.total.toFixed(2)}
+          </Text>
+        </View>
+      ))}
+
+      {/* Totals */}
+      <View style={styles.totalBlock}>
+        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
+        <Text>CGST @14%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text>SGST @14%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text style={styles.bold}>
+          Grand Round Off Total: ₹{bill.totalWithGst.toFixed(2)}
+        </Text>
+        <Text>
+          Rupees {numberToWordsIndian(bill.totalWithGst)} Only
+        </Text>
+      </View>
+
+      {/* Closing */}
+      <View style={styles.thankYou}>
+        <Text>Thanking You,</Text>
+        <Text>Yours Faithfully</Text>
+      </View>
+    </Page>
+  </Document>
+);

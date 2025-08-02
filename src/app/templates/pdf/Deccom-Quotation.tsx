@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Bill_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
+export const Quotation_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Watermark */}
