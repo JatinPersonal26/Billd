@@ -94,6 +94,7 @@ export const Bill_SRKA_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       <Text style={styles.labelBold}>To:</Text>
       <Text style={styles.textBlock}>
         {bill.to.name}{"\n"}
+        {bill.to.ship}{"\n"}
         {bill.to.address}
       </Text>
 

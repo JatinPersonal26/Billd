@@ -91,9 +91,9 @@ export default function Home() {
       variationMin: 3,
       variationMax: 7,
       to: {
-        name: "Roshan",
-        address: "43-road,delhi",
-        post: "Malik",
+        name: "The Commanding Officer",
+        address: "",
+        ship: "",
       },
     },
   });
@@ -369,10 +369,10 @@ export default function Home() {
                   />
                   <FormField
                     control={control}
-                    name="to.post"
+                    name="to.ship"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Post</FormLabel>
+                        <FormLabel>Ship</FormLabel>
                         <Input {...field} />
                       </FormItem>
                     )}

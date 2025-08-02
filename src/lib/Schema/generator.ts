@@ -7,7 +7,7 @@ export const billAndQuoteSchema = z.object({
   primary: z.string().min(1, "Choose a primary company"),
   to: z.object({
     name: z.string().min(1),
-    post: z.string().min(1),
+    ship: z.string().min(1),
     address: z.string().min(1),
   }),
   gst: z.number().min(0).max(100),
