@@ -78,7 +78,7 @@ export const DDEnterprises_BillPDF = ({ bill }: { bill: BillOrQuoteFinalType }) 
       {/* Recipient */}
       <Text style={styles.label}>To:</Text>
       <Text>{bill.to.name}</Text>
-      {bill.to.post && <Text>{bill.to.post}</Text>}
+      {bill.to.ship && <Text>{bill.to.ship}</Text>}
       <Text>{bill.to.address}</Text>
 
       {/* Date and Invoice No */}
