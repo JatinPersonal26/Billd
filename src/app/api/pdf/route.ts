@@ -36,16 +36,25 @@ export async function POST(req: Request) {
         const arrayBuffer = await blob.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        const fileName = `${bill.companyName.replace(/\s+/g, "_")}_${
-          bill.type
-        }_${Date.now()}_${uuidv4()}.pdf`;
+        const date = new Date();
+        const formattedDate = date
+          .toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })
+          .replace(/ /g, "_");
+
+        const fileName = `${bill.to.ship}_${bill.companyName.replace(
+          /\s+/g,
+          "_"
+        )}_${bill.type}_${bill.totalWithGst}_${formattedDate}.pdf`;
 
         const uploadParams = {
           Bucket: process.env.AWS_S3_BUCKET_NAME!,
           Key: fileName,
           Body: buffer,
           ContentType: "application/pdf",
-          // ACL: ObjectCannedACL.public_read, // Leave commented if ACLs disabled
         };
 
         await s3.send(new PutObjectCommand(uploadParams));
