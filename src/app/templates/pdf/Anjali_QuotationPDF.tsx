@@ -92,7 +92,7 @@ export const Anjali_QuotationPDF = ({ bill }: { bill: BillOrQuoteFinalType }) =>
       <View style={styles.section}>
         <Text style={styles.label}>To:</Text>
         <Text>{bill.to.name}</Text>
-        {bill.to.post && <Text>{bill.to.post}</Text>}
+        {bill.to.ship && <Text>{bill.to.ship}</Text>}
         <Text>{bill.to.address}</Text>
         <Text>Date: {bill.date}</Text>
       </View>
