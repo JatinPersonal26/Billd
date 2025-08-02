@@ -189,19 +189,27 @@ export default function Home() {
     setPreviewMode(true);
   };
 
-
   const handleSubmit = () => {
     setPreviewMode(false);
   };
 
-
-
   return (
     <div className="font-sans min-h-screen p-6 ">
-      <div className="flex justify-end mb-6">
-        <Button asChild>
-          <Link href="/manage">Manage</Link>
-        </Button>
+      <div className="flex items-center justify-between mb-5">
+        <div><h1 
+        className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-teal-500 text-5xl font-black"
+        >BilLD</h1></div>
+        <div className="flex justify-end mb-6">
+          <Button
+            asChild
+            className="relative border-2 border-blue-500 shadow-[0_0_10px_2px_rgba(59,130,246,0.6)] hover:shadow-[0_0_15px_4px_rgba(59,130,246,0.8)] transition-shadow"
+          >
+            <Link href="/dashboard">Dashboard</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/manage">Manage</Link>
+          </Button>
+        </div>
       </div>
 
       <form
@@ -603,7 +611,11 @@ export default function Home() {
                 "Preview"
               )}
             </Button>
-            <Button onClick={handleSubmit} type="submit" className="mt-6 min-w-30">
+            <Button
+              onClick={handleSubmit}
+              type="submit"
+              className="mt-6 min-w-30"
+            >
               {previewBillAndQuoteMutation.isPending && !isPreviewMode ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
