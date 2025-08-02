@@ -24,7 +24,7 @@ export type BillOrQuoteFinalType = {
   date: string;
   to: {
     name: string;
-    post: string;
+    ship: string;
     address: string;
   };
   type: Template_Types;

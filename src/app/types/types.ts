@@ -3,7 +3,7 @@ import { Template_Types, Template_Use } from "@/lib/TemplateRegistry";
 export type QuoteProps = {
   to: {
     name: string;
-    post: string;
+    ship: string;
     address: string;
   };
   items: {
@@ -25,7 +25,7 @@ export type QuoteProps = {
 export type BillProps = {
   to: {
     name: string;
-    post: string;
+    ship: string;
     address: string;
   };
   items: {

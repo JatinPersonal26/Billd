@@ -13,6 +13,5 @@ export async function POST(req: Request) {
   }
 
   let finalBillOrQuote = CalculateBillOrQuote(parsed.data)
-
   
 }

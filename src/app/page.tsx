@@ -60,6 +60,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { PreviewDialogContent } from "@/components/custom/PreviewDialogContent";
+import { toast } from "sonner";
 
 export default function Home() {
   const [companyCount, setCompanyCount] = useState(3);
@@ -90,9 +91,9 @@ export default function Home() {
       variationMin: 3,
       variationMax: 7,
       to: {
-        name: "Roshan",
-        address: "43-road,delhi",
-        post: "Malik",
+        name: "The Commanding Officer",
+        address: "",
+        ship: "",
       },
     },
   });
@@ -126,17 +127,33 @@ export default function Home() {
 
   const previewBillAndQuoteMutation = useMutation({
     mutationFn: async (data: billAndQuote) => {
-      const response = await axiosInstance.post("/preview", data);
+      const response = await axiosInstance.post(
+        isPreviewMode ? "/preview" : "/pdf",
+        data
+      );
       return response.data;
     },
     onSuccess: (response) => {
-      console.log("Preview response final bill:", response.finalBillOrQuote[0]);
-      // TODO: generate for all
-      setPerCompanyQuote(response.finalBillOrQuote[0]);
-      if (isPreviewMode) showPreview(response.finalBillOrQuote);
+      if (isPreviewMode) {
+        console.log(
+          "Preview response final bill:",
+          response.finalBillOrQuote[0]
+        );
+        // TODO: generate for all
+        setPerCompanyQuote(response.finalBillOrQuote[0]);
+        showPreview(response.finalBillOrQuote);
+      } else {
+        toast.success("Documents saved successfully");
+      }
     },
     onError: (error) => {
-      console.error("Error generating preview:", error);
+      if (isPreviewMode) {
+        console.error("Error generating preview:", error);
+        toast.error("Error generating preview.");
+      } else {
+        console.error("Error generating pdfs:", error);
+        toast.error("Error generating pdfs.");
+      }
     },
   });
 
@@ -145,7 +162,7 @@ export default function Home() {
       bills.map(async (bill) => {
         const blob = await generateBillPdfBlob(bill, bill.type);
         const pdfUrl = URL.createObjectURL(blob);
-        
+
         return {
           pdfType: bill.type,
           isPrimary: bill.isPrimary,
@@ -154,6 +171,8 @@ export default function Home() {
         } as PreviewPayload;
       })
     );
+
+    toast.success("Preview Ready!");
 
     setPreviewData(billsPreviewPayload);
     setPreviewDialogOpen(true);
@@ -169,6 +188,13 @@ export default function Home() {
   const handlePreview = () => {
     setPreviewMode(true);
   };
+
+
+  const handleSubmit = () => {
+    setPreviewMode(false);
+  };
+
+
 
   return (
     <div className="font-sans min-h-screen p-6 ">
@@ -343,10 +369,10 @@ export default function Home() {
                   />
                   <FormField
                     control={control}
-                    name="to.post"
+                    name="to.ship"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Post</FormLabel>
+                        <FormLabel>Ship</FormLabel>
                         <Input {...field} />
                       </FormItem>
                     )}
@@ -577,7 +603,7 @@ export default function Home() {
                 "Preview"
               )}
             </Button>
-            <Button type="submit" className="mt-6 min-w-30">
+            <Button onClick={handleSubmit} type="submit" className="mt-6 min-w-30">
               {previewBillAndQuoteMutation.isPending && !isPreviewMode ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
