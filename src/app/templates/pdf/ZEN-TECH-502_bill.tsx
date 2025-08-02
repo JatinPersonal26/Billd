@@ -8,20 +8,36 @@ import { BillOrQuoteFinalType } from '@/lib/BillAndQouteCalculator';
 // ----------------------------
 export const Bill_SRKA_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
   <Document>
-    <Page size="A4" style={{ padding: 40, fontSize: 12, fontFamily: 'Helvetica', color: '#000' }}>
-      <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 10, color: '#0A4DA2' }}>TAX INVOICE</Text>
-      <Text style={{ fontSize: 16, marginBottom: 4, fontWeight: 'bold', color: '#0A4DA2' }}>Shree Radha Krishna Associates</Text>
-      <Text>D.No. 18-48-6 MIG-350, HB Colony Pedagantyada{"\n"}Visakhapatnam - 11{"\n"}GSTIN: 37CYSPR6107F1ZY{"\n"}Phone: 8096880622</Text>
-      <Text style={{ fontWeight: 'bold', marginTop: 10 }}>Invoice No: {bill.invoiceNo} | Date: {bill.date}</Text>
-      <Text style={{ fontWeight: 'bold', marginTop: 10 }}>To:</Text>
-      <Text>{bill.to.name}{"\n"}{bill.to.address}</Text>
-      <View style={{ flexDirection: 'row', backgroundColor: '#E6F0FF', padding: 6, marginTop: 10 }}>
-        <Text style={{ flex: 1 }}>S.No</Text>
-        <Text style={{ flex: 2 }}>Description</Text>
-        <Text style={{ flex: 1 }}>Deno</Text>
-        <Text style={{ flex: 1 }}>Qty</Text>
-        <Text style={{ flex: 1 }}>Rate</Text>
-        <Text style={{ flex: 1 }}>Total</Text>
+    <Page size="A4" style={styles.page}>
+      <Text style={styles.heading}>TAX INVOICE</Text>
+
+      <Text style={styles.subHeading}>Shree Radha Krishna Associates</Text>
+      <Text style={styles.textBlock}>
+        D.No. 18-48-6 MIG-350, HB Colony Pedagantyada{"\n"}
+        Visakhapatnam - 11{"\n"}
+        GSTIN: 37CYSPR6107F1ZY{"\n"}
+        Phone: 8096880622
+      </Text>
+
+      <Text style={styles.labelBold}>
+        Invoice No: <Text>{bill.invoiceNo}</Text> | Date: <Text>{bill.date}</Text>
+      </Text>
+
+      <Text style={styles.labelBold}>To:</Text>
+      <Text style={styles.textBlock}>
+        {bill.to.name}{"\n"}
+        {bill.to.ship}{"\n"}
+        {bill.to.address}
+      </Text>
+
+      {/* Table Header */}
+      <View style={styles.tableHeader}>
+        <Text style={styles.cell}>S.No</Text>
+        <Text style={styles.cell}>Description</Text>
+        <Text style={styles.cell}>Deno</Text>
+        <Text style={styles.cell}>Qty</Text>
+        <Text style={styles.cell}>Rate</Text>
+        <Text style={styles.cell}>Total</Text>
       </View>
       {bill.items.map((item, idx) => (
         <View key={idx} style={{ flexDirection: 'row', borderBottomWidth: 0.5, borderBottomColor: '#ccc', paddingVertical: 4 }}>
