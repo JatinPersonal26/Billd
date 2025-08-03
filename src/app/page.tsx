@@ -9,6 +9,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {DownloadDialog} from "@/components/custom/DownloadDialog";
 import {
   Form,
   FormControl,
@@ -144,6 +145,15 @@ export default function Home() {
         showPreview(response.finalBillOrQuote);
       } else {
         toast.success("Documents saved successfully");
+        const transformed = response.documents.map((doc: any) => ({
+        companyName: doc.companyName,
+        pdfType: doc.bill_type,
+        isPrimary: doc.is_primary,
+        url: doc.url,
+      }));
+
+      setDownloadDocuments(transformed);
+      setDownloadDialogOpen(true);
       }
     },
     onError: (error) => {
@@ -194,6 +204,8 @@ export default function Home() {
     setPreviewMode(false);
   };
 
+  const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
+  const [downloadDocuments, setDownloadDocuments] = useState<PreviewPayload[]>([]);
 
 
   return (
@@ -630,6 +642,11 @@ export default function Home() {
           </Dialog>
         </Form>
       </form>
+      <DownloadDialog
+        isOpen={downloadDialogOpen}
+        onClose={() => setDownloadDialogOpen(false)}
+        documents={downloadDocuments}
+      />
     </div>
   );
 }

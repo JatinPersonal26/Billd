@@ -20,7 +20,7 @@ import { SRKAQuotation } from "@/app/templates/pdf/Shree-Radha";
 import { SRKABill } from "@/app/templates/pdf/Shree-Radha";
 import { ValliantBill } from "@/app/templates/pdf/Valliant_Quotation";
 import { ValliantQuotation } from "@/app/templates/pdf/Valliant_Quotation";
-
+import { AvaniAssociatesQuotation } from "@/app/templates/pdf/Avani";
 
 import NothingFound from "@/components/custom/NothingFound";
 import { Font, pdf } from "@react-pdf/renderer";
@@ -178,6 +178,11 @@ const TemplateMap: Record<
     [Template_Types.Bill]: DDEnterprises_BillPDF,
     [Template_Types.Quote]: DDEnterprises_PDF,
   },
+   "456467": {
+    [Template_Types.Bill]: AvaniAssociatesQuotation,
+    [Template_Types.Quote]: AvaniAssociatesQuotation,
+  },
+  
 };
 
 
