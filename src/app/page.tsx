@@ -9,7 +9,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {DownloadDialog} from "@/components/custom/DownloadDialog";
+import { DownloadDialog } from "@/components/custom/DownloadDialog";
 import {
   Form,
   FormControl,
@@ -28,7 +28,7 @@ import {
 import { RadioGroup } from "@/components/ui/radio-group";
 
 import axiosInstance from "@/lib/AxiosInstance";
-import { Company, PreviewPayload } from "./types/types";
+import { Company, Document, PreviewPayload } from "./types/types";
 import { billAndQuote, billAndQuoteSchema } from "@/lib/Schema/generator";
 import {
   Table,
@@ -144,20 +144,37 @@ export default function Home() {
           "Preview response final bill:",
           response.finalBillOrQuote[0]
         );
-        // TODO: generate for all
         setPerCompanyQuote(response.finalBillOrQuote[0]);
         showPreview(response.finalBillOrQuote);
       } else {
+        console.log(response.documents);
         toast.success("Documents saved successfully");
-        const transformed = response.documents.map((doc: any) => ({
-        companyName: doc.companyName,
-        pdfType: doc.pdfType,
-        isPrimary: doc.isPrimary,
-        url: doc.url,
-      }));
+        const transformed = response.documents.map((doc: any) => {
+          const date = new Date();
+          const formattedDate = date
+            .toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+            .replace(/ /g, "_");
 
-      setDownloadDocuments(transformed);
-      setDownloadDialogOpen(true);
+          const fileName = `${doc.companyName.replace(
+            /\s+/g,
+            "_"
+          )}_${doc.type}_${doc.totalWithGst}_${formattedDate}.pdf`;
+
+          return {
+            company_name: doc.companyName,
+            bill_type: doc.pdfType,
+            is_primary: doc.isPrimary,
+            url: doc.url,
+            file_name: doc.fileName,
+          };
+        });
+
+        setDownloadDocuments(transformed);
+        setDownloadDialogOpen(true);
       }
     },
     onError: (error) => {
@@ -208,8 +225,7 @@ export default function Home() {
   };
 
   const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
-  const [downloadDocuments, setDownloadDocuments] = useState<PreviewPayload[]>([]);
-
+  const [downloadDocuments, setDownloadDocuments] = useState<Document[]>([]);
 
   return (
     <div className="font-sans min-h-screen p-6 ">
@@ -629,7 +645,7 @@ export default function Home() {
                 <LoaderCircle className="animate-spin" />
               ) : (
                 <div className="h-full w-full  radius-10">
-                    <MotionIcon value="Preview" Icon={WandSparkles} />
+                  <MotionIcon value="Preview" Icon={WandSparkles} />
                 </div>
               )}
             </Button>
@@ -642,7 +658,7 @@ export default function Home() {
                 <LoaderCircle className="animate-spin" />
               ) : (
                 <div className="h-full w-full  radius-10">
-                  <MotionIcon value="Submit" Icon={Boxes}/>
+                  <MotionIcon value="Submit" Icon={Boxes} />
                 </div>
               )}
             </Button>

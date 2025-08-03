@@ -1,6 +1,6 @@
 "use client";
 
-import { PreviewPayload } from "@/app/types/types";
+import { Document, PreviewPayload } from "@/app/types/types";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DownloadIcon } from "lucide-react";
+import { handleDownload } from "@/lib/FileSaver";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function DownloadDialog({
   isOpen,
@@ -18,22 +21,20 @@ export function DownloadDialog({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  documents: PreviewPayload[];
-}) 
-    {
-    console.log(documents)
-  const handleDownload = (url: string, filename: string) => {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-  };
+  documents: Document[];
+}) {
+  const [downloading, setDownloading] = useState(false);
 
-  const downloadAll = () => {
-    documents.forEach((doc) => {
-      const fileName = `${doc.companyName}_${doc.pdfType}.pdf`.replace(/\s+/g, "_");
-      handleDownload(doc.url, fileName);
-    });
+  const downloadAll = async () => {
+    try {
+      for (const doc of documents) {
+        await handleDownload(doc, downloading, setDownloading);
+      }
+      toast.success("All files downloaded successfully.");
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("An error occurred while downloading files.");
+    }
   };
 
   return (
@@ -45,7 +46,7 @@ export function DownloadDialog({
 
         <div className="space-y-4 mt-4">
           {documents.map((doc, idx) => {
-            const isBill = doc.pdfType === "Bill";
+            const isBill = doc.bill_type === "Bill";
 
             const badgeStyles = isBill
               ? "bg-[#1F1E41] text-[#C2B8FF] border border-[#C2B8FF]"
@@ -57,18 +58,16 @@ export function DownloadDialog({
                 className="border border-gray-200 rounded-md p-4 flex justify-between items-start"
               >
                 <div>
-                  <p className="text-sm font-semibold">{doc.companyName}</p> 
+                  <p className="text-l font-semibold">{doc.company_name}</p>
                   <div className="flex gap-2 mt-1">
                     {/* Bill Type */}
-                    <span
-                      className={`px-2 rounded-full ${badgeStyles}`}
-                    >
-                      {doc.pdfType}
+                    <span className={`px-2 rounded-full ${badgeStyles}`}>
+                      {doc.bill_type}
                     </span>
 
                     {/* Primary Badge */}
-                    {doc.isPrimary && (
-                      <span className="px-2 rounded-full text-xs font-medium bg-[#343726] text-[#E4E669] border border-[#E4E669] shadow-sm">
+                    {doc.is_primary && (
+                      <span className="px-2 txext-xs rounded-full text-xs font-medium bg-[#343726] text-[#E4E669] border border-[#E4E669] shadow-sm flex items-center">
                         Primary
                       </span>
                     )}
@@ -77,10 +76,7 @@ export function DownloadDialog({
 
                 <Button
                   onClick={() =>
-                    handleDownload(
-                      doc.url,
-                      `${doc.companyName}_${doc.pdfType}.pdf`.replace(/\s+/g, "_")
-                    )
+                    handleDownload(doc, downloading, setDownloading)
                   }
                   className="shrink-0"
                 >
