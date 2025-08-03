@@ -145,3 +145,27 @@
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }
+
+
+@media (max-width: 800px) {
+  .flex-below-800 {
+    flex-direction: column;
+    gap: 0.5rem; /* match Tailwind gap-2 */
+    row-gap: 3rem;
+  }
+
+  .divide-x-below-800 {
+    border-left: none;
+    border-right: none;
+  }
+}
+
+@media (min-width: 801px) {
+  .flex-below-800 {
+    flex-direction: row;
+  }
+
+  .divide-x-below-800 > * + * {
+    border-left: 2px solid #e5e7eb; /* match divide-x-2 */
+  }
+}

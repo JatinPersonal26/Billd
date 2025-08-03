@@ -259,8 +259,8 @@ export default function Home() {
       >
         <Form {...form}>
           {/* Company Count and Generate */}
-          <div className="flex gap-2 divide-x-2">
-            <div>
+          <div className="flex flex-below-800 divide-x-below-800">
+            <div className="pr-3">
               <div className="flex items-end gap-4">
                 <div>
                   <FormField
@@ -291,7 +291,7 @@ export default function Home() {
               </div>
 
               {/* Companies Dropdowns */}
-              <div className="w-110">
+              <div className="">
                 {fields.length > 0 && (
                   <div className=" flex flex-col gap-1">
                     <Label className="text-lg font-semibold">
@@ -403,7 +403,7 @@ export default function Home() {
               {/* TO Section */}
               <div className="mt-8 space-y-4">
                 <Label className="font-semibold">Recipient (To)</Label>
-                <div className=" rounded-lg border shadow-sm p-4 space-y-4 w-[400px]">
+                <div className=" rounded-lg border shadow-sm p-4 space-y-4 w-[300px]">
                   <FormField
                     control={control}
                     name="to.name"
@@ -514,7 +514,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-full">
+            <div className="w-full pl-3">
               <Button
                 className="float-end flex items-center"
                 type="button"
