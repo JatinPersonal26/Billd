@@ -412,8 +412,7 @@ function DocumentTable({
     </Table>
   );
 }
-
-export function DocumentTableSkeleton() {
+function DocumentTableSkeleton() {
   return (
     <div className="space-y-2">
       <Skeleton className="h-6 w-1/3" />
