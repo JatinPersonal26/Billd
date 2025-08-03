@@ -40,6 +40,7 @@ import {
 import {
   Cross,
   DeleteIcon,
+  Layers,
   Loader2,
   Loader2Icon,
   LoaderCircle,
@@ -61,6 +62,9 @@ import {
 } from "@/components/ui/dialog";
 import { PreviewDialogContent } from "@/components/custom/PreviewDialogContent";
 import { toast } from "sonner";
+import { MotionIcon } from "@/components/custom/MotionIcon";
+import { Boxes } from "@/components/icons/Boxes";
+import { WandSparkles } from "@/components/icons/WandSparkle";
 
 export default function Home() {
   const [companyCount, setCompanyCount] = useState(3);
@@ -189,19 +193,29 @@ export default function Home() {
     setPreviewMode(true);
   };
 
-
   const handleSubmit = () => {
     setPreviewMode(false);
   };
 
-
-
   return (
     <div className="font-sans min-h-screen p-6 ">
-      <div className="flex justify-end mb-6">
-        <Button asChild>
-          <Link href="/manage">Manage</Link>
-        </Button>
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-teal-500 text-5xl font-black">
+            BilLD
+          </h1>
+        </div>
+        <div className="flex justify-end mb-6 gap-2">
+          <Button
+            asChild
+            className="relative border-2 shadow-[0_0_10px_2px_rgba(59,130,246,0.6),_0_0_15px_4px_rgba(236,72,153,0.4)] hover:shadow-[0_0_15px_4px_rgba(59,130,246,0.8),_0_0_20px_6px_rgba(236,72,153,0.6)] transition-shadow"
+          >
+            <Link href="/dashboard">Dashboard</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/manage">Manage</Link>
+          </Button>
+        </div>
       </div>
 
       <form
@@ -596,18 +610,26 @@ export default function Home() {
           {/* Submit Button */}
 
           <div className="flex gap-2">
-            <Button onClick={handlePreview} className="mt-6 min-w-30">
+            <Button onClick={handlePreview} className="mt-6 min-w-30 p-0">
               {previewBillAndQuoteMutation.isPending && isPreviewMode ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
-                "Preview"
+                <div className="h-full w-full  radius-10">
+                    <MotionIcon value="Preview" Icon={WandSparkles} />
+                </div>
               )}
             </Button>
-            <Button onClick={handleSubmit} type="submit" className="mt-6 min-w-30">
+            <Button
+              onClick={handleSubmit}
+              type="submit"
+              className="mt-6 min-w-30 p-0"
+            >
               {previewBillAndQuoteMutation.isPending && !isPreviewMode ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
-                "Submit"
+                <div className="h-full w-full  radius-10">
+                  <MotionIcon value="Submit" Icon={Boxes}/>
+                </div>
               )}
             </Button>
           </div>

@@ -65,3 +65,12 @@ export type PreviewPayload = {
   isPrimary: boolean;
   companyName:string
 };
+
+export type Document = {
+  company_name:string,
+  url:string,
+  is_primary:boolean,
+  bill_type:Template_Types,
+  file_name:string,
+  generation_id:string
+}

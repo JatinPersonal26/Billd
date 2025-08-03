@@ -105,3 +105,50 @@ export async function POST(req: Request) {
     );
   }
 }
+
+
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url)
+
+    const companyName = searchParams.get("companyName")
+    const amount = searchParams.get("amount")
+    const shipName = searchParams.get("shipName")
+    const page = parseInt(searchParams.get("page") || "1", 10)
+    const limit = parseInt(searchParams.get("limit") || "10", 10)
+
+    const from = (page - 1) * limit
+    const to = from + limit - 1
+
+    let query = supabase
+      .from("documents")
+      .select("*", { count: "exact" }) // include total count
+      .order("created_at", { ascending: false })
+
+    if (companyName) {
+      query = query.ilike("company_name", `%${companyName}%`)
+    }
+
+    if (amount) {
+      query = query.ilike("file_name", `%${amount}%`)
+    }
+
+    if (shipName) {
+      query = query.ilike("file_name", `%${shipName}%`)
+    }
+
+    query = query.range(from, to)
+
+    const { data, count, error } = await query
+
+    if (error) {
+      console.error("Supabase fetch error:", error)
+      return NextResponse.json({ error: "Failed to fetch documents" }, { status: 500 })
+    }
+
+    return NextResponse.json({ data, total: count ?? 0 })
+  } catch (err) {
+    console.error("Server error:", err)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
+}
