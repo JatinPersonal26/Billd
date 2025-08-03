@@ -17,8 +17,8 @@ const defaultTransition: Transition = {
 };
 
 const Download = ({
-  width = 28,
-  height = 28,
+  width = 16,
+  height = 16,
   strokeWidth = 2,
   stroke = "#ffffff",
   ...props

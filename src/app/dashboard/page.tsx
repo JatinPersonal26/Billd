@@ -31,7 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import { Template_Types } from "@/lib/TemplateRegistry";
 import { Button } from "@/components/ui/button";
 import { Download } from "@/components/icons/Download";
-import { Wand } from "lucide-react";
+import { DownloadIcon, Wand } from "lucide-react";
 import { Bolt } from "@/components/icons/Bolt";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
@@ -225,7 +225,7 @@ const page = () => {
   );
 };
 
-export function DocumentTable({
+function DocumentTable({
   isLoading,
   documents,
   NothingFoundComponent,
@@ -282,7 +282,7 @@ export function DocumentTable({
           <TableHead className="text-black">ComanyName</TableHead>
           <TableHead className="text-black">BillType</TableHead>
           <TableHead className="text-black">isPrimary</TableHead>
-          <TableHead className="text-black">url</TableHead>
+          <TableHead className="text-black">Download</TableHead>
         </TableRow>
       </TableHeader>
       <TableBodyWithLastChildBorder className="">
@@ -344,15 +344,18 @@ export function DocumentTable({
                           )}
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <div
+                      <TableCell >
+                       <div className="flex items-center justify-center">
+                         <Button
                           onClick={() =>
                             handleDownload(doc, downloading, setDownloading)
                           }
-                          className="cursor-pointer"
+                          className="cursor-pointer flex items-center border-1 max-w-fit"
                         >
-                          <Download />
-                        </div>
+                          <DownloadIcon size={10}/>
+                          <span className="text-xs">Download</span>
+                        </Button>
+                       </div>
                       </TableCell>
                     </TableRowWithoutBottomBorder>
                   );
