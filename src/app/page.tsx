@@ -147,8 +147,8 @@ export default function Home() {
         toast.success("Documents saved successfully");
         const transformed = response.documents.map((doc: any) => ({
         companyName: doc.companyName,
-        pdfType: doc.bill_type,
-        isPrimary: doc.is_primary,
+        pdfType: doc.pdfType,
+        isPrimary: doc.isPrimary,
         url: doc.url,
       }));
 
