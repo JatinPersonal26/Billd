@@ -101,18 +101,7 @@ const TemplateRegistry = (
   template_type: Template_Types,
   template_use: Template_Use
 ) => {
-//   const TemplateComponent = dynamic<TemplateComponentProps>(() => {
-//     if (template_use === Template_Use.Pdf) {
-//       return import(`@/app/templates/pdf/${fis}_${template_type}}`).catch(
-//         () => import("@/app/templates/FallbackTemplate")
-//       );
-//     } else {
-//       return import(`@/app/templates/html/${fis}_${template_type}}`).catch(
-//         () => import("@/app/templates/FallbackTemplate")
-//       );
-//     }
-//   });
-console.log(fis)
+
 if(true || template_use===Template_Use.Preview){
     console.log(fis+"sdsd")
    console.log("Rendering BoldFormal Template")
