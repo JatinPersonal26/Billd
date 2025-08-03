@@ -13,16 +13,20 @@ export const MotionIcon = ({
   }>;
 }) => {
   const [hovered, setHovered] = useState(false);
-  const { theme  } = useTheme()
+  const { theme, resolvedTheme } = useTheme();
+  const effectiveTheme = theme === "system" ? resolvedTheme : theme;
 
   return (
     <div
-      className="flex items-center rounded-2xl bg-white gap-1 justify-center h-full w-full"
+      className="flex items-center rounded-2xl gap-1 justify-center h-full w-full"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <span>{value}</span>
-      <Icon animateState={hovered ? "animate" : "normal"} stroke={theme==='dark' ? 'black' : 'white'} />
+      <Icon
+        animateState={hovered ? "animate" : "normal"}
+        stroke={effectiveTheme === "dark" ? "black" : "white"}
+      />
     </div>
   );
 };

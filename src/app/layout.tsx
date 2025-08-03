@@ -1,10 +1,10 @@
 // app/layout.tsx
+
 import { type Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "./providers";
-import { ThemeProvider } from './theme-provider';
+import { ThemeProvider } from "./theme-provider";
 import "./globals.css";
-
 import {
   SignInButton,
   SignUpButton,
@@ -13,10 +13,14 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/custom/ModeToggle";
+import { Breadcrumbs } from "@/components/custom/BreadCrumbs";
 
 // Load Google fonts
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 // App metadata
 export const metadata: Metadata = {
@@ -35,9 +39,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <ThemeProvider>
-          <Providers>
+          <Providers >
+           <div className="flex justify-between items-center p-2 pl-5">
+             <Breadcrumbs />
             <header className="flex justify-end items-center p-4 gap-4 h-16">
               <ModeToggle />
               <SignedOut>
@@ -52,6 +60,7 @@ export default function RootLayout({
                 <UserButton />
               </SignedIn>
             </header>
+           </div>
             {children}
           </Providers>
         </ThemeProvider>

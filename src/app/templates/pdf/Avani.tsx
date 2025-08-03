@@ -158,6 +158,7 @@ export const AvaniAssociatesQuotation = ({ bill }: { bill: BillOrQuoteFinalType 
       </View>
     </Page>
   </Document>
+
 );
 export const AvaniAssociatesBill = ({ bill }: { bill: BillOrQuoteFinalType }) => (
   <Document>

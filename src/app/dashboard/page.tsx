@@ -40,6 +40,7 @@ import { handleDownload } from "@/lib/FileSaver";
 import { Checkbox } from "@/components/ui/checkbox";
 import { MotionIcon } from "@/components/custom/MotionIcon";
 import { Cable } from "@/components/icons/Cable";
+import { useTheme } from "next-themes";
 
 const page = () => {
   const [selectedCompany, setSelectedCompany] = useState("");
@@ -48,7 +49,9 @@ const page = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [groupingEnabled, setGroupingEnabled] = useState(false);
-  const [animateGroupingBtn,setAnimateGroupingBtn] = useState(false)
+  const [animateGroupingBtn, setAnimateGroupingBtn] = useState(false);
+  const { theme, resolvedTheme } = useTheme();
+  const effectiveTheme = theme === "system" ? resolvedTheme : theme;
 
   const debouncedAmount = useMemo(() => amountSearch, [amountSearch]);
   const debouncedShip = useMemo(() => shipSearch, [shipSearch]);
@@ -186,16 +189,23 @@ const page = () => {
           />
         </div>
 
-        <Label onMouseEnter={() => setAnimateGroupingBtn(true)} onMouseLeave={() => setAnimateGroupingBtn(false)} className="hover:cursor-pointer hover:bg-accent/50 text-xs flex items-start gap-3 rounded-lg border p-2 has-[[aria-checked=false]]:border-dashed  has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
+        <Label
+          onMouseEnter={() => setAnimateGroupingBtn(true)}
+          onMouseLeave={() => setAnimateGroupingBtn(false)}
+          className="hover:cursor-pointer hover:bg-accent/50 text-xs flex items-start gap-3 rounded-lg border p-2 has-[[aria-checked=false]]:border-dashed  has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950"
+        >
           <Checkbox
             id="toggle-2"
             checked={groupingEnabled}
-            onCheckedChange={checked => setGroupingEnabled(!!checked)}
+            onCheckedChange={(checked) => setGroupingEnabled(!!checked)}
             className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
           />
           <div className="grid gap-1.5 font-xs">
             <div className="flex gap-2 items-center">
-              <Cable animateState={animateGroupingBtn?"animate":"normal"}/>
+              <Cable
+                animateState={animateGroupingBtn ? "animate" : "normal"}
+                stroke={effectiveTheme !== "dark" ? "black" : "white"}
+              />
               <p className="text-sm leading-none font-xs">Enable grouping</p>
             </div>
             <p className="text-muted-foreground text-xs">
@@ -344,18 +354,18 @@ function DocumentTable({
                           )}
                         </div>
                       </TableCell>
-                      <TableCell >
-                       <div className="flex items-center justify-center">
-                         <Button
-                          onClick={() =>
-                            handleDownload(doc, downloading, setDownloading)
-                          }
-                          className="cursor-pointer flex items-center border-1 max-w-fit"
-                        >
-                          <DownloadIcon size={10}/>
-                          <span className="text-xs">Download</span>
-                        </Button>
-                       </div>
+                      <TableCell>
+                        <div className="flex items-center justify-center">
+                          <Button
+                            onClick={() =>
+                              handleDownload(doc, downloading, setDownloading)
+                            }
+                            className="cursor-pointer flex items-center border-1 max-w-fit"
+                          >
+                            <DownloadIcon size={10} />
+                            <span className="text-xs">Download</span>
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRowWithoutBottomBorder>
                   );
@@ -384,7 +394,7 @@ function DocumentTable({
                       setLimit(value);
                     } else {
                       if (value < 0) setLimit(5);
-                      else if(value > 100) setLimit(100);
+                      else if (value > 100) setLimit(100);
                       toast("Page limit should be between 0 and 100!");
                     }
                   }}

@@ -28,9 +28,9 @@ import { VaishnaviEnterprisesQuotation } from "@/app/templates/pdf/Vaishnavi_PDF
 import { VaishnaviEnterprisesBill } from "@/app/templates/pdf/Vaishnavi_PDF";
 import { SheetalTradersBill } from "@/app/templates/pdf/SheetalTradersBill";
 import { SheetalTradersQuote } from "@/app/templates/pdf/SheetalTradersBill";
-
 import NothingFound from "@/components/custom/NothingFound";
 import { Font, pdf } from "@react-pdf/renderer";
+
 Font.register({
   family: 'Roboto',
   src:
@@ -190,6 +190,7 @@ const TemplateMap: Record<
     [Template_Types.Bill]:  SheetalTradersBill,
     [Template_Types.Quote]: SheetalTradersQuote,
   },
+
 };
 
 
