@@ -21,6 +21,13 @@ import { SRKABill } from "@/app/templates/pdf/Shree-Radha";
 import { ValliantBill } from "@/app/templates/pdf/Valliant_Quotation";
 import { ValliantQuotation } from "@/app/templates/pdf/Valliant_Quotation";
 import { AvaniAssociatesQuotation } from "@/app/templates/pdf/Avani";
+import { AvaniAssociatesBill } from "@/app/templates/pdf/Avani";
+import { RadhaEnterprisesBill } from "@/app/templates/pdf/Radha_PDF";
+import { RadhaEnterprisesQuote } from "@/app/templates/pdf/Radha_PDF";
+import { VaishnaviEnterprisesQuotation } from "@/app/templates/pdf/Vaishnavi_PDF";
+import { VaishnaviEnterprisesBill } from "@/app/templates/pdf/Vaishnavi_PDF";
+import { SheetalTradersBill } from "@/app/templates/pdf/SheetalTradersBill";
+import { SheetalTradersQuote } from "@/app/templates/pdf/SheetalTradersBill";
 
 import NothingFound from "@/components/custom/NothingFound";
 import { Font, pdf } from "@react-pdf/renderer";
@@ -179,10 +186,21 @@ const TemplateMap: Record<
     [Template_Types.Quote]: DDEnterprises_PDF,
   },
    "456467": {
-    [Template_Types.Bill]: AvaniAssociatesQuotation,
+    [Template_Types.Bill]: AvaniAssociatesBill,
     [Template_Types.Quote]: AvaniAssociatesQuotation,
   },
-  
+  "734545": {
+    [Template_Types.Bill]: RadhaEnterprisesBill,
+    [Template_Types.Quote]: RadhaEnterprisesQuote,
+  },
+  "514565": {
+    [Template_Types.Bill]:  VaishnaviEnterprisesBill,
+    [Template_Types.Quote]: VaishnaviEnterprisesQuotation,
+  },
+  "934683": {
+    [Template_Types.Bill]:  SheetalTradersBill,
+    [Template_Types.Quote]: SheetalTradersQuote,
+  },
 };
 
 
