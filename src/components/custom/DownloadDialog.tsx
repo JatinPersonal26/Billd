@@ -14,6 +14,7 @@ import { handleDownload } from "@/lib/FileSaver";
 import { useState } from "react";
 import { toast } from "sonner";
 
+
 export function DownloadDialog({
   isOpen,
   onClose,
@@ -21,6 +22,7 @@ export function DownloadDialog({
 }: {
   isOpen: boolean;
   onClose: () => void;
+
   documents: Document[];
 }) {
   const [downloading, setDownloading] = useState(false);
@@ -46,6 +48,7 @@ export function DownloadDialog({
 
         <div className="space-y-4 mt-4">
           {documents.map((doc, idx) => {
+
             const isBill = doc.bill_type === "Bill";
 
             const badgeStyles = isBill
@@ -58,6 +61,7 @@ export function DownloadDialog({
                 className="border border-gray-200 rounded-md p-4 flex justify-between items-start"
               >
                 <div>
+
                   <p className="text-l font-semibold">{doc.company_name}</p>
                   <div className="flex gap-2 mt-1">
                     {/* Bill Type */}
@@ -101,3 +105,4 @@ export function DownloadDialog({
     </Dialog>
   );
 }
+

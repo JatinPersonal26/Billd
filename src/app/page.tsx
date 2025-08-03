@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DownloadDialog } from "@/components/custom/DownloadDialog";
+
 import {
   Form,
   FormControl,
@@ -73,7 +74,8 @@ export default function Home() {
   const [isPreviewMode, setPreviewMode] = useState<boolean>(false);
   const [previewData, setPreviewData] = useState<PreviewPayload[]>([]);
   const [isPreviewDialogOpen, setPreviewDialogOpen] = useState<boolean>(false);
-
+  const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
+  const [downloadDocuments, setDownloadDocuments] = useState<Document[]>([]);
   const [perCompanyQuote, setPerCompanyQuote] =
     useState<BillOrQuoteFinalType>();
 
@@ -149,6 +151,7 @@ export default function Home() {
       } else {
         console.log(response.documents);
         toast.success("Documents saved successfully");
+
         const transformed = response.documents.map((doc: any) => {
           const date = new Date();
           const formattedDate = date
@@ -175,6 +178,7 @@ export default function Home() {
 
         setDownloadDocuments(transformed);
         setDownloadDialogOpen(true);
+
       }
     },
     onError: (error) => {
@@ -224,9 +228,8 @@ export default function Home() {
     setPreviewMode(false);
   };
 
-  const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
-  const [downloadDocuments, setDownloadDocuments] = useState<Document[]>([]);
-
+ 
+            
   return (
     <div className="font-sans min-h-screen p-6 ">
       <div className="flex items-center justify-between mb-5">
