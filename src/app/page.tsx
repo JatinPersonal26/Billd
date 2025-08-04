@@ -476,9 +476,8 @@ export default function Home() {
                           <Input
                             className="w-30"
                             type="number"
-                            min={2}
-                            max={5}
                             value={field.value}
+                            min={0}
                             onChange={(e) =>
                               field.onChange(Number(e.target.value))
                             }
@@ -499,8 +498,7 @@ export default function Home() {
                           <Input
                             className="w-30"
                             type="number"
-                            min={5}
-                            max={10}
+                            min={0}
                             value={field.value}
                             onChange={(e) =>
                               field.onChange(Number(e.target.value))
