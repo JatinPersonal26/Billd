@@ -81,12 +81,16 @@ export function CalculateBillOrQuote(
     finalBill.total = totalAmountOnBill;
     finalBill.gstCharges = Math.ceil((totalAmountOnBill * bill.gst) / 100);
     finalBill.totalWithGst = finalBill.total + finalBill.gstCharges;
-    perCompanyBill.push(finalBill);
+
     if (finalBill.isPrimary) {
       const clonedBill = { ...finalBill };
       clonedBill.type = Template_Types.Bill;
       clonedBill.invoiceNo = generateInvoiceNo();
-      perCompanyBill.push(clonedBill);
+
+      perCompanyBill.unshift(clonedBill);
+      perCompanyBill.unshift(finalBill);
+    } else {
+      perCompanyBill.push(finalBill);
     }
   }
 
