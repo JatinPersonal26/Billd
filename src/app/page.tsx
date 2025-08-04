@@ -118,6 +118,7 @@ export default function Home() {
         fis: "",
         address: "",
         phone: "",
+        isRegular:false,
       }))
     );
     setValue("primary", "");
