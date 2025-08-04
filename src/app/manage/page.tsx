@@ -19,51 +19,7 @@ import { Company } from "../types/types";
 import axiosInstance from "@/lib/AxiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
 import NothingFound from "@/components/custom/NothingFound";
-
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
+import { Check, Cross, X } from "lucide-react";
 
 const index = () => {
   const {
@@ -78,6 +34,8 @@ const index = () => {
       return res.data.data;
     },
   });
+
+  console.log(companies)
 
   return (
     <div className="p-6 flex flex-col gap-6">
@@ -95,6 +53,7 @@ const index = () => {
               <TableHead className="text-black">Company Name</TableHead>
               <TableHead className="text-black">FIS</TableHead>
               <TableHead className="text-black">Phone No</TableHead>
+              <TableHead className="text-black">Company Type</TableHead>
               <TableHead className="text-black">Address</TableHead>
             </TableRow>
           </TableHeader>
@@ -122,16 +81,27 @@ const index = () => {
                   <TableCell>
                     <Skeleton className="h-4 w-60" />
                   </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-60" />
+                  </TableCell>
                 </TableRow>
               ))}
 
             {isSuccess &&
-              companies?.map((invoice) => (
-                <TableRow key={invoice.name}>
-                  <TableCell className="font-medium">{invoice.name}</TableCell>
-                  <TableCell>{invoice.fis}</TableCell>
-                  <TableCell>{invoice.phone}</TableCell>
-                  <TableCell>{invoice.address}</TableCell>
+              companies?.map((company) => (
+                <TableRow key={company.name}>
+                  <TableCell className="font-medium">{company.name}</TableCell>
+                  <TableCell>{company.fis}</TableCell>
+                  <TableCell>{company.phone}</TableCell>
+                  <TableCell><div className="flex items-center justify-center">
+                    {company.isRegular?<span className="px-2 rounded-full text-xs font-medium bg-[#343726] text-[#9ff0ba] border border-[#69e688] shadow-sm flex items-center">
+                        Regular
+                      </span>:
+                    <span className="px-2 txext-xs rounded-full text-xs font-medium bg-[#343726] text-[#E4E669] border border-[#E4E669] shadow-sm flex items-center">
+                        Composite
+                      </span>
+                    }</div></TableCell>
+                  <TableCell>{company.address}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

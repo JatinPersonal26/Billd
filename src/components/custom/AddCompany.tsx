@@ -41,6 +41,7 @@ export function AddCompany() {
       fis: "",
       address: "",
       phone: undefined,
+      isRegular:false
     },
   });
 
@@ -129,6 +130,28 @@ export function AddCompany() {
                     <Input placeholder="Address" {...field} />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="isRegular"
+              defaultValue={false}
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-2">
+                   <FormLabel className="text-sm font-normal">
+                    Regular Company ?
+                  </FormLabel>
+                  <FormControl>
+                    <input
+                      type="checkbox"
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                      className="h-4 w-4 border rounded text-primary"
+                    />
+                  </FormControl>
+                 
                 </FormItem>
               )}
             />

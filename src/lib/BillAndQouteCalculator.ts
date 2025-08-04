@@ -13,6 +13,7 @@ export type BillOrQuoteFinalType = {
   companyName: string;
   companyPhoneNo: string;
   companyAddress: string;
+  isCompanyRegular: boolean;
   gst: number;
   fis: string;
   items: BillItem[];
@@ -35,6 +36,9 @@ export function CalculateBillOrQuote(
 ): BillOrQuoteFinalType[] {
   const perCompanyBill: BillOrQuoteFinalType[] = [];
 
+  let primaryAmount = 0;
+  let minAmount = Infinity;
+
   for (let i = 0; i < bill.companyCount; i++) {
     const company = bill.companies[i];
 
@@ -42,6 +46,7 @@ export function CalculateBillOrQuote(
       companyName: company.name,
       companyPhoneNo: company.phone,
       companyAddress: company.address,
+      isCompanyRegular: false,
       gst: bill.gst,
       fis: company.fis,
       items: [],
@@ -55,12 +60,16 @@ export function CalculateBillOrQuote(
       type: Template_Types.Quote,
     };
 
-    const variation =
+    let variation =
       bill.primary === company.fis
         ? 0
         : Math.floor(
             Math.random() * (bill.variationMax - bill.variationMin + 1)
           ) + bill.variationMin;
+
+    if (!company.isRegular) {
+      variation += bill.gst;
+    }
 
     let totalAmountOnBill = 0;
     const finalBillItems: BillItem[] = bill.items.map((item) => {
@@ -79,7 +88,10 @@ export function CalculateBillOrQuote(
 
     finalBill.items = finalBillItems;
     finalBill.total = totalAmountOnBill;
-    finalBill.gstCharges = Math.ceil((totalAmountOnBill * bill.gst) / 100);
+    finalBill.isCompanyRegular = company.isRegular;
+    finalBill.gstCharges = company.isRegular
+      ? Math.ceil((totalAmountOnBill * bill.gst) / 100)
+      : 0; // this is for composite company i.e gstCharges = 0 explicitly;
     finalBill.totalWithGst = finalBill.total + finalBill.gstCharges;
 
     if (finalBill.isPrimary) {
@@ -89,9 +101,26 @@ export function CalculateBillOrQuote(
 
       perCompanyBill.unshift(clonedBill);
       perCompanyBill.unshift(finalBill);
+
+      primaryAmount = finalBill.totalWithGst;
     } else {
       perCompanyBill.push(finalBill);
     }
+
+    minAmount = Math.min(minAmount, finalBill.totalWithGst);
+  }
+
+  if (minAmount !== primaryAmount) {
+    // DEV NOTE:
+    // The primary bill is expected to have the **minimum amount**
+    // among all bills. This check ensures that calculations (especially
+    // rate variation) are correct — the entire purpose of the variation logic
+    // is to make primary the lowest.
+    // If this fails, the bill generation logic is likely broken.
+    throw new Error(
+      "Invalid state: Primary bill does not have the minimum amount. " +
+        "Please contact the developer team to inspect variation logic."
+    );
   }
 
   return perCompanyBill;

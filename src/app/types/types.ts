@@ -50,6 +50,7 @@ export type Company = {
   fis: string;
   address: string;
   phone: string;
+  isRegular:boolean
 };
 
 export type CreateCompanyPayload = Company;
