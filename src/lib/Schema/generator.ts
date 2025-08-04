@@ -11,8 +11,8 @@ export const billAndQuoteSchema = z.object({
     address: z.string().min(1),
   }),
   gst: z.number().min(0).max(100),
-  variationMin: z.number().min(2).max(5),
-  variationMax: z.number().min(5).max(10),
+  variationMin: z.number(),
+  variationMax: z.number(),
   items:z.array(
     z.object({
       desc: z.string(),
