@@ -29,12 +29,29 @@ export async function POST(req: Request) {
 
     const finalBillOrQuote = CalculateBillOrQuote(parsed.data);
     const generationId = uuidv4();
-
+    let primaryBillAmount = 0;
+    let count = 2;
     const uploadedPdfs = await Promise.all(
       finalBillOrQuote.map(async (bill) => {
         const blob = await generateBillPdfBlob(bill, bill.type);
         const arrayBuffer = await blob.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
+
+        let indexNo = 0;
+        if (bill.isPrimary) {
+          primaryBillAmount = bill.totalWithGst;
+          indexNo = 1;
+        } else {
+          indexNo = count;
+          count++;
+        }
+        
+        //IMPORTANT : This is important to ensure L1 filename is always uniquely assigned to the primary bill or quote.
+        if ((indexNo === 1 && !bill.isPrimary) || (indexNo !== 1 && bill.isPrimary)) {
+          throw new Error(
+            "Bill / Qoute is not primary i.e L1 , but index of this bill is calculated as 1 , this will conflict with L1 bill/Quote , so terminating this request . Please contact admin"
+          );
+        }
 
         const date = new Date();
         const formattedDate = date
@@ -45,10 +62,10 @@ export async function POST(req: Request) {
           })
           .replace(/ /g, "_");
 
-        const fileName = `${bill.to.ship}_${bill.companyName.replace(
+        const fileName = `L${indexNo}_${bill.to.ship}_${bill.companyName.replace(
           /\s+/g,
           "_"
-        )}_${bill.type}_${bill.totalWithGst}_${formattedDate}.pdf`;
+        )}_${bill.type}_${primaryBillAmount}_${formattedDate}.pdf`;
 
         const uploadParams = {
           Bucket: process.env.AWS_S3_BUCKET_NAME!,
@@ -106,49 +123,54 @@ export async function POST(req: Request) {
   }
 }
 
-
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url)
+    const { searchParams } = new URL(req.url);
 
-    const companyName = searchParams.get("companyName")
-    const amount = searchParams.get("amount")
-    const shipName = searchParams.get("shipName")
-    const page = parseInt(searchParams.get("page") || "1", 10)
-    const limit = parseInt(searchParams.get("limit") || "10", 10)
+    const companyName = searchParams.get("companyName");
+    const amount = searchParams.get("amount");
+    const shipName = searchParams.get("shipName");
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
 
-    const from = (page - 1) * limit
-    const to = from + limit - 1
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
 
     let query = supabase
       .from("documents")
       .select("*", { count: "exact" }) // include total count
-      .order("created_at", { ascending: false })
+      .order("created_at", { ascending: false });
 
     if (companyName) {
-      query = query.ilike("company_name", `%${companyName}%`)
+      query = query.ilike("company_name", `%${companyName}%`);
     }
 
     if (amount) {
-      query = query.ilike("file_name", `%${amount}%`)
+      query = query.ilike("file_name", `%${amount}%`);
     }
 
     if (shipName) {
-      query = query.ilike("file_name", `%${shipName}%`)
+      query = query.ilike("file_name", `%${shipName}%`);
     }
 
-    query = query.range(from, to)
+    query = query.range(from, to);
 
-    const { data, count, error } = await query
+    const { data, count, error } = await query;
 
     if (error) {
-      console.error("Supabase fetch error:", error)
-      return NextResponse.json({ error: "Failed to fetch documents" }, { status: 500 })
+      console.error("Supabase fetch error:", error);
+      return NextResponse.json(
+        { error: "Failed to fetch documents" },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ data, total: count ?? 0 })
+    return NextResponse.json({ data, total: count ?? 0 });
   } catch (err) {
-    console.error("Server error:", err)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Server error:", err);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
