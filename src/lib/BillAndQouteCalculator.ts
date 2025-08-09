@@ -5,6 +5,7 @@ export type BillItem = {
   desc: string;
   deno: string;
   qty: number;
+  hsn?:string;
   rate: number;
   total: number;
 };
@@ -81,6 +82,7 @@ export function CalculateBillOrQuote(
         desc: item.desc,
         deno: item.deno,
         qty: item.qty,
+        hsn:item.hsn,
         rate: adjustedRate,
         total,
       };
@@ -97,7 +99,7 @@ export function CalculateBillOrQuote(
     if (finalBill.isPrimary) {
       const clonedBill = { ...finalBill };
       clonedBill.type = Template_Types.Bill;
-      clonedBill.invoiceNo = generateInvoiceNo();
+      clonedBill.invoiceNo = generateInvoiceNo(company.abr);
 
       perCompanyBill.unshift(clonedBill);
       perCompanyBill.unshift(finalBill);
@@ -132,4 +134,10 @@ export function generateInvoiceNo(prefix: string = "INV"): string {
   const randomPart = Math.floor(1000 + Math.random() * 9000); // 4-digit random
 
   return `${prefix}-${timestamp}-${randomPart}`;
+}
+
+export const isHsnPresent = (bill: BillOrQuoteFinalType)=>{
+
+  return bill.items.length > 0 && bill.items[0].hsn !== undefined; // assuming now that either hsn is entered for all items or for none.
+
 }

@@ -13,13 +13,14 @@ export const billAndQuoteSchema = z.object({
   gst: z.number().min(0).max(100),
   variationMin: z.number(),
   variationMax: z.number(),
-  items:z.array(
+  items: z.array(
     z.object({
       desc: z.string(),
       deno: z.string(),
       qty: z.number(),
+      hsn: z.string().optional(),
       rate: z.number(),
-      total:z.number()
+      total: z.number(),
     })
   ),
 });

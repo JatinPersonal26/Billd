@@ -124,6 +124,7 @@ if(true || template_use===Template_Use.Preview){
 
 export async function generateBillPdfBlob(bill: BillOrQuoteFinalType,templateType:Template_Types) {
   const Template:BillTemplateComponent = getTemplateForBill(bill.fis,templateType);
+  console.log("bill entry " , bill)
   const doc = <Template bill={bill} />;
   const asPdf = pdf();
   asPdf.updateContainer(doc);

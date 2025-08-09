@@ -12,6 +12,7 @@ export type QuoteProps = {
     rate: number;
     amount: number;
     deno: string;
+    hsn?:string;
     desc: string;
     total: string;
   }[];
@@ -34,6 +35,7 @@ export type BillProps = {
     rate: number;
     amount: number;
     deno: string;
+    hsn?:string;
     desc: string;
     total: string;
   }[];
@@ -50,6 +52,7 @@ export type Company = {
   fis: string;
   address: string;
   phone: string;
+  abr:string;
   isRegular:boolean
 };
 
