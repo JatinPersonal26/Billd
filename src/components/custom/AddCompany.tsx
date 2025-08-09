@@ -39,6 +39,7 @@ export function AddCompany() {
     defaultValues: {
       name: "",
       fis: "",
+      abr:"",
       address: "",
       phone: undefined,
       isRegular:false
@@ -113,6 +114,19 @@ export function AddCompany() {
                   <FormLabel>FIS</FormLabel>
                   <FormControl>
                     <Input placeholder="FIS Number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="abr"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Abbreviation</FormLabel>
+                  <FormControl>
+                    <Input placeholder="GTM.." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

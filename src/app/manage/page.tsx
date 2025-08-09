@@ -35,7 +35,7 @@ const index = () => {
     },
   });
 
-  console.log(companies)
+  console.log(companies);
 
   return (
     <div className="p-6 flex flex-col gap-6">
@@ -52,6 +52,7 @@ const index = () => {
             <TableRow className="text-black">
               <TableHead className="text-black">Company Name</TableHead>
               <TableHead className="text-black">FIS</TableHead>
+              <TableHead className="text-black">Abbreviation</TableHead>
               <TableHead className="text-black">Phone No</TableHead>
               <TableHead className="text-black">Company Type</TableHead>
               <TableHead className="text-black">Address</TableHead>
@@ -84,6 +85,9 @@ const index = () => {
                   <TableCell>
                     <Skeleton className="h-4 w-60" />
                   </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-60" />
+                  </TableCell>
                 </TableRow>
               ))}
 
@@ -92,15 +96,21 @@ const index = () => {
                 <TableRow key={company.name}>
                   <TableCell className="font-medium">{company.name}</TableCell>
                   <TableCell>{company.fis}</TableCell>
+                  <TableCell>{company.abr}</TableCell>
                   <TableCell>{company.phone}</TableCell>
-                  <TableCell><div className="flex items-center justify-center">
-                    {company.isRegular?<span className="px-2 rounded-full text-xs font-medium bg-[#343726] text-[#9ff0ba] border border-[#69e688] shadow-sm flex items-center">
-                        Regular
-                      </span>:
-                    <span className="px-2 txext-xs rounded-full text-xs font-medium bg-[#343726] text-[#E4E669] border border-[#E4E669] shadow-sm flex items-center">
-                        Composite
-                      </span>
-                    }</div></TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-center">
+                      {company.isRegular ? (
+                        <span className="px-2 rounded-full text-xs font-medium bg-[#343726] text-[#9ff0ba] border border-[#69e688] shadow-sm flex items-center">
+                          Regular
+                        </span>
+                      ) : (
+                        <span className="px-2 txext-xs rounded-full text-xs font-medium bg-[#343726] text-[#E4E669] border border-[#E4E669] shadow-sm flex items-center">
+                          Composite
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell>{company.address}</TableCell>
                 </TableRow>
               ))}

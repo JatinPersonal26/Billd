@@ -118,7 +118,8 @@ export default function Home() {
         fis: "",
         address: "",
         phone: "",
-        isRegular:false,
+        abr:"",
+        isRegular: false,
       }))
     );
     setValue("primary", "");
@@ -163,10 +164,9 @@ export default function Home() {
             })
             .replace(/ /g, "_");
 
-          const fileName = `${doc.companyName.replace(
-            /\s+/g,
-            "_"
-          )}_${doc.type}_${doc.totalWithGst}_${formattedDate}.pdf`;
+          const fileName = `${doc.companyName.replace(/\s+/g, "_")}_${
+            doc.type
+          }_${doc.totalWithGst}_${formattedDate}.pdf`;
 
           return {
             company_name: doc.companyName,
@@ -179,7 +179,6 @@ export default function Home() {
 
         setDownloadDocuments(transformed);
         setDownloadDialogOpen(true);
-
       }
     },
     onError: (error) => {
@@ -229,8 +228,6 @@ export default function Home() {
     setPreviewMode(false);
   };
 
- 
-            
   return (
     <div className="font-sans min-h-screen p-6 ">
       <div className="flex items-center justify-between mb-5">
@@ -529,6 +526,7 @@ export default function Home() {
                     <TableCell>Description</TableCell>
                     <TableCell>Deno</TableCell>
                     <TableCell>Qty</TableCell>
+                    <TableCell>HSN</TableCell>
                     <TableCell>Price</TableCell>
                     <TableCell>Total</TableCell>
                   </TableRow>
@@ -581,6 +579,15 @@ export default function Home() {
                                   );
                                 }}
                               />
+                            )}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Controller
+                            control={control}
+                            name={`items.${index}.hsn`}
+                            render={({ field }) => (
+                              <Input type="text" placeholder="" {...field} />
                             )}
                           />
                         </TableCell>
