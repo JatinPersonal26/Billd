@@ -116,15 +116,15 @@ export const DDEnterprises_BillPDF = ({
           <Text style={styles.cell}>{item.deno}</Text>
           {isHsn && <Text style={styles.cell}>{item.hsn}</Text>}
           <Text style={styles.cell}>{item.qty}</Text>
-          <Text style={styles.cell}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={styles.cell}>₹{item.total.toFixed(2)}</Text>
+          <Text style={styles.cell}>{item.rate.toFixed(2)}</Text>
+          <Text style={styles.cell}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={styles.totalBlock}>
         <Text style={[styles.rightText, { fontWeight: 'bold' }]}>
-          Total: ₹{bill.totalWithGst.toFixed(2)}
+          Total: {bill.totalWithGst.toFixed(2)}
         </Text>
         <Text style={[styles.rightText, styles.italic]}>
           Rupees {numberToWordsIndian(bill.totalWithGst)} Only

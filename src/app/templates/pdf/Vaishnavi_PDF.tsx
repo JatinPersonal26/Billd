@@ -141,15 +141,15 @@ export const VaishnaviEnterprisesQuotation = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Total: {bill.totalWithGst.toFixed(2)}
         </Text>
       </View>
 
@@ -209,15 +209,15 @@ export const VaishnaviEnterprisesBill = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Total: {bill.totalWithGst.toFixed(2)}
         </Text>
       </View>
 

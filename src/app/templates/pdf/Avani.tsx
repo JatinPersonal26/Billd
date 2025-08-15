@@ -116,7 +116,7 @@ export const AvaniAssociatesQuotation = ({
             <Text>FIS ID - {bill.fis || "236568"}</Text>
             <Text>GSTIN: 37DJEPK7358M1ZI</Text>
             <Text>PAN: DJEPK7358M</Text>
-            <Text>Mob: 7396565778</Text>
+            <Text>Mob: 9731537511</Text>
           </View>
         </View>
 
@@ -155,21 +155,21 @@ export const AvaniAssociatesQuotation = ({
             <Text style={styles.col2}>{item.desc}</Text>
             <Text style={styles.col3}>{item.qty}</Text>
             {isHsn && <Text style={styles.col3}>{item.hsn}</Text>}
-            <Text style={styles.col4}>₹{item.rate.toFixed(2)}</Text>
-            <Text style={styles.col5}>₹{item.total.toFixed(2)}</Text>
+            <Text style={styles.col4}>{item.rate.toFixed(2)}</Text>
+            <Text style={styles.col5}>{item.total.toFixed(2)}</Text>
           </View>
         ))}
 
         {/* Totals */}
         <View style={styles.totalBlock}>
-          <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
+          <Text>Subtotal: {bill.total.toFixed(2)}</Text>
           {bill.isCompanyRegular && (
             <Text>
-              GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}
+              GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
             </Text>
           )}
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+            Grand Total: {bill.totalWithGst.toFixed(2)}
           </Text>
         </View>
       </Page>
@@ -200,7 +200,7 @@ export const AvaniAssociatesBill = ({
             <Text>FIS ID - {bill.fis || "236568"}</Text>
             <Text>GSTIN: 37DJEPK7358M1ZI</Text>
             <Text>PAN: DJEPK7358M</Text>
-            <Text>Mob: 7396565778</Text>
+            <Text>Mob: 9731537511</Text>
           </View>
         </View>
 
@@ -242,21 +242,21 @@ export const AvaniAssociatesBill = ({
             <Text style={styles.col2}>{item.desc}</Text>
             <Text style={styles.col3}>{item.qty}</Text>
             {isHsn && <Text style={styles.col3}>{item.hsn}</Text>}
-            <Text style={styles.col4}>₹{item.rate.toFixed(2)}</Text>
-            <Text style={styles.col5}>₹{item.total.toFixed(2)}</Text>
+            <Text style={styles.col4}>{item.rate.toFixed(2)}</Text>
+            <Text style={styles.col5}>{item.total.toFixed(2)}</Text>
           </View>
         ))}
 
         {/* Totals */}
         <View style={styles.totalBlock}>
-          <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
+          <Text>Subtotal: {bill.total.toFixed(2)}</Text>
           {bill.isCompanyRegular && (
             <Text>
-              GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}
+              GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
             </Text>
           )}
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+            Grand Total: {bill.totalWithGst.toFixed(2)}
           </Text>
         </View>
       </Page>

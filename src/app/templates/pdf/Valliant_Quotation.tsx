@@ -167,8 +167,8 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
           <Text style={{ flex: 4 }}>Item Description</Text>
           <Text style={{ flex: 2 }}>Quantity</Text>
           {hsnPresent && <Text style={{ flex: 2 }}>HSN</Text>}
-          <Text style={{ flex: 2 }}>Rate (₹)</Text>
-          <Text style={{ flex: 2 }}>Amount (₹)</Text>
+          <Text style={{ flex: 2 }}>Rate ()</Text>
+          <Text style={{ flex: 2 }}>Amount ()</Text>
         </View>
         {bill.items.map((item, idx) => (
           <View key={idx} style={styles.tableRow}>
@@ -184,7 +184,7 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         {/* Totals */}
         <View style={[styles.section, { alignItems: "flex-end" }]}>
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Total: ₹{bill.totalWithGst.toFixed(2)}
+            Total: {bill.totalWithGst.toFixed(2)}
           </Text>
         </View>
 
@@ -270,8 +270,8 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
           <Text style={{ flex: 4 }}>Item Description</Text>
           <Text style={{ flex: 2 }}>Quantity</Text>
           {hsnPresent && <Text style={{ flex: 2 }}>HSN</Text>}
-          <Text style={{ flex: 2 }}>Rate (₹)</Text>
-          <Text style={{ flex: 2 }}>Amount (₹)</Text>
+          <Text style={{ flex: 2 }}>Rate ()</Text>
+          <Text style={{ flex: 2 }}>Amount ()</Text>
         </View>
         {bill.items.map((item, idx) => (
           <View key={idx} style={styles.tableRow}>
@@ -287,7 +287,7 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         {/* Totals */}
         <View style={[styles.section, { alignItems: "flex-end" }]}>
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Total: ₹{bill.totalWithGst.toFixed(2)}
+            Total: {bill.totalWithGst.toFixed(2)}
           </Text>
         </View>
 

@@ -118,9 +118,9 @@ export const ShankMarineQuotation = ({
 
       {/* Company Info */}
       <View style={styles.section}>
-        <Text>GSTIN: 36APLPK3101B1Z5</Text>
-        <Text>Phone: 8978123456</Text>
-        <Text>Address: 43 Seaway Lane, Port City, Andhra Pradesh</Text>
+        <Text>GSTIN: 37FEZPR1910G1ZY</Text>
+        <Text>Phone: {bill.companyPhoneNo}</Text>
+        <Text>Address: {bill.companyAddress}</Text>
       </View>
 
       {/* Invoice Details */}
@@ -153,15 +153,15 @@ export const ShankMarineQuotation = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Total: {bill.totalWithGst.toFixed(2)}
         </Text>
       </View>
 
@@ -194,9 +194,9 @@ export const ShankMarineBill = ({
 
       {/* Company Info */}
       <View style={styles.section}>
-        <Text>GSTIN: 36APLPK3101B1Z5</Text>
-        <Text>Phone: 8978123456</Text>
-        <Text>Address: 43 Seaway Lane, Port City, Andhra Pradesh</Text>
+        <Text>GSTIN: 37FEZPR1910G1ZY</Text>
+        <Text>Phone: {bill.companyPhoneNo}</Text>
+        <Text>Address: {bill.companyAddress}</Text>
       </View>
 
       {/* Invoice Details */}
@@ -238,15 +238,15 @@ export const ShankMarineBill = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Total: {bill.totalWithGst.toFixed(2)}
         </Text>
       </View>
 

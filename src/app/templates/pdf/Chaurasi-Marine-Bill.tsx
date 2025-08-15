@@ -62,11 +62,11 @@ export const Bill_CHAURASIA_MARINE_PDF = ({
 
       <View style={styles.infoBlock}>
         <View>
-          <Text>GSTIN: {"36APLPK3101B1Z5"}</Text>
+          <Text>GSTIN: 37CFVPC9122D1ZC</Text>
           <Text>Bill No: {bill.invoiceNo}</Text>
         </View>
         <View>
-          <Text>Phone: 9618802323</Text>
+          <Text>Phone: 8052421836</Text>
           <Text>Date: </Text>
         </View>
       </View>
@@ -90,14 +90,14 @@ export const Bill_CHAURASIA_MARINE_PDF = ({
             <Text style={{ flex: 3 }}>{item.desc}</Text>
             {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
             <Text style={{ flex: 1 }}>{item.qty}</Text>
-            <Text style={{ flex: 1 }}>₹{item.rate.toFixed(2)}</Text>
-            <Text style={{ flex: 1 }}>₹{item.total.toFixed(2)}</Text>
+            <Text style={{ flex: 1 }}>{item.rate.toFixed(2)}</Text>
+            <Text style={{ flex: 1 }}>{item.total.toFixed(2)}</Text>
           </View>
         ))}
       </View>
 
       <View style={styles.totalBlock}>
-        <Text style={{ fontWeight: 'bold' }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={{ fontWeight: 'bold' }}>Total: {bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
       <Text style={styles.terms}>Terms & Conditions: Payment due within 7 days. Goods once sold will not be taken back or exchanged.</Text>
@@ -119,11 +119,11 @@ export const Quote_CHAURASIA_MARINE_PDF = ({
 
       <View style={styles.infoBlock}>
         <View>
-          <Text>Phone: 9618802323</Text>
+          <Text>Phone: 8052421836</Text>
           <Text>Quotation No: {bill.quotationNo}</Text>
         </View>
         <View>
-          <Text>GSTIN: 36APLPK3101B1Z5</Text>
+          <Text>GSTIN: 37CFVPC9122D1ZC</Text>
           <Text>Date: </Text>
         </View>
       </View>
@@ -147,14 +147,14 @@ export const Quote_CHAURASIA_MARINE_PDF = ({
             <Text style={{ flex: 3 }}>{item.desc}</Text>
             {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
             <Text style={{ flex: 1 }}>{item.qty}</Text>
-            <Text style={{ flex: 1 }}>₹{item.rate.toFixed(2)}</Text>
-            <Text style={{ flex: 1 }}>₹{item.total.toFixed(2)}</Text>
+            <Text style={{ flex: 1 }}>{item.rate.toFixed(2)}</Text>
+            <Text style={{ flex: 1 }}>{item.total.toFixed(2)}</Text>
           </View>
         ))}
       </View>
 
       <View style={styles.totalBlock}>
-        <Text style={{ fontWeight: 'bold' }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={{ fontWeight: 'bold' }}>Total: {bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
       <Text style={styles.terms}>Terms & Conditions: This quotation is valid for 15 days. Prices subject to change without prior notice.</Text>

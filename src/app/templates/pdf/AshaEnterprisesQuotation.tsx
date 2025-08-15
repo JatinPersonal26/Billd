@@ -138,13 +138,13 @@ export const AshaEnterprisesQuotation = ({
             <Text style={styles.companyNameEnterprises}>ENTERPRISES</Text>
           </View>
           <Text style={styles.addressLine}>
-            D.No: Ground Floor, 43-17-23/1/1,
+            D.No: Ground Floor, 43-17-23/11,
           </Text>
           <Text style={styles.addressLine}>
-            Akkayapalam, Near Errukamba Temple,
+            Akayapalem, Near Errukamba Temple,
           </Text>
           <Text style={styles.addressLine}>
-            Venkat Raju Nagar, Visakhapatnam - 530016
+            Venkat Raju Nagar, Visakhapatnam - 16
           </Text>
         </View>
 
@@ -193,14 +193,14 @@ export const AshaEnterprisesQuotation = ({
           <Text style={{ flex: 1 }}>{item.deno}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Total: ₹{bill.total.toFixed(2)}</Text>
+        <Text>Total: {bill.total.toFixed(2)}</Text>
         <Text style={{ fontSize: 9, marginTop: 4 }}>
           In Words: {numberToWordsIndian(bill.totalWithGst)} Only
         </Text>
@@ -231,14 +231,14 @@ export const AshaEnterprisesBill = ({
             <Text style={styles.companyNameAsha}>ASHA</Text>
             <Text style={styles.companyNameEnterprises}>ENTERPRISES</Text>
           </View>
-          <Text style={styles.addressLine}>
-            D.No: Ground Floor, 43-17-23/1/1,
+         <Text style={styles.addressLine}>
+            D.No: Ground Floor, 43-17-23/11,
           </Text>
           <Text style={styles.addressLine}>
-            Akkayapalam, Near Errukamba Temple,
+            Akayapalem, Near Errukamba Temple,
           </Text>
           <Text style={styles.addressLine}>
-            Venkat Raju Nagar, Visakhapatnam - 530016
+            Venkat Raju Nagar, Visakhapatnam - 16
           </Text>
         </View>
 
@@ -297,14 +297,14 @@ export const AshaEnterprisesBill = ({
           <Text style={{ flex: 1 }}>{item.deno}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Total: ₹{bill.total.toFixed(2)}</Text>
+        <Text>Total: {bill.total.toFixed(2)}</Text>
         <Text style={{ fontSize: 9, marginTop: 4 }}>
           In Words: {numberToWordsIndian(bill.totalWithGst)} Only
         </Text>

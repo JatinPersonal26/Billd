@@ -86,10 +86,10 @@ export const Anjali_QuotationPDF = ({
   const isHsn = isHsnPresent(bill);
   return (  <Document>
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.companyName}>Anjali Enterprises</Text>
-        <Text style={styles.companyDetails}>Plot No 45, M.G. Road, Nagpur - 440001</Text>
-        <Text style={styles.companyDetails}>GSTIN: 27ABCDE1234F1Z5 | Phone: 9876543210</Text>
+     <View style={styles.header}>
+                 <Text style={styles.companyName}>Anjali Enterprises</Text>
+                 <Text style={styles.companyDetails}>{bill.companyAddress}</Text>
+                 <Text style={styles.companyDetails}>GSTIN: 37ALDPC8220A1ZS | Phone: {bill.companyPhoneNo}</Text>
       </View>
 
       <Text style={styles.title}>QUOTATION</Text>
@@ -118,13 +118,13 @@ export const Anjali_QuotationPDF = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={styles.cell}>{item.hsn}</Text>}
           <Text style={styles.cell}>{item.qty}</Text>
-          <Text style={styles.cell}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={styles.cell}>₹{item.total.toFixed(2)}</Text>
+          <Text style={styles.cell}>{item.rate.toFixed(2)}</Text>
+          <Text style={styles.cell}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       <View style={styles.totalBlock}>
-        <Text style={[styles.right, { fontWeight: 'bold' }]}>Grand Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={[styles.right, { fontWeight: 'bold' }]}>Grand Total: {bill.totalWithGst.toFixed(2)}</Text>
         <Text style={styles.right}>In Words: {numberToWordsIndian(bill.totalWithGst)} Only</Text>
       </View>
 

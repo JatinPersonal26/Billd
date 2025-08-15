@@ -93,11 +93,11 @@ export const Bill_DEC_PDF = ({
           <Text><Text style={styles.label}>Bill No:</Text> {bill.invoiceNo}</Text>
           <Text><Text style={styles.label}>Date:</Text> </Text>
         </View>
-        <View style={styles.row}>
-          <Text><Text style={styles.label}>GSTIN:</Text> 36APLPK3101B1Z5</Text>
-          <Text><Text style={styles.label}>Phone:</Text> +91-9123456789</Text>
-        </View>
-        <Text><Text style={styles.label}>Address:</Text> 5-4-250, Ranigunj, Secunderabad - 500003</Text>
+          <View style={styles.row}>
+                  <Text><Text style={styles.label}>GSTIN:</Text> 37CBEPD0169A1Z9</Text>
+                  <Text><Text style={styles.label}>Phone:</Text> 9100817369</Text>
+          </View>
+        <Text><Text style={styles.label}>Address:</Text>{bill.companyAddress}</Text>
         <Text style={{ marginTop: 6 }}><Text style={styles.label}>To:</Text> {bill.to.name}, {bill.to.address}</Text>
       </View>
 
@@ -116,14 +116,14 @@ export const Bill_DEC_PDF = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={{ marginTop: 10 }}>
-        <Text style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 12 }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 12 }}>Total: {bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
       {/* Terms */}

@@ -121,10 +121,10 @@ export const SRKAQuotation = ({
       {/* Company Info */}
       <Text style={styles.companyName}>Shree Radha Krishna Associates</Text>
       <Text style={styles.companyDetails}>
-        GSTIN: 36AAGPM6789J1ZR | Mobile: +91-9876543210
+        GSTIN: 37CYSPR6107F1ZY | Mobile: {bill.companyPhoneNo}
       </Text>
       <Text style={styles.companyDetails}>
-        H.No. 9-12/34, Shivaji Nagar, Near Marine Drive, Secunderabad – 500003, Telangana
+       {bill.companyAddress}
       </Text>
 
       {/* Quotation Label */}
@@ -161,21 +161,21 @@ export const SRKAQuotation = ({
           <Text style={{ ...styles.cell, ...styles.deno }}>{item.deno}</Text>
           <Text style={{ ...styles.cell, ...styles.qty }}>{item.qty}</Text>
           <Text style={{ ...styles.cell, ...styles.rate }}>
-            ₹{item.rate.toFixed(2)}
+            {item.rate.toFixed(2)}
           </Text>
           <Text style={{ ...styles.cell, ...styles.total }}>
-            ₹{item.total.toFixed(2)}
+            {item.total.toFixed(2)}
           </Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={styles.totalBlock}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>CGST @14%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text>SGST @14%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+        <Text>CGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text>SGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
         <Text style={styles.bold}>
-          Grand Round Off Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
         </Text>
         <Text>
           Rupees {numberToWordsIndian(bill.totalWithGst)} Only
@@ -203,10 +203,10 @@ export const SRKABill = ({
       {/* Company Info */}
       <Text style={styles.companyName}>Shree Radha Krishna Associates</Text>
       <Text style={styles.companyDetails}>
-        GSTIN: 36AAGPM6789J1ZR | Mobile: +91-9876543210
+        GSTIN: 37CYSPR6107F1ZY | Mobile: {bill.companyPhoneNo}
       </Text>
       <Text style={styles.companyDetails}>
-        H.No. 9-12/34, Shivaji Nagar, Near Marine Drive, Secunderabad – 500003, Telangana
+       {bill.companyAddress}
       </Text>
 
       {/* Quotation Label */}
@@ -250,21 +250,21 @@ export const SRKABill = ({
           <Text style={{ ...styles.cell, ...styles.deno }}>{item.deno}</Text>
           <Text style={{ ...styles.cell, ...styles.qty }}>{item.qty}</Text>
           <Text style={{ ...styles.cell, ...styles.rate }}>
-            ₹{item.rate.toFixed(2)}
+            {item.rate.toFixed(2)}
           </Text>
           <Text style={{ ...styles.cell, ...styles.total }}>
-            ₹{item.total.toFixed(2)}
+            {item.total.toFixed(2)}
           </Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={styles.totalBlock}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>CGST @14%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text>SGST @14%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+        <Text>CGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text>SGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
         <Text style={styles.bold}>
-          Grand Round Off Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
         </Text>
         <Text>
           Rupees {numberToWordsIndian(bill.totalWithGst)} Only
