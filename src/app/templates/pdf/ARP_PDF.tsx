@@ -67,7 +67,7 @@ export const ARPQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       {/* Header */}
       <View style={styles.headerRow}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.headerLeft}>ARP ENTERPRISES</Text>
+          <Text style={styles.headerLeft}>ARPIT ENTERPRISES</Text>
           <Text>D.No 65-3-226, Revenue Ward No. 47, Ex-servicemen Colony</Text>
           <Text>Visakhapatnam -11</Text>
         </View>
@@ -131,7 +131,7 @@ export const ARPBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       {/* Header */}
       <View style={styles.headerRow}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.headerLeft}>ARP ENTERPRISES</Text>
+          <Text style={styles.headerLeft}>ARPIT ENTERPRISES</Text>
           <Text>D.No 65-3-226, Revenue Ward No. 47, Ex-servicemen Colony</Text>
           <Text>Visakhapatnam -11</Text>
         </View>
@@ -167,7 +167,7 @@ export const ARPBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.tableRow} key={idx}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
-          {hsnPresent && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
+          {hsnPresent && <Text style={{ flex: 2 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
