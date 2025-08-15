@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import { BillOrQuoteFinalType } from '@/lib/BillAndQouteCalculator';
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 import { numberToWordsIndian } from '@/lib/amountToWords';
 
 Font.register({
@@ -78,8 +78,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Anjali_QuotationPDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const Anjali_QuotationPDF = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
         <Text style={styles.companyName}>Anjali Enterprises</Text>
@@ -94,12 +99,14 @@ export const Anjali_QuotationPDF = ({ bill }: { bill: BillOrQuoteFinalType }) =>
         <Text>{bill.to.name}</Text>
         {bill.to.ship && <Text>{bill.to.ship}</Text>}
         <Text>{bill.to.address}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Quotation No: {bill.quotationNo}</Text>
+        <Text>Date: </Text>
       </View>
 
       <View style={styles.tableHeader}>
         <Text style={styles.cell}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        {isHsn && <Text style={styles.cell}>HSN</Text>}
         <Text style={styles.cell}>Qty</Text>
         <Text style={styles.cell}>Rate</Text>
         <Text style={styles.cell}>Total</Text>
@@ -109,6 +116,7 @@ export const Anjali_QuotationPDF = ({ bill }: { bill: BillOrQuoteFinalType }) =>
         <View key={idx} style={styles.tableRow}>
           <Text style={styles.cell}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          {isHsn && <Text style={styles.cell}>{item.hsn}</Text>}
           <Text style={styles.cell}>{item.qty}</Text>
           <Text style={styles.cell}>₹{item.rate.toFixed(2)}</Text>
           <Text style={styles.cell}>₹{item.total.toFixed(2)}</Text>
@@ -116,8 +124,6 @@ export const Anjali_QuotationPDF = ({ bill }: { bill: BillOrQuoteFinalType }) =>
       ))}
 
       <View style={styles.totalBlock}>
-        <Text style={styles.right}>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text style={styles.right}>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={[styles.right, { fontWeight: 'bold' }]}>Grand Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
         <Text style={styles.right}>In Words: {numberToWordsIndian(bill.totalWithGst)} Only</Text>
       </View>
@@ -138,3 +144,4 @@ export const Anjali_QuotationPDF = ({ bill }: { bill: BillOrQuoteFinalType }) =>
     </Page>
   </Document>
 );
+};

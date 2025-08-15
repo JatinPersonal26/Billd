@@ -22,12 +22,15 @@ export type BillOrQuoteFinalType = {
   gstCharges: number;
   totalWithGst: number;
   isPrimary: boolean;
-  invoiceNo: string;
+  invoiceNo?: string;
+  quotationNo: string;
   date: string;
   to: {
     name: string;
     ship: string;
     address: string;
+    OrderNo?: string;
+    Dated: string
   };
   type: Template_Types;
 };
@@ -55,7 +58,8 @@ export function CalculateBillOrQuote(
       totalWithGst: 0,
       gstCharges: 0,
       isPrimary: bill.primary === company.fis,
-      invoiceNo: "",
+      invoiceNo: bill.to.InvoiceNo,
+      quotationNo: "",
       date: new Date().toISOString().split("T")[0],
       to: bill.to,
       type: Template_Types.Quote,
@@ -95,12 +99,12 @@ export function CalculateBillOrQuote(
       ? Math.ceil((totalAmountOnBill * bill.gst) / 100)
       : 0; // this is for composite company i.e gstCharges = 0 explicitly;
     finalBill.totalWithGst = finalBill.total + finalBill.gstCharges;
-
+    finalBill.quotationNo = generateQuotationNo(company.abr);
     if (finalBill.isPrimary) {
       const clonedBill = { ...finalBill };
       clonedBill.type = Template_Types.Bill;
       clonedBill.invoiceNo = generateInvoiceNo(company.abr);
-
+      
       perCompanyBill.unshift(clonedBill);
       perCompanyBill.unshift(finalBill);
 
@@ -130,14 +134,21 @@ export function CalculateBillOrQuote(
 
 export function generateInvoiceNo(prefix: string = "INV"): string {
   const now = new Date();
-  const timestamp = now.getTime(); // milliseconds since epoch
-  const randomPart = Math.floor(1000 + Math.random() * 9000); // 4-digit random
+  const timestamp = now.getTime(); 
+  const randomPart = Math.floor(1000 + Math.random() * 9000); 
 
   return `${prefix}-${timestamp}-${randomPart}`;
 }
+export function generateQuotationNo(prefix: string = "INV"): string {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const nextYear = currentYear + 1;
+  const randomPart = Math.floor(1000 + Math.random() * 9000); 
+  return `${prefix}-${randomPart}-${currentYear}-${nextYear}`;
+}
 
 export const isHsnPresent = (bill: BillOrQuoteFinalType)=>{
-
+  
   return bill.items.length > 0 && bill.items[0].hsn !== undefined; // assuming now that either hsn is entered for all items or for none.
 
 }

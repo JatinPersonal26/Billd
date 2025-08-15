@@ -10,7 +10,7 @@ import {
   Image,
   Font,
 } from "@react-pdf/renderer";
-import { BillOrQuoteFinalType } from "@/lib/BillAndQouteCalculator";
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 const logoUrl = "http://localhost:3000/logos/shank-marine.jpg";
 // Register Roboto font
 Font.register({
@@ -54,9 +54,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#004d40",
   },
-  section: {
-    marginBottom: 10,
-  },
+ headerRow1: {
+  flexDirection: "row",
+  justifyContent: "space-between", // pushes left and right apart
+  alignItems: "flex-start",
+},
+
+section: {
+  marginBottom: 10,
+},
+
+sectionRight: {
+  marginBottom: 10,
+  alignItems: "flex-end",  // aligns text to right edge
+  maxWidth: "40%",         // ensures it fits on one line
+  paddingRight: 5,         // small padding from right edge
+},
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -89,7 +102,9 @@ export const ShankMarineQuotation = ({
   bill,
 }: {
   bill: BillOrQuoteFinalType;
-}) => (
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header Row with Logo and Company Name */}
@@ -110,8 +125,8 @@ export const ShankMarineQuotation = ({
 
       {/* Invoice Details */}
       <View style={styles.section}>
-        <Text>Quotation No: {bill.invoiceNo}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Quotation No: {bill.quotationNo}</Text>
+        <Text>Date: </Text>
       </View>
 
       {/* Recipient */}
@@ -125,6 +140,7 @@ export const ShankMarineQuotation = ({
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Total</Text>
@@ -135,6 +151,7 @@ export const ShankMarineQuotation = ({
         <View key={idx} style={styles.tableRow}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -143,8 +160,6 @@ export const ShankMarineQuotation = ({
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
           Grand Total: ₹{bill.totalWithGst.toFixed(2)}
         </Text>
@@ -158,11 +173,14 @@ export const ShankMarineQuotation = ({
     </Page>
   </Document>
 );
+};
 export const ShankMarineBill = ({
   bill,
 }: {
   bill: BillOrQuoteFinalType;
-}) => (
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header Row with Logo and Company Name */}
@@ -182,10 +200,19 @@ export const ShankMarineBill = ({
       </View>
 
       {/* Invoice Details */}
-      <View style={styles.section}>
-        <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: {bill.date}</Text>
-      </View>
+     <View style={styles.headerRow1}>
+  {/* Left section */}
+  <View style={styles.section}>
+    <Text>Bill No: {bill.invoiceNo}</Text>
+    <Text>Date: </Text>
+  </View>
+
+  {/* Right section */}
+  <View style={styles.sectionRight}>
+    <Text>Order No: {bill.to.OrderNo}</Text>
+    <Text>Dated To: {bill.to.Dated}</Text>
+  </View>
+</View>
 
       {/* Recipient */}
       <View style={styles.section}>
@@ -198,6 +225,7 @@ export const ShankMarineBill = ({
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Total</Text>
@@ -208,6 +236,7 @@ export const ShankMarineBill = ({
         <View key={idx} style={styles.tableRow}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -216,8 +245,6 @@ export const ShankMarineBill = ({
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
           Grand Total: ₹{bill.totalWithGst.toFixed(2)}
         </Text>
@@ -231,3 +258,4 @@ export const ShankMarineBill = ({
     </Page>
   </Document>
 );
+};

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { BillOrQuoteFinalType } from '@/lib/BillAndQouteCalculator';
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 import { numberToWordsIndian } from '@/lib/amountToWords';
 
 const styles = StyleSheet.create({
@@ -63,8 +63,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const DDEnterprises_BillPDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const DDEnterprises_BillPDF = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       {/* Header */}
       <View style={styles.headerBlock}>
@@ -82,7 +87,7 @@ export const DDEnterprises_BillPDF = ({ bill }: { bill: BillOrQuoteFinalType }) 
       <Text>{bill.to.address}</Text>
 
       {/* Date and Invoice No */}
-      <Text style={{ marginTop: 6 }}>Date: {bill.date}</Text>
+      <Text style={{ marginTop: 6 }}>Date: </Text>
       <Text style={{ marginTop: 2 }}>Invoice No: {bill.invoiceNo}</Text>
 
       {/* Invoice Heading */}
@@ -97,6 +102,7 @@ export const DDEnterprises_BillPDF = ({ bill }: { bill: BillOrQuoteFinalType }) 
         <Text style={styles.cell}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
         <Text style={styles.cell}>Deno</Text>
+        {isHsn && <Text style={styles.cell}>HSN</Text>}
         <Text style={styles.cell}>Qty</Text>
         <Text style={styles.cell}>Rate</Text>
         <Text style={styles.cell}>Total</Text>
@@ -108,6 +114,7 @@ export const DDEnterprises_BillPDF = ({ bill }: { bill: BillOrQuoteFinalType }) 
           <Text style={styles.cell}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           <Text style={styles.cell}>{item.deno}</Text>
+          {isHsn && <Text style={styles.cell}>{item.hsn}</Text>}
           <Text style={styles.cell}>{item.qty}</Text>
           <Text style={styles.cell}>₹{item.rate.toFixed(2)}</Text>
           <Text style={styles.cell}>₹{item.total.toFixed(2)}</Text>
@@ -116,10 +123,8 @@ export const DDEnterprises_BillPDF = ({ bill }: { bill: BillOrQuoteFinalType }) 
 
       {/* Totals */}
       <View style={styles.totalBlock}>
-        <Text style={[styles.rightText]}>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text style={[styles.rightText]}>GST @ {bill.gst}%: ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={[styles.rightText, { fontWeight: 'bold' }]}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+          Total: ₹{bill.totalWithGst.toFixed(2)}
         </Text>
         <Text style={[styles.rightText, styles.italic]}>
           Rupees {numberToWordsIndian(bill.totalWithGst)} Only
@@ -141,3 +146,4 @@ export const DDEnterprises_BillPDF = ({ bill }: { bill: BillOrQuoteFinalType }) 
     </Page>
   </Document>
 );
+};

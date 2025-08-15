@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
 } from "@react-pdf/renderer";
-import { BillOrQuoteFinalType } from "@/lib/BillAndQouteCalculator";
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 
 // Styles
 const styles = StyleSheet.create({
@@ -51,8 +51,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SheetalTradersBill = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const SheetalTradersBill = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       {/* Company name */}
       <Text style={styles.header}>SHEETAL TRADERS</Text>
@@ -66,7 +71,7 @@ export const SheetalTradersBill = ({ bill }: { bill: BillOrQuoteFinalType }) => 
       {/* Bill Info */}
       <View style={styles.row}>
         <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Date: </Text>
       </View>
 
       {/* Billed To */}
@@ -80,6 +85,7 @@ export const SheetalTradersBill = ({ bill }: { bill: BillOrQuoteFinalType }) => 
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 4 }}>Description</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Amount</Text>
@@ -90,6 +96,7 @@ export const SheetalTradersBill = ({ bill }: { bill: BillOrQuoteFinalType }) => 
         <View style={styles.tableRow} key={idx}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 4 }}>{item.desc}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -98,8 +105,6 @@ export const SheetalTradersBill = ({ bill }: { bill: BillOrQuoteFinalType }) => 
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={{ fontWeight: "bold" }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
@@ -108,8 +113,14 @@ export const SheetalTradersBill = ({ bill }: { bill: BillOrQuoteFinalType }) => 
     </Page>
   </Document>
 );
-export const SheetalTradersQuote = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+};
+export const SheetalTradersQuote = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       {/* Company name */}
       <Text style={styles.header}>SHEETAL TRADERS</Text>
@@ -122,8 +133,8 @@ export const SheetalTradersQuote = ({ bill }: { bill: BillOrQuoteFinalType }) =>
 
       {/* Bill Info */}
       <View style={styles.row}>
-        <Text>Quote No: {bill.invoiceNo}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Quote No: {bill.quotationNo}</Text>
+        <Text>Date: </Text>
       </View>
 
       {/* Billed To */}
@@ -137,6 +148,7 @@ export const SheetalTradersQuote = ({ bill }: { bill: BillOrQuoteFinalType }) =>
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 4 }}>Description</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Amount</Text>
@@ -147,6 +159,7 @@ export const SheetalTradersQuote = ({ bill }: { bill: BillOrQuoteFinalType }) =>
         <View style={styles.tableRow} key={idx}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 4 }}>{item.desc}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -155,8 +168,6 @@ export const SheetalTradersQuote = ({ bill }: { bill: BillOrQuoteFinalType }) =>
 
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={{ fontWeight: "bold" }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
@@ -165,3 +176,4 @@ export const SheetalTradersQuote = ({ bill }: { bill: BillOrQuoteFinalType }) =>
     </Page>
   </Document>
 );
+};

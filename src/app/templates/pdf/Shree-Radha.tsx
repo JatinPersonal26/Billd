@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-import { BillOrQuoteFinalType } from "@/lib/BillAndQouteCalculator";
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 import { numberToWordsIndian } from '@/lib/amountToWords';
 
 // Register Roboto font
@@ -64,9 +64,20 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: "bold",
   },
-  toBlock: {
-    marginBottom: 20,
-  },
+ headerRow: {
+  flexDirection: 'row',
+  justifyContent: 'space-between', // pushes them apart
+  marginBottom: 20,
+},
+
+toBlock: {
+  flex: 1,
+},
+
+rightBlock: {
+  flex: 1,
+  alignItems: 'flex-end', // align text to the right inside the block
+},
   tableHeader: {
     flexDirection: "row",
     backgroundColor: "#ffb2b5ff", 
@@ -102,7 +113,9 @@ export const SRKAQuotation = ({
   bill,
 }: {
   bill: BillOrQuoteFinalType;
-}) => (
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Company Info */}
@@ -118,17 +131,21 @@ export const SRKAQuotation = ({
       <Text style={styles.quotationHeader}>QUOTATION</Text>
 
       {/* Billed To */}
-      <View style={styles.toBlock}>
-        <Text>To</Text>
-        <Text>{bill.to.name}</Text>
-        <Text>{bill.to.address}</Text>
-        <Text>Date: {bill.date}</Text>
-      </View>
+      <View style={styles.headerRow}>
+  {/* Left side */}
+    <View style={styles.toBlock}>
+    <Text>To</Text>
+    <Text>{bill.to.name}</Text>
+    <Text>{bill.to.address}</Text>
+    <Text>Date: </Text>
+    </View>
+    </View>
 
       {/* Table Header */}
       <View style={styles.tableHeader}>
         <Text style={{ ...styles.cell, ...styles.sno }}>S.No</Text>
         <Text style={{ ...styles.cell, ...styles.desc }}>Description</Text>
+        {isHsn && <Text style={{ ...styles.cell, ...styles.desc }}>HSN</Text>}
         <Text style={{ ...styles.cell, ...styles.deno }}>Deno</Text>
         <Text style={{ ...styles.cell, ...styles.qty }}>Qty</Text>
         <Text style={{ ...styles.cell, ...styles.rate }}>Rate</Text>
@@ -140,6 +157,7 @@ export const SRKAQuotation = ({
         <View key={index} style={styles.tableRow}>
           <Text style={{ ...styles.cell, ...styles.sno }}>{index + 1}</Text>
           <Text style={{ ...styles.cell, ...styles.desc }}>{item.desc}</Text>
+          {isHsn && <Text style={{ ...styles.cell, ...styles.desc }}>{item.hsn}</Text>}
           <Text style={{ ...styles.cell, ...styles.deno }}>{item.deno}</Text>
           <Text style={{ ...styles.cell, ...styles.qty }}>{item.qty}</Text>
           <Text style={{ ...styles.cell, ...styles.rate }}>
@@ -172,11 +190,14 @@ export const SRKAQuotation = ({
     </Page>
   </Document>
 );
+};
 export const SRKABill = ({
   bill,
 }: {
   bill: BillOrQuoteFinalType;
-}) => (
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Company Info */}
@@ -192,17 +213,28 @@ export const SRKABill = ({
       <Text style={styles.quotationHeader}>Bill</Text>
 
       {/* Billed To */}
-      <View style={styles.toBlock}>
-        <Text>To</Text>
-        <Text>{bill.to.name}</Text>
-        <Text>{bill.to.address}</Text>
-        <Text>Date: {bill.date}</Text>
-      </View>
+     <View style={styles.headerRow}>
+  {/* Left side */}
+  <View style={styles.toBlock}>
+    <Text>To</Text>
+    <Text>{bill.to.name}</Text>
+    <Text>{bill.to.address}</Text>
+    <Text>Quotation No: {bill.quotationNo}</Text>
+    <Text>Date: </Text>
+  </View>
+
+  {/* Right side */}
+  <View style={styles.rightBlock}>
+    <Text>Order No. {bill.to.OrderNo}</Text>
+    <Text>Dated To: {bill.to.Dated}</Text>
+  </View>
+</View>
 
       {/* Table Header */}
       <View style={styles.tableHeader}>
         <Text style={{ ...styles.cell, ...styles.sno }}>S.No</Text>
         <Text style={{ ...styles.cell, ...styles.desc }}>Description</Text>
+        {isHsn && <Text style={{ ...styles.cell, ...styles.desc }}>HSN</Text>}
         <Text style={{ ...styles.cell, ...styles.deno }}>Deno</Text>
         <Text style={{ ...styles.cell, ...styles.qty }}>Qty</Text>
         <Text style={{ ...styles.cell, ...styles.rate }}>Rate</Text>
@@ -214,6 +246,7 @@ export const SRKABill = ({
         <View key={index} style={styles.tableRow}>
           <Text style={{ ...styles.cell, ...styles.sno }}>{index + 1}</Text>
           <Text style={{ ...styles.cell, ...styles.desc }}>{item.desc}</Text>
+          {isHsn && <Text style={{ ...styles.cell, ...styles.desc }}>{item.hsn}</Text>}
           <Text style={{ ...styles.cell, ...styles.deno }}>{item.deno}</Text>
           <Text style={{ ...styles.cell, ...styles.qty }}>{item.qty}</Text>
           <Text style={{ ...styles.cell, ...styles.rate }}>
@@ -246,3 +279,4 @@ export const SRKABill = ({
     </Page>
   </Document>
 );
+};

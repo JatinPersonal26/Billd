@@ -1,7 +1,7 @@
 // templates/pdf/CHAURASIA-MARINE_bill.tsx
 
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { BillOrQuoteFinalType } from '@/lib/BillAndQouteCalculator';
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 
 const styles = StyleSheet.create({
   page: {
@@ -50,8 +50,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const Bill_CHAURASIA_MARINE_PDF = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.centeredTitle}>CHAURASIA MARINE</Text>
 
@@ -62,7 +67,7 @@ export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType
         </View>
         <View>
           <Text>Phone: 9618802323</Text>
-          <Text>Date: {bill.date}</Text>
+          <Text>Date: </Text>
         </View>
       </View>
 
@@ -74,6 +79,7 @@ export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType
         <View style={styles.tableHeader}>
           <Text style={{ flex: 1 }}>#</Text>
           <Text style={{ flex: 3 }}>Description</Text>
+          {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
           <Text style={{ flex: 1 }}>Qty</Text>
           <Text style={{ flex: 1 }}>Rate</Text>
           <Text style={{ flex: 1 }}>Amount</Text>
@@ -82,6 +88,7 @@ export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType
           <View key={i} style={styles.tableRow}>
             <Text style={{ flex: 1 }}>{i + 1}</Text>
             <Text style={{ flex: 3 }}>{item.desc}</Text>
+            {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
             <Text style={{ flex: 1 }}>{item.qty}</Text>
             <Text style={{ flex: 1 }}>₹{item.rate.toFixed(2)}</Text>
             <Text style={{ flex: 1 }}>₹{item.total.toFixed(2)}</Text>
@@ -90,8 +97,6 @@ export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType
       </View>
 
       <View style={styles.totalBlock}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={{ fontWeight: 'bold' }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
@@ -99,21 +104,27 @@ export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType
     </Page>
   </Document>
 );
+};
 
 // Similarly, define `Quote_CHAURASIA_MARINE_PDF` by copying and changing title to "QUOTATION"
-export const Quote_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const Quote_CHAURASIA_MARINE_PDF = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.centeredTitle}>CHAURASIA MARINE</Text>
 
       <View style={styles.infoBlock}>
         <View>
           <Text>Phone: 9618802323</Text>
-          <Text>Quotation No: {bill.invoiceNo}</Text>
+          <Text>Quotation No: {bill.quotationNo}</Text>
         </View>
         <View>
           <Text>GSTIN: 36APLPK3101B1Z5</Text>
-          <Text>Date: {bill.date}</Text>
+          <Text>Date: </Text>
         </View>
       </View>
 
@@ -125,6 +136,7 @@ export const Quote_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalTyp
         <View style={styles.tableHeader}>
           <Text style={{ flex: 1 }}>#</Text>
           <Text style={{ flex: 3 }}>Description</Text>
+          {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
           <Text style={{ flex: 1 }}>Qty</Text>
           <Text style={{ flex: 1 }}>Rate</Text>
           <Text style={{ flex: 1 }}>Amount</Text>
@@ -133,6 +145,7 @@ export const Quote_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalTyp
           <View key={i} style={styles.tableRow}>
             <Text style={{ flex: 1 }}>{i + 1}</Text>
             <Text style={{ flex: 3 }}>{item.desc}</Text>
+            {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
             <Text style={{ flex: 1 }}>{item.qty}</Text>
             <Text style={{ flex: 1 }}>₹{item.rate.toFixed(2)}</Text>
             <Text style={{ flex: 1 }}>₹{item.total.toFixed(2)}</Text>
@@ -141,8 +154,6 @@ export const Quote_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalTyp
       </View>
 
       <View style={styles.totalBlock}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={{ fontWeight: 'bold' }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
@@ -150,3 +161,4 @@ export const Quote_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalTyp
     </Page>
   </Document>
 );
+};

@@ -46,6 +46,18 @@ const styles = StyleSheet.create({
     transform: "rotate(-30deg)",
     zIndex: -1,
   },
+headerRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "flex-start",
+},
+
+sectionRight: {
+  marginVertical: 6,
+  maxWidth: "40%",       // reduce width so it stays in same line
+  alignItems: "flex-end",
+  paddingRight: 5,       // push slightly left from page edge
+},
   companyHeader: {
     textAlign: "center",
     fontSize: 18,
@@ -67,15 +79,15 @@ const styles = StyleSheet.create({
     color: "#003f5c",
     textDecoration: "underline",
   },
-  detailRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 2,
-  },
-  label: {
-    fontWeight: "bold",
-    width: "35%",
-  },
+ detailRow: {
+  flexDirection: "row",
+  marginVertical: 2,
+},
+
+label: {
+  fontWeight: "bold",
+  fontSize: 11,
+},
   section: {
     marginVertical: 6,
   },
@@ -130,7 +142,7 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         {/* Quotation details */}
         <View style={styles.section}>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Quotation No:</Text>
+            <Text style={styles.label}>Quotation No: {bill.quotationNo}</Text>
             <Text>{bill.invoiceNo}</Text>
           </View>
           <View style={styles.detailRow}>
@@ -171,12 +183,6 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
 
         {/* Totals */}
         <View style={[styles.section, { alignItems: "flex-end" }]}>
-          <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-          {bill.isCompanyRegular && (
-            <Text>
-              GST @{bill.gst}%: ₹{bill.gstCharges.toFixed(2)}
-            </Text>
-          )}
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
             Total: ₹{bill.totalWithGst.toFixed(2)}
           </Text>
@@ -226,19 +232,30 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <Text style={styles.headingText}>Bill</Text>
 
         {/* Bill details */}
-        <View style={styles.section}>
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>Bill No:</Text>
-            <Text>{bill.invoiceNo}</Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>Date:</Text>
-            <Text></Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>Valid Until:</Text>
-          </View>
-        </View>
+<View style={styles.headerRow}>
+  {/* Left section */}
+  <View style={styles.section}>
+    <View style={styles.detailRow}>
+      <Text style={styles.label}>Bill No: {bill.invoiceNo}</Text>
+    </View>
+    <View style={styles.detailRow}>
+      <Text style={styles.label}>Date:</Text>
+    </View>
+    <View style={styles.detailRow}>
+      <Text style={styles.label}>Valid Until:</Text>
+    </View>
+  </View>
+
+  {/* Right section */}
+  <View style={styles.sectionRight}>
+    <View style={styles.detailRow}>
+      <Text style={styles.label}>Order No: {bill.to.OrderNo}</Text>
+    </View>
+    <View style={styles.detailRow}>
+      <Text style={styles.label}>Dated To: {bill.to.Dated}</Text>
+    </View>
+  </View>
+</View>
 
         {/* To */}
         <View style={styles.section}>
@@ -262,7 +279,6 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
             <Text style={{ flex: 4 }}>{item.desc}</Text>
             <Text style={{ flex: 2 }}>{item.qty}</Text>
             {hsnPresent && <Text style={{ flex: 2 }}>{item.hsn}</Text>}
-
             <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
             <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
           </View>
@@ -270,10 +286,6 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
 
         {/* Totals */}
         <View style={[styles.section, { alignItems: "flex-end" }]}>
-          <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-          <Text>
-            GST @{bill.gst}%: ₹{bill.gstCharges.toFixed(2)}
-          </Text>
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
             Total: ₹{bill.totalWithGst.toFixed(2)}
           </Text>

@@ -71,9 +71,10 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   row: {
-    flexDirection: "row",
-    paddingVertical: 3,
-  },
+  flexDirection: "row",
+  justifyContent: "space-between", // pushes left/right apart
+  paddingVertical: 3,
+},
   tableHeader: {
     backgroundColor: "#FFECB3",
     fontWeight: "bold",
@@ -126,7 +127,7 @@ export const AvaniAssociatesQuotation = ({
 
         {/* Bill Info */}
         <View style={styles.row}>
-          <Text>Quotation No: {bill.invoiceNo}</Text>
+          <Text>Quotation No: {bill.quotationNo}</Text>
         </View>
         <View style={styles.row}>
           <Text>Date: </Text>
@@ -210,11 +211,14 @@ export const AvaniAssociatesBill = ({
 
         {/* Bill Info */}
         <View style={styles.row}>
-          <Text>Bill No: {bill.invoiceNo}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text>Date: </Text>
-        </View>
+  <Text>Bill No: {bill.invoiceNo}</Text>
+  <Text>Order No: {bill.to.OrderNo}</Text>
+</View>
+
+<View style={styles.row}>
+  <Text>Date:</Text>
+  <Text>Dated To: {bill.to.Dated}</Text>
+</View>
         <View style={{ marginVertical: 5 }}>
           <Text style={{ fontWeight: "bold" }}>To:</Text>
           <Text>{bill.to.name}</Text>
@@ -237,7 +241,7 @@ export const AvaniAssociatesBill = ({
             <Text style={styles.col1}>{idx + 1}</Text>
             <Text style={styles.col2}>{item.desc}</Text>
             <Text style={styles.col3}>{item.qty}</Text>
-            {isHsn && <Text style={styles.col3}>{item.qty}</Text>}
+            {isHsn && <Text style={styles.col3}>{item.hsn}</Text>}
             <Text style={styles.col4}>₹{item.rate.toFixed(2)}</Text>
             <Text style={styles.col5}>₹{item.total.toFixed(2)}</Text>
           </View>
