@@ -307,13 +307,11 @@ function DocumentTable({
               return acc;
             }, {})
           ).map(([generationId, group], index) => {
-            console.log(generationId, group);
             const colorClass = COLOR_CLASSES[index % COLOR_CLASSES.length];
 
             return (
               <React.Fragment key={generationId}>
                 {group.map((doc, i) => {
-                  console.log(doc, i);
 
                   return (
                     <TableRowWithoutBottomBorder
@@ -389,7 +387,6 @@ function DocumentTable({
                   value={limit}
                   onChange={(e) => {
                     const value = Number(e.target.value);
-                    console.log(value);
                     if (value >= 0 && value <= 100) {
                       setLimit(value);
                     } else {

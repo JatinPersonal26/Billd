@@ -5,7 +5,6 @@ type BillProps = {
 };
 
 export const Bill_ZEN: React.FC<BillProps> = ({ bill }) => {
-  console.log("render");
   return (
     <div style={{ fontFamily: "Georgia, serif", padding: 40 }}>
       <h2 style={{ textAlign: "center" }}>TAX INVOICE</h2>

@@ -12,6 +12,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: parsed.error.format() }, { status: 400 })
   }
 
-  let finalBillOrQuote = CalculateBillOrQuote(parsed.data)
+  let finalBillOrQuote = await CalculateBillOrQuote(parsed.data,false)
   
 }

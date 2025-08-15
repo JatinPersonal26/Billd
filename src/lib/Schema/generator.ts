@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { companySchema } from "./company";
 
+const optionalString = z
+  .string()
+  .transform(val => val.trim() === "" ? undefined : val)
+  .optional();
 export const billAndQuoteSchema = z.object({
   companyCount: z.number().min(1).max(10),
   companies: z.array(companySchema).min(1),
@@ -9,9 +13,9 @@ export const billAndQuoteSchema = z.object({
     name: z.string().min(1),
     ship: z.string().min(1),
     address: z.string().min(1),
-    OrderNo: z.string().min(1).optional(),
+    OrderNo: optionalString,
     Dated: z.string().min(1),
-    InvoiceNo: z.string().min(1).optional(),
+    InvoiceNo: optionalString,
   }),
   gst: z.number().min(0).max(100),
   variationMin: z.number(),
@@ -27,4 +31,6 @@ export const billAndQuoteSchema = z.object({
     })
   ),
 });
+
+
 export type billAndQuote = z.infer<typeof billAndQuoteSchema>;

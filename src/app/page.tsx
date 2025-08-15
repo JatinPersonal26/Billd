@@ -147,14 +147,9 @@ export default function Home() {
     },
     onSuccess: (response) => {
       if (isPreviewMode) {
-        console.log(
-          "Preview response final bill:",
-          response.finalBillOrQuote[0]
-        );
         setPerCompanyQuote(response.finalBillOrQuote[0]);
         showPreview(response.finalBillOrQuote);
       } else {
-        console.log(response.documents);
         toast.success("Documents saved successfully");
 
         const transformed = response.documents.map((doc: any) => {
@@ -218,8 +213,6 @@ export default function Home() {
 
   const onSubmit = (data: billAndQuote) => {
     const selected = allCompanies.find((c) => c.fis === data.primary);
-    console.log("Submitted Data:", data);
-    console.log("Primary Company:", selected?.name);
     previewBillAndQuoteMutation.mutate(data);
   };
 

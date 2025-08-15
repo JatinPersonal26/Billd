@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const finalBillOrQuote = CalculateBillOrQuote(parsed.data);
+    const finalBillOrQuote = await CalculateBillOrQuote(parsed.data,false);
     const generationId = uuidv4();
     let primaryBillAmount = 0;
     let count = 2;
