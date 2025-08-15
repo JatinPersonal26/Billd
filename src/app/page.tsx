@@ -101,6 +101,9 @@ export default function Home() {
         name: "The Commanding Officer",
         address: "",
         ship: "",
+        OrderNo: "",
+        InvoiceNo: "",
+       Dated: new Date().toISOString().split("T")[0], 
       },
     },
   });
@@ -429,6 +432,41 @@ export default function Home() {
                       <FormItem>
                         <FormLabel>Address</FormLabel>
                         <Input {...field} />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="to.OrderNo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Order No.</FormLabel>
+                        <Input {...field} required={false}/>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="to.Dated"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Dated</FormLabel>
+                        <Input
+                          type="date"
+                          {...field}
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                        />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="to.InvoiceNo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Invoice No.</FormLabel>
+                        <Input {...field} required={false}/>
                       </FormItem>
                     )}
                   />

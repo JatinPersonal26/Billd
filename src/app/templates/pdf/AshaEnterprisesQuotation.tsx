@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-import { BillOrQuoteFinalType } from "@/lib/BillAndQouteCalculator";
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 
 // Register fonts
 Font.register({
@@ -85,9 +85,22 @@ const styles = StyleSheet.create({
     textDecoration: "underline",
     fontWeight: "bold",
   },
-  section: {
-    marginBottom: 12,
-  },
+  headerRow: {
+  flexDirection: "row",
+  justifyContent: "space-between", // pushes left and right apart
+  alignItems: "flex-start",
+},
+
+section: {
+  marginBottom: 12,
+},
+
+sectionRight: {
+  marginBottom: 12,
+  alignItems: "flex-end",  // right-align text inside this block
+  maxWidth: "40%",         // ensures it fits
+  paddingRight: 5,         // keeps it inside page margin
+},
   tableHeader: {
     backgroundColor: "#f1f1f1",
     flexDirection: "row",
@@ -111,7 +124,9 @@ export const AshaEnterprisesQuotation = ({
   bill,
 }: {
   bill: BillOrQuoteFinalType;
-}) => (
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header Layout */}
@@ -155,7 +170,8 @@ export const AshaEnterprisesQuotation = ({
         <Text style={{ fontWeight: "bold" }}>To:</Text>
         <Text>{bill.to.name}</Text>
         <Text>{bill.to.address}</Text>
-        <Text style={{ marginTop: 6 }}>Date: {bill.date}</Text>
+        <Text>Quotation No: {bill.quotationNo}</Text>
+        <Text style={{ marginTop: 6 }}>Date: </Text>
       </View>
 
       {/* Table Header */}
@@ -163,6 +179,7 @@ export const AshaEnterprisesQuotation = ({
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
         <Text style={{ flex: 1 }}>Deno</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Total</Text>
@@ -174,6 +191,7 @@ export const AshaEnterprisesQuotation = ({
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           <Text style={{ flex: 1 }}>{item.deno}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -183,11 +201,6 @@ export const AshaEnterprisesQuotation = ({
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text>Total: ₹{bill.total.toFixed(2)}</Text>
-        <Text>CGST @ 9%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text>SGST @ 9%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
-        </Text>
         <Text style={{ fontSize: 9, marginTop: 4 }}>
           In Words: {numberToWordsIndian(bill.totalWithGst)} Only
         </Text>
@@ -200,11 +213,14 @@ export const AshaEnterprisesQuotation = ({
     </Page>
   </Document>
 );
+};
 export const AshaEnterprisesBill = ({
   bill,
 }: {
   bill: BillOrQuoteFinalType;
-}) => (
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header Layout */}
@@ -244,18 +260,30 @@ export const AshaEnterprisesBill = ({
       <Text style={styles.quotationTitle}>Bill</Text>
 
       {/* To & Date */}
-      <View style={styles.section}>
-        <Text style={{ fontWeight: "bold" }}>To:</Text>
-        <Text>{bill.to.name}</Text>
-        <Text>{bill.to.address}</Text>
-        <Text style={{ marginTop: 6 }}>Date: {bill.date}</Text>
-      </View>
+      <View style={styles.headerRow}>
+  {/* Left section */}
+  <View style={styles.section}>
+    <Text style={{ fontWeight: "bold" }}>To:</Text>
+    <Text>{bill.to.name}</Text>
+    <Text>{bill.to.address}</Text>
+    <Text>Invoice No. {bill.invoiceNo}</Text>
+    <Text style={{ marginTop: 6 }}>Date: </Text>
+
+  </View>
+
+  {/* Right section */}
+  <View style={styles.sectionRight}>
+    <Text>Order No: {bill.to.OrderNo}</Text>
+    <Text>Dated To: {bill.to.Dated}</Text>
+  </View>
+</View>
 
       {/* Table Header */}
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
         <Text style={{ flex: 1 }}>Deno</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Total</Text>
@@ -267,6 +295,7 @@ export const AshaEnterprisesBill = ({
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           <Text style={{ flex: 1 }}>{item.deno}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -276,11 +305,6 @@ export const AshaEnterprisesBill = ({
       {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text>Total: ₹{bill.total.toFixed(2)}</Text>
-        <Text>CGST @ 9%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text>SGST @ 9%: ₹{(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
-        </Text>
         <Text style={{ fontSize: 9, marginTop: 4 }}>
           In Words: {numberToWordsIndian(bill.totalWithGst)} Only
         </Text>
@@ -293,3 +317,4 @@ export const AshaEnterprisesBill = ({
     </Page>
   </Document>
 );
+};

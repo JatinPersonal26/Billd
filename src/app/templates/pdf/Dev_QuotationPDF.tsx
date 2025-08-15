@@ -1,7 +1,7 @@
 // src/app/templates/pdf/DEV-ENTERPRISES-quotation.tsx
 import React from 'react';
 import { Document, Page, Text, View, Font, StyleSheet } from '@react-pdf/renderer';
-import { BillOrQuoteFinalType } from '@/lib/BillAndQouteCalculator';
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 
 // Register Roboto
 Font.register({
@@ -66,19 +66,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Quotation_DevEnterprises = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const Quotation_DevEnterprises = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>Dev Enterprises</Text>
 
       <View style={styles.section}>
         <View style={styles.row}>
           <Text>Phone: {bill.companyPhoneNo}</Text>
-          <Text>Date: {bill.date}</Text>
+          <Text>Date: </Text>
         </View>
         <View style={styles.row}>
           <Text>GSTIN: 36APLPK3101B1Z5</Text>
-          <Text>Quotation No: {bill.invoiceNo}</Text>
+          <Text>Quotation No: {bill.quotationNo}</Text>
         </View>
       </View>
 
@@ -91,6 +96,7 @@ export const Quotation_DevEnterprises = ({ bill }: { bill: BillOrQuoteFinalType 
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Amount</Text>
@@ -99,6 +105,7 @@ export const Quotation_DevEnterprises = ({ bill }: { bill: BillOrQuoteFinalType 
         <View key={i} style={styles.tableRow}>
           <Text style={{ flex: 1 }}>{i + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -106,9 +113,7 @@ export const Quotation_DevEnterprises = ({ bill }: { bill: BillOrQuoteFinalType 
       ))}
 
       <View style={{ marginTop: 12, textAlign: 'right' }}>
-        <Text>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text>GST ({bill.gst}%): ₹{bill.gstCharges.toFixed(2)}</Text>
-        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>Grand Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
         <Text style={styles.terms}>Subject to Visakhapatnam Jurisdiction Only | Goods once sold will not be taken back</Text>
@@ -116,3 +121,4 @@ export const Quotation_DevEnterprises = ({ bill }: { bill: BillOrQuoteFinalType 
     </Page>
   </Document>
 );
+};

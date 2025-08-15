@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import { BillOrQuoteFinalType } from '@/lib/BillAndQouteCalculator';
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 
 Font.register({
   family: 'Roboto',
@@ -72,8 +72,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Bill_DEV_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const Bill_DEV_PDF = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.headerCenter}>Dev Enterprises</Text>
 
@@ -87,7 +92,7 @@ export const Bill_DEV_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       {/* Invoice Info */}
       <View style={[styles.section, styles.row]}>
         <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Date: </Text>
       </View>
 
       {/* Customer Info */}
@@ -101,6 +106,7 @@ export const Bill_DEV_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       <View style={styles.tableHeader}>
         <Text style={styles.flex1}>S.No</Text>
         <Text style={styles.flex3}>Description</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={styles.flex1}>Qty</Text>
         <Text style={styles.flex1}>Rate</Text>
         <Text style={styles.flex1}>Total</Text>
@@ -110,6 +116,7 @@ export const Bill_DEV_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
         <View key={idx} style={styles.tableRow}>
           <Text style={styles.flex1}>{idx + 1}</Text>
           <Text style={styles.flex3}>{item.desc}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={styles.flex1}>{item.qty}</Text>
           <Text style={styles.flex1}>₹{item.rate.toFixed(2)}</Text>
           <Text style={styles.flex1}>₹{item.total.toFixed(2)}</Text>
@@ -118,8 +125,6 @@ export const Bill_DEV_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
 
       {/* Totals */}
       <View style={styles.section}>
-        <Text style={styles.rightText}>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text style={styles.rightText}>GST @ {bill.gst}%: ₹{bill.gstCharges.toFixed(2)}</Text>
         <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 13 }]}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
@@ -135,3 +140,4 @@ export const Bill_DEV_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
     </Page>
   </Document>
 );
+};

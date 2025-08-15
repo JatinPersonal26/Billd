@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { BillOrQuoteFinalType } from '@/lib/BillAndQouteCalculator';
+import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 
 // Watermark style
 const watermarkStyle = {
@@ -73,8 +73,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Quotation_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const Quotation_DEC_PDF = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (  <Document>
     <Page size="A4" style={styles.page}>
       {/* Watermark */}
       <Text style={watermarkStyle}>DECCOM TRADERS</Text>
@@ -85,8 +90,8 @@ export const Quotation_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       {/* Shuffled Metadata */}
       <View style={styles.block}>
         <View style={styles.row}>
-          <Text><Text style={styles.label}>Quotation No:</Text> {bill.invoiceNo}</Text>
-          <Text><Text style={styles.label}>Date:</Text> {bill.date}</Text>
+          <Text><Text style={styles.label}>Quotation No:</Text> {bill.quotationNo}</Text>
+          <Text><Text style={styles.label}>Date:</Text> </Text>
         </View>
         <View style={styles.row}>
           <Text><Text style={styles.label}>GSTIN:</Text> 36APLPK3101B1Z5</Text>
@@ -100,6 +105,7 @@ export const Quotation_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Total</Text>
@@ -108,6 +114,7 @@ export const Quotation_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
         <View style={styles.tableRow} key={index}>
           <Text style={{ flex: 1 }}>{index + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
@@ -116,9 +123,7 @@ export const Quotation_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
 
       {/* Totals */}
       <View style={{ marginTop: 10 }}>
-        <Text style={{ textAlign: 'right' }}>Subtotal: ₹{bill.total.toFixed(2)}</Text>
-        <Text style={{ textAlign: 'right' }}>GST @ {bill.gst}%: ₹{bill.gstCharges.toFixed(2)}</Text>
-        <Text style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 12 }}>Grand Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 12 }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
       {/* Terms */}
@@ -134,3 +139,4 @@ export const Quotation_DEC_PDF = ({ bill }: { bill: BillOrQuoteFinalType }) => (
     </Page>
   </Document>
 );
+};
