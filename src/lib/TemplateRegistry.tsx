@@ -28,6 +28,11 @@ import { VaishnaviEnterprisesQuotation } from "@/app/templates/pdf/Vaishnavi_PDF
 import { VaishnaviEnterprisesBill } from "@/app/templates/pdf/Vaishnavi_PDF";
 import { SheetalTradersBill } from "@/app/templates/pdf/SheetalTradersBill";
 import { SheetalTradersQuote } from "@/app/templates/pdf/SheetalTradersBill";
+import {ARPBill, ARPQuotation} from "@/app/templates/pdf/ARP_PDF"
+import {TanviSriQuotation} from "@/app/templates/pdf/TanviSerrBill"
+import {TanviSerrBill} from "@/app/templates/pdf/TanviSerrBill"
+import {PrakashBill, PrakashQuotation} from "@/app/templates/pdf/Prakash_BIll"
+import {LSMarineQuotation,LSMARINEBIll} from "@/app/templates/pdf/LS_MARINE_BIll"
 import NothingFound from "@/components/custom/NothingFound";
 import { Font, pdf } from "@react-pdf/renderer";
 
@@ -188,7 +193,23 @@ const TemplateMap: Record<
     [Template_Types.Bill]:  SheetalTradersBill,
     [Template_Types.Quote]: SheetalTradersQuote,
   },
-
+"6421565": {
+    [Template_Types.Bill]:  ARPBill,
+    [Template_Types.Quote]: ARPQuotation,
+  },
+  "505448": {
+    [Template_Types.Bill]:  TanviSerrBill,
+    [Template_Types.Quote]: TanviSriQuotation,
+  },
+   "8484845": {
+    [Template_Types.Bill]:  PrakashBill,
+    [Template_Types.Quote]: PrakashQuotation,
+  },
+  "478484": {
+    [Template_Types.Bill]:  LSMARINEBIll,
+    [Template_Types.Quote]: LSMarineQuotation,
+  },
+  
 };
 
 

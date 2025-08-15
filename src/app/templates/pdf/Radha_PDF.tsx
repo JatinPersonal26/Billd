@@ -92,7 +92,7 @@ export const RadhaEnterprisesBill = ({
         Visakhapatnam - 05
       </Text>
       <Text style={styles.subHeader}>
-        GSTIN/UNI: 37AMXPC9232H2ZL | Contact Ph: 9885695809
+        GSTIN/UNI: 37AMXPC9232H2ZL | Contact Ph: {bill.companyPhoneNo}
       </Text>
 
       <View style={styles.topRow}>
@@ -122,14 +122,14 @@ export const RadhaEnterprisesBill = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Total: {bill.totalWithGst.toFixed(2)}
         </Text>
       </View>
 
@@ -185,14 +185,14 @@ export const RadhaEnterprisesQuote = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: ₹{bill.totalWithGst.toFixed(2)}
+          Grand Total: {bill.totalWithGst.toFixed(2)}
         </Text>
       </View>
 

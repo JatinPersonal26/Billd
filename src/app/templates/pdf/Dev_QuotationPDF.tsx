@@ -82,7 +82,7 @@ export const Quotation_DevEnterprises = ({
           <Text>Date: </Text>
         </View>
         <View style={styles.row}>
-          <Text>GSTIN: 36APLPK3101B1Z5</Text>
+          <Text>GSTIN: 37BSVPP0063Q1Z5</Text>
           <Text>Quotation No: {bill.quotationNo}</Text>
         </View>
       </View>
@@ -107,13 +107,13 @@ export const Quotation_DevEnterprises = ({
           <Text style={{ flex: 3 }}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
-          <Text style={{ flex: 2 }}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={{ flex: 2 }}>₹{item.total.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
+          <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       <View style={{ marginTop: 12, textAlign: 'right' }}>
-        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>Total: {bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
         <Text style={styles.terms}>Subject to Visakhapatnam Jurisdiction Only | Goods once sold will not be taken back</Text>

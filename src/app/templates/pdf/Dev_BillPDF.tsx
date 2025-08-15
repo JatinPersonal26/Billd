@@ -84,9 +84,9 @@ export const Bill_DEV_PDF = ({
 
       {/* Company Info */}
       <View style={styles.section}>
-        <Text>Plot No. 65, Transport Nagar, Visakhapatnam - 530027</Text>
-        <Text>GSTIN: 36APLPK3101B1Z5</Text>
-        <Text>Phone: 9704118165</Text>
+        <Text>{bill.companyAddress}</Text>
+        <Text>GSTIN: 37BSVPP0063Q1Z5</Text>
+        <Text>Phone: 9247105907</Text>
       </View>
 
       {/* Invoice Info */}
@@ -118,14 +118,14 @@ export const Bill_DEV_PDF = ({
           <Text style={styles.flex3}>{item.desc}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={styles.flex1}>{item.qty}</Text>
-          <Text style={styles.flex1}>₹{item.rate.toFixed(2)}</Text>
-          <Text style={styles.flex1}>₹{item.total.toFixed(2)}</Text>
+          <Text style={styles.flex1}>{item.rate.toFixed(2)}</Text>
+          <Text style={styles.flex1}>{item.total.toFixed(2)}</Text>
         </View>
       ))}
 
       {/* Totals */}
       <View style={styles.section}>
-        <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 13 }]}>Total: ₹{bill.totalWithGst.toFixed(2)}</Text>
+        <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 13 }]}>Total: {bill.totalWithGst.toFixed(2)}</Text>
       </View>
 
       {/* Bank Details */}
