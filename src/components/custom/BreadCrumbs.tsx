@@ -16,7 +16,6 @@ export function Breadcrumbs() {
   const { theme, resolvedTheme } = useTheme();
   const effectiveTheme = theme === "system" ? resolvedTheme : theme;
 
-  console.log(theme);
   return (
     <Breadcrumb className="flex border-dashed  p-1">
       <BreadcrumbItem>

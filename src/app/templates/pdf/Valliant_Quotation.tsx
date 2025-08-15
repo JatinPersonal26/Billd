@@ -118,8 +118,6 @@ label: {
 
 export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
   const hsnPresent = isHsnPresent(bill);
-  console.log("bill:", bill);
-
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -210,7 +208,6 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
   );
 };
 export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
-  console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);
   return (
     <Document>
