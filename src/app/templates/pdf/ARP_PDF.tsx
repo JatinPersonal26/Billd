@@ -84,7 +84,7 @@ export const ARPQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       <View style={styles.section}>
         <Text>To: {bill.to.name}</Text>
         <Text>{bill.to.address}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Date: </Text>
         <Text>Quotation No: {bill.quotationNo}</Text>
       </View>
 
@@ -148,7 +148,7 @@ export const ARPBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       <View style={styles.section}>
         <Text>To: {bill.to.name}</Text>
         <Text>{bill.to.address}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Date: </Text>
         <Text>Bill No: {bill.quotationNo}</Text>
       </View>
 

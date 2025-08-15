@@ -93,7 +93,7 @@ export const PrakashQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       {/* Right side details */}
       <View style={styles.rightDetails}>
         <Text>Quotation No: {bill.quotationNo}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Date: </Text>
       </View>
 
       {/* Title */}
@@ -152,7 +152,7 @@ export const PrakashBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       {/* Right side details */}
       <View style={styles.rightDetails}>
         <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: {bill.date}</Text>
+        <Text>Date: </Text>
       </View>
 
       {/* Title */}
