@@ -1,11 +1,13 @@
+import { lowerCase, trim } from "lodash";
 import { billAndQuote } from "./Schema/generator";
 import { Template_Types } from "./TemplateRegistry";
+import { supabase } from "./supabase";
 
 export type BillItem = {
   desc: string;
   deno: string;
   qty: number;
-  hsn?:string;
+  hsn?: string;
   rate: number;
   total: number;
 };
@@ -30,14 +32,15 @@ export type BillOrQuoteFinalType = {
     ship: string;
     address: string;
     OrderNo?: string;
-    Dated: string
+    Dated: string;
   };
   type: Template_Types;
 };
 
-export function CalculateBillOrQuote(
-  bill: billAndQuote
-): BillOrQuoteFinalType[] {
+export async function CalculateBillOrQuote(
+  bill: billAndQuote,
+  isPreview: boolean
+): Promise<BillOrQuoteFinalType[]> {
   const perCompanyBill: BillOrQuoteFinalType[] = [];
 
   let primaryAmount = 0;
@@ -86,7 +89,7 @@ export function CalculateBillOrQuote(
         desc: item.desc,
         deno: item.deno,
         qty: item.qty,
-        hsn:item.hsn,
+        hsn: item.hsn,
         rate: adjustedRate,
         total,
       };
@@ -103,8 +106,10 @@ export function CalculateBillOrQuote(
     if (finalBill.isPrimary) {
       const clonedBill = { ...finalBill };
       clonedBill.type = Template_Types.Bill;
-      clonedBill.invoiceNo = generateInvoiceNo(company.abr);
-      
+      clonedBill.invoiceNo =
+        bill.to.InvoiceNo ||
+        (await generateInvoiceNo(company.abr, isPreview));
+
       perCompanyBill.unshift(clonedBill);
       perCompanyBill.unshift(finalBill);
 
@@ -132,23 +137,60 @@ export function CalculateBillOrQuote(
   return perCompanyBill;
 }
 
-export function generateInvoiceNo(prefix: string = "INV"): string {
+export async function generateInvoiceNo(
+  prefix: string = "INV",
+  isPreview: boolean
+) {
   const now = new Date();
-  const timestamp = now.getTime(); 
-  const randomPart = Math.floor(1000 + Math.random() * 9000); 
-
-  return `${prefix}-${timestamp}-${randomPart}`;
+  const timestamp = now.getTime();
+  const invNo = await fetchInvoiceNoFromDB(prefix, isPreview);
+  return `${prefix}-${timestamp}-${invNo}`;
 }
 export function generateQuotationNo(prefix: string = "INV"): string {
   const now = new Date();
   const currentYear = now.getFullYear();
   const nextYear = currentYear + 1;
-  const randomPart = Math.floor(1000 + Math.random() * 9000); 
+  const randomPart = Math.floor(1000 + Math.random() * 9000);
   return `${prefix}-${randomPart}-${currentYear}-${nextYear}`;
 }
 
-export const isHsnPresent = (bill: BillOrQuoteFinalType)=>{
-  
+export const isHsnPresent = (bill: BillOrQuoteFinalType) => {
   return bill.items.length > 0 && bill.items[0].hsn !== undefined; // assuming now that either hsn is entered for all items or for none.
+};
 
-}
+export const fetchInvoiceNoFromDB = async (
+  abr: string,
+  isPreview: boolean
+) => {
+  const sequenceName = `company_${lowerCase(trim(abr))}_seq`;
+  let invNo;
+  if (isPreview) {
+    invNo = fetchCurrentInvoiceNoFromDB(sequenceName);
+  } else {
+    invNo = fetchNextInvoiceNoFromDB(sequenceName);
+  }
+
+  return invNo;
+};
+
+export const fetchNextInvoiceNoFromDB = async (sequenceName: string) => {
+  const { data: invNo, error } = await supabase.rpc(
+    "get_company_seq_next_value",
+    {
+      seq: sequenceName,
+    }
+  );
+  return invNo;
+};
+
+export const fetchCurrentInvoiceNoFromDB = async (sequenceName: string) => {
+  const { data: invNo, error } = await supabase.rpc(
+    "get_company_seq_last_value",
+    {
+      seq: sequenceName,
+    }
+  );
+
+  if(invNo == null) return 1;
+  return invNo + 1; // this will give idea of what will be the final inv no.
+};

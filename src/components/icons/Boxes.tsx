@@ -57,8 +57,6 @@ const Boxes = ({
   const controls = useAnimation();
 
   useEffect(() => {
-    console.log(animateState);
-
     if (animateState === "animate") controls.start("animate");
     else controls.start("normal");
   }, [animateState]);
