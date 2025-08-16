@@ -67,12 +67,13 @@ export const Bill_CHAURASIA_MARINE_PDF = ({
         </View>
         <View>
           <Text>Phone: 8052421836</Text>
-          <Text>Date: </Text>
+          <Text>Date: __________</Text>
         </View>
       </View>
 
       <Text style={{ fontWeight: 'bold', marginTop: 4 }}>To:</Text>
       <Text>{bill.to.name}</Text>
+      <Text>{bill.to.ship}</Text>
       <Text>{bill.to.address}</Text>
 
       <View style={styles.section}>
@@ -124,12 +125,13 @@ export const Quote_CHAURASIA_MARINE_PDF = ({
         </View>
         <View>
           <Text>GSTIN: 37CFVPC9122D1ZC</Text>
-          <Text>Date: </Text>
+          <Text>Date: __________</Text>
         </View>
       </View>
 
       <Text style={{ fontWeight: 'bold', marginTop: 4 }}>To:</Text>
       <Text>{bill.to.name}</Text>
+      <Text>{bill.to.ship}</Text>
       <Text>{bill.to.address}</Text>
 
       <View style={styles.section}>

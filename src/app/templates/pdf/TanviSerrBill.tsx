@@ -87,8 +87,9 @@ export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       {/* To Section */}
       <View style={styles.section}>
         <Text>To: {bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
         <Text>Quotation No: {bill.quotationNo}</Text>
       </View>
 
@@ -147,8 +148,9 @@ export const TanviSerrBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       {/* To Section */}
       <View style={styles.section}>
         <Text>To: {bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
         <Text>Bill No: {bill.invoiceNo}</Text>
       </View>
 

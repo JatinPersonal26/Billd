@@ -32,7 +32,7 @@ export type BillOrQuoteFinalType = {
     ship: string;
     address: string;
     OrderNo?: string;
-    Dated: string;
+    Dated?: string;
   };
   type: Template_Types;
 };

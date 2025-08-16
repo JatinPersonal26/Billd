@@ -107,7 +107,7 @@ export const VaishnaviEnterprisesQuotation = ({
           <Text style={styles.addressLine}>Visakhapatnam - 26</Text>
         </View>
         <View style={styles.rightPanel}>
-          <Text style={styles.addressLine}>Date: </Text>
+          <Text style={styles.addressLine}>Date: __________</Text>
           <Text style={styles.addressLine}>GSTIN/UNI: 37ALDPC8220A2ZR</Text>
           <Text style={styles.addressLine}>Contact Ph: 7093229214</Text>
         </View>
@@ -121,6 +121,7 @@ export const VaishnaviEnterprisesQuotation = ({
       <View style={styles.section}>
         <Text style={styles.label}>To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
       </View>
 
@@ -175,7 +176,7 @@ export const VaishnaviEnterprisesBill = ({
           <Text style={styles.addressLine}>Visakhapatnam - 26</Text>
         </View>
         <View style={styles.rightPanel}>
-          <Text style={styles.addressLine}>Date: </Text>
+          <Text style={styles.addressLine}>Date: __________</Text>
           <Text style={styles.addressLine}>GSTIN/UNI: 37ALDPC8220A2ZR</Text>
           <Text style={styles.addressLine}>Contact Ph: 7093229214</Text>
         </View>
@@ -189,6 +190,7 @@ export const VaishnaviEnterprisesBill = ({
       <View style={styles.section}>
         <Text style={styles.label}>To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
       </View>
 

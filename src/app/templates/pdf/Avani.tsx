@@ -130,11 +130,12 @@ export const AvaniAssociatesQuotation = ({
           <Text>Quotation No: {bill.quotationNo}</Text>
         </View>
         <View style={styles.row}>
-          <Text>Date: </Text>
+          <Text>Date: __________</Text>
         </View>
         <View style={{ marginVertical: 5 }}>
           <Text style={{ fontWeight: "bold" }}>To:</Text>
           <Text>{bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
           <Text>{bill.to.address}</Text>
         </View>
 
@@ -212,16 +213,19 @@ export const AvaniAssociatesBill = ({
         {/* Bill Info */}
         <View style={styles.row}>
   <Text>Bill No: {bill.invoiceNo}</Text>
-  <Text>Order No: {bill.to.OrderNo}</Text>
+  <Text>Order No: {bill.to.OrderNo || "__________"}</Text>
 </View>
 
 <View style={styles.row}>
-  <Text>Date:</Text>
-  <Text>Dated To: {bill.to.Dated}</Text>
+  <Text>Date: __________</Text>
+  <Text>
+    Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
+  </Text>
 </View>
         <View style={{ marginVertical: 5 }}>
           <Text style={{ fontWeight: "bold" }}>To:</Text>
           <Text>{bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
           <Text>{bill.to.address}</Text>
         </View>
 

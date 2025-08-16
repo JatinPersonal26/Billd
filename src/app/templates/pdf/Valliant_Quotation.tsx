@@ -144,7 +144,7 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
             <Text>{bill.invoiceNo}</Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Date:</Text>
+            <Text style={styles.label}>Date: __________</Text>
             <Text></Text>
           </View>
           <View style={styles.detailRow}>
@@ -156,6 +156,7 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.section}>
           <Text style={{ fontWeight: "bold", marginBottom: 2 }}>To,</Text>
           <Text>{bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
           <Text>{bill.to.address}</Text>
         </View>
 
@@ -236,7 +237,7 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       <Text style={styles.label}>Bill No: {bill.invoiceNo}</Text>
     </View>
     <View style={styles.detailRow}>
-      <Text style={styles.label}>Date:</Text>
+      <Text style={styles.label}>Date: __________</Text>
     </View>
     <View style={styles.detailRow}>
       <Text style={styles.label}>Valid Until:</Text>
@@ -246,10 +247,12 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
   {/* Right section */}
   <View style={styles.sectionRight}>
     <View style={styles.detailRow}>
-      <Text style={styles.label}>Order No: {bill.to.OrderNo}</Text>
+      <Text style={styles.label}>Order No: {bill.to.OrderNo || "__________"}{bill.to.OrderNo}</Text>
     </View>
     <View style={styles.detailRow}>
-      <Text style={styles.label}>Dated To: {bill.to.Dated}</Text>
+    <Text style={styles.label}>
+    Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
+      </Text>
     </View>
   </View>
 </View>
@@ -258,6 +261,7 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.section}>
           <Text style={{ fontWeight: "bold", marginBottom: 2 }}>To,</Text>
           <Text>{bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
           <Text>{bill.to.address}</Text>
         </View>
 

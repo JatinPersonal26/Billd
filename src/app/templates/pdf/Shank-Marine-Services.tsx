@@ -126,13 +126,14 @@ export const ShankMarineQuotation = ({
       {/* Invoice Details */}
       <View style={styles.section}>
         <Text>Quotation No: {bill.quotationNo}</Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
       </View>
 
       {/* Recipient */}
       <View style={styles.section}>
         <Text style={{ fontWeight: "bold" }}>To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
       </View>
 
@@ -204,13 +205,15 @@ export const ShankMarineBill = ({
   {/* Left section */}
   <View style={styles.section}>
     <Text>Bill No: {bill.invoiceNo}</Text>
-    <Text>Date: </Text>
+    <Text>Date: __________</Text>
   </View>
 
   {/* Right section */}
   <View style={styles.sectionRight}>
-    <Text>Order No: {bill.to.OrderNo}</Text>
-    <Text>Dated To: {bill.to.Dated}</Text>
+      <Text>Order No: {bill.to.OrderNo || "__________"}</Text>
+  <Text>
+    Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
+  </Text>
   </View>
 </View>
 
@@ -219,6 +222,7 @@ export const ShankMarineBill = ({
         <Text style={{ fontWeight: "bold" }}>To:</Text>
         <Text>{bill.to.name}</Text>
         <Text>{bill.to.address}</Text>
+        <Text>{bill.to.ship}</Text>
       </View>
 
       {/* Table Header */}
