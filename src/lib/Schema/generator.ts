@@ -8,6 +8,8 @@ export const billAndQuoteSchema = z.object({
   to: z.object({
     name: z.string().min(1),
     ship: z.string().min(1),
+    address: z.string().min(1),
+    OrderNo: z.string().min(1).optional(),
     Dated: z.string().min(1),
     InvoiceNo: z.string().min(1).optional(),
   }),
