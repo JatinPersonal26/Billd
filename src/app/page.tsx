@@ -103,7 +103,7 @@ export default function Home() {
         ship: "",
         OrderNo: "",
         InvoiceNo: "",
-       Dated: new Date().toISOString().split("T")[0], 
+       Dated: undefined, 
       },
     },
   });
@@ -445,21 +445,24 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={control}
-                    name="to.Dated"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Dated</FormLabel>
-                        <Input
-                          type="date"
-                          {...field}
-                          value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
-                        />
-                      </FormItem>
-                    )}
-                  />
+                 <FormField
+  control={control}
+  name="to.Dated"
+  rules={{ required: false }} // optional
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Dated</FormLabel>
+      <Input
+        type="date"
+        // If no date, let it stay undefined so input shows blank
+        value={field.value ?? ""}
+        onChange={(e) =>
+          field.onChange(e.target.value === "" ? undefined : e.target.value)
+        }
+      />
+    </FormItem>
+  )}
+/>
                   <FormField
                     control={control}
                     name="to.InvoiceNo"

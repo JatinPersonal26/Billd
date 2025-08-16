@@ -169,9 +169,10 @@ export const AshaEnterprisesQuotation = ({
       <View style={styles.section}>
         <Text style={{ fontWeight: "bold" }}>To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
         <Text>Quotation No: {bill.quotationNo}</Text>
-        <Text style={{ marginTop: 6 }}>Date: </Text>
+        <Text style={{ marginTop: 6 }}>Date: __________</Text>
       </View>
 
       {/* Table Header */}
@@ -265,16 +266,19 @@ export const AshaEnterprisesBill = ({
   <View style={styles.section}>
     <Text style={{ fontWeight: "bold" }}>To:</Text>
     <Text>{bill.to.name}</Text>
+    <Text>{bill.to.ship}</Text>
     <Text>{bill.to.address}</Text>
     <Text>Invoice No. {bill.invoiceNo}</Text>
-    <Text style={{ marginTop: 6 }}>Date: </Text>
+    <Text style={{ marginTop: 6 }}>Date: __________</Text>
 
   </View>
 
   {/* Right section */}
   <View style={styles.sectionRight}>
-    <Text>Order No: {bill.to.OrderNo}</Text>
-    <Text>Dated To: {bill.to.Dated}</Text>
+     <Text>Order No: {bill.to.OrderNo || "__________"}</Text>
+  <Text>
+    Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
+  </Text>
   </View>
 </View>
 

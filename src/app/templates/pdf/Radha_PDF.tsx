@@ -97,12 +97,13 @@ export const RadhaEnterprisesBill = ({
 
       <View style={styles.topRow}>
         <Text></Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={{ fontWeight: "bold" }}>Billed To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
         <Text>Quotation No: {bill.quotationNo}</Text>
       </View>
@@ -161,12 +162,13 @@ export const RadhaEnterprisesQuote = ({
 
       <View style={styles.topRow}>
         <Text></Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={{ fontWeight: "bold" }}>Quoted To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
       </View>
 

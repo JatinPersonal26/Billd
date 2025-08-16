@@ -91,14 +91,14 @@ export const Bill_DEC_PDF = ({
       <View style={styles.block}>
         <View style={styles.row}>
           <Text><Text style={styles.label}>Bill No:</Text> {bill.invoiceNo}</Text>
-          <Text><Text style={styles.label}>Date:</Text> </Text>
+          <Text><Text style={styles.label}>Date: __________</Text> </Text>
         </View>
           <View style={styles.row}>
                   <Text><Text style={styles.label}>GSTIN:</Text> 37CBEPD0169A1Z9</Text>
                   <Text><Text style={styles.label}>Phone:</Text> 9100817369</Text>
           </View>
         <Text><Text style={styles.label}>Address:</Text>{bill.companyAddress}</Text>
-        <Text style={{ marginTop: 6 }}><Text style={styles.label}>To:</Text> {bill.to.name}, {bill.to.address}</Text>
+        <Text style={{ marginTop: 6 }}><Text style={styles.label}>To:</Text> {bill.to.name},{bill.to.ship}, {bill.to.address}</Text>
       </View>
 
       {/* Items Table */}

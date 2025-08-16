@@ -10,7 +10,7 @@ export const billAndQuoteSchema = z.object({
     ship: z.string().min(1),
     address: z.string().min(1),
     OrderNo: z.string().min(1).optional(),
-    Dated: z.string().min(1),
+    Dated: z.string().min(1).optional(),
     InvoiceNo: z.string().min(1).optional(),
   }),
   gst: z.number().min(0).max(100),

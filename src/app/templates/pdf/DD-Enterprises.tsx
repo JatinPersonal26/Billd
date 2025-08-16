@@ -88,7 +88,7 @@ export const DDEnterprises_PDF = ({
       <Text>{bill.to.address}</Text>
       <Text>Quotation No: {bill.quotationNo}</Text>
       {/* Date */}
-      <Text style={{ marginTop: 6 }}>Date: </Text>
+      <Text style={{ marginTop: 6 }}>Date: __________</Text>
 
       {/* Quotation Heading */}
       <Text style={[styles.label, { fontSize: 13, marginTop: 16 }]}>QUOTATION</Text>

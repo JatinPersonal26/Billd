@@ -136,8 +136,9 @@ export const SRKAQuotation = ({
     <View style={styles.toBlock}>
     <Text>To</Text>
     <Text>{bill.to.name}</Text>
+    <Text>{bill.to.ship}</Text>
     <Text>{bill.to.address}</Text>
-    <Text>Date: </Text>
+    <Text>Date: __________</Text>
     </View>
     </View>
 
@@ -172,8 +173,7 @@ export const SRKAQuotation = ({
       {/* Totals */}
       <View style={styles.totalBlock}>
         <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-        <Text>CGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text>SGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text> GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
         <Text style={styles.bold}>
           Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
         </Text>
@@ -218,15 +218,18 @@ export const SRKABill = ({
   <View style={styles.toBlock}>
     <Text>To</Text>
     <Text>{bill.to.name}</Text>
+    <Text>{bill.to.ship}</Text>
     <Text>{bill.to.address}</Text>
     <Text>Quotation No: {bill.quotationNo}</Text>
-    <Text>Date: </Text>
+    <Text>Date: __________</Text>
   </View>
 
   {/* Right side */}
   <View style={styles.rightBlock}>
-    <Text>Order No. {bill.to.OrderNo}</Text>
-    <Text>Dated To: {bill.to.Dated}</Text>
+      <Text>Order No: {bill.to.OrderNo || "__________"}</Text>
+  <Text>
+    Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
+  </Text>
   </View>
 </View>
 
@@ -261,8 +264,7 @@ export const SRKABill = ({
       {/* Totals */}
       <View style={styles.totalBlock}>
         <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-        <Text>CGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
-        <Text>SGST @14%: {(bill.gstCharges / 2).toFixed(2)}</Text>
+        <Text> GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
         <Text style={styles.bold}>
           Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
         </Text>

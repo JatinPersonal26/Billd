@@ -87,7 +87,7 @@ export const DDEnterprises_BillPDF = ({
       <Text>{bill.to.address}</Text>
 
       {/* Date and Invoice No */}
-      <Text style={{ marginTop: 6 }}>Date: </Text>
+      <Text style={{ marginTop: 6 }}>Date: __________</Text>
       <Text style={{ marginTop: 2 }}>Invoice No: {bill.invoiceNo}</Text>
 
       {/* Invoice Heading */}

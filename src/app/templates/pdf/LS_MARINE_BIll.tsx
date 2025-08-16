@@ -96,7 +96,7 @@ export const LSMarineQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       {/* Right side details */}
       <View style={styles.rightDetails}>
         <Text>Quotation No: {bill.quotationNo}</Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
       </View>
 
       {/* Title */}
@@ -158,7 +158,7 @@ export const LSMARINEBIll = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       {/* Right side details */}
       <View style={styles.rightDetails}>
         <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
       </View>
 
       {/* Title */}

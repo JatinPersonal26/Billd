@@ -71,13 +71,14 @@ export const SheetalTradersBill = ({
       {/* Bill Info */}
       <View style={styles.row}>
         <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
       </View>
 
       {/* Billed To */}
       <View style={{ marginBottom: 8 }}>
         <Text style={{ fontWeight: "bold" }}>To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
       </View>
 
@@ -134,13 +135,14 @@ export const SheetalTradersQuote = ({
       {/* Bill Info */}
       <View style={styles.row}>
         <Text>Quote No: {bill.quotationNo}</Text>
-        <Text>Date: </Text>
+        <Text>Date: __________</Text>
       </View>
 
       {/* Billed To */}
       <View style={{ marginBottom: 8 }}>
         <Text style={{ fontWeight: "bold" }}>To:</Text>
         <Text>{bill.to.name}</Text>
+        <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
       </View>
 
