@@ -210,7 +210,7 @@ export const SRKABill = ({
       </Text>
 
       {/* Quotation Label */}
-      <Text style={styles.quotationHeader}>Bill</Text>
+      <Text style={styles.quotationHeader}>TAX INVOICE</Text>
 
       {/* Billed To */}
      <View style={styles.headerRow}>
@@ -220,7 +220,7 @@ export const SRKABill = ({
     <Text>{bill.to.name}</Text>
     <Text>{bill.to.ship}</Text>
     <Text>{bill.to.address}</Text>
-    <Text>Quotation No: {bill.quotationNo}</Text>
+    <Text>Bill No: {bill.invoiceNo}</Text>
     <Text>Date: __________</Text>
   </View>
 
