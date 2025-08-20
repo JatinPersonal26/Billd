@@ -141,7 +141,6 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.section}>
           <View style={styles.detailRow}>
             <Text style={styles.label}>Quotation No: {bill.quotationNo}</Text>
-            <Text>{bill.invoiceNo}</Text>
           </View>
           <View style={styles.detailRow}>
             <Text style={styles.label}>Date: __________</Text>
