@@ -48,7 +48,7 @@ export async function CalculateBillOrQuote(
 
   for (let i = 0; i < bill.companyCount; i++) {
     const company = bill.companies[i];
-
+    console.log("inv coming" , bill.to.InvoiceNo)
     const finalBill: BillOrQuoteFinalType = {
       companyName: company.name,
       companyPhoneNo: company.phone,
@@ -61,7 +61,7 @@ export async function CalculateBillOrQuote(
       totalWithGst: 0,
       gstCharges: 0,
       isPrimary: bill.primary === company.fis,
-      invoiceNo: bill.to.InvoiceNo,
+      invoiceNo: bill.to.InvoiceNo || await generateInvoiceNo(company.abr,isPreview),
       quotationNo: "",
       date: new Date().toISOString().split("T")[0],
       to: bill.to,
@@ -119,6 +119,7 @@ export async function CalculateBillOrQuote(
     }
 
     minAmount = Math.min(minAmount, finalBill.totalWithGst);
+    console.log(finalBill)
   }
 
   if (minAmount !== primaryAmount) {
