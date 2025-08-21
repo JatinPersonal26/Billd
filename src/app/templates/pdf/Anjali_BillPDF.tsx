@@ -106,6 +106,7 @@ export const Anjali_BillPDF = ({
           <View style={styles.tableHeader}>
             <Text style={styles.cell}>S.No</Text>
             <Text style={{ flex: 3 }}>Description</Text>
+            <Text style={styles.cell}>Deno</Text>
             {isHsn && <Text style={styles.cell}>HSN</Text>}
             <Text style={styles.cell}>Qty</Text>
             <Text style={styles.cell}>Rate</Text>
@@ -116,6 +117,7 @@ export const Anjali_BillPDF = ({
             <View key={idx} style={styles.tableRow}>
               <Text style={styles.cell}>{idx + 1}</Text>
               <Text style={{ flex: 3 }}>{item.desc}</Text>
+              <Text style={styles.cell}>{item.deno}</Text>
               {isHsn && <Text style={styles.cell}>{item.hsn}</Text>}
               <Text style={styles.cell}>{item.qty}</Text>
               <Text style={styles.cell}>{item.rate.toFixed(2)}</Text>
@@ -128,7 +130,7 @@ export const Anjali_BillPDF = ({
             <Text style={styles.right}>In Words: {numberToWordsIndian(bill.totalWithGst)} Only</Text>
           </View>
      
-           <View style={styles.section}>
+          <View style={[styles.section, { marginBottom: 20 }]}>
              <Text style={styles.label}>Terms & Conditions:</Text>
              <Text>• Payment should be made within 15 days.</Text>
              <Text>• Prices are valid for 30 days from the date of quotation.</Text>
@@ -136,11 +138,14 @@ export const Anjali_BillPDF = ({
              <Text>• All disputes subject to Nagpur jurisdiction.</Text>
            </View>
      
-           <View style={{ marginTop: 30 }}>
-             <Text>Thanking You,</Text>
-             <Text style={{ marginTop: 14 }}>For Anjali Enterprises</Text>
-             <Text style={{ marginTop: 6 }}>Authorized Signatory</Text>
-           </View>
+  <View style={{ flexGrow: 1 }} />
+
+  {/* Footer at bottom */}
+  <View>
+    <Text>Thanking You,</Text>
+    <Text style={{ marginTop: 14 }}>For Anjali Enterprises</Text>
+    <Text style={{ marginTop: 6 }}>Authorized Signatory</Text>
+  </View>
          </Page>
        </Document>
 );

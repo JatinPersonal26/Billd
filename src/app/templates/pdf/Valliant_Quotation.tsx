@@ -163,6 +163,7 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.tableHeader}>
           <Text style={{ flex: 1 }}>S.No</Text>
           <Text style={{ flex: 4 }}>Item Description</Text>
+          <Text style={{ flex: 2 }}>Deno</Text>
           <Text style={{ flex: 2 }}>Quantity</Text>
           {hsnPresent && <Text style={{ flex: 2 }}>HSN</Text>}
           <Text style={{ flex: 2 }}>Rate ()</Text>
@@ -172,6 +173,7 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
           <View key={idx} style={styles.tableRow}>
             <Text style={{ flex: 1 }}>{idx + 1}</Text>
             <Text style={{ flex: 4 }}>{item.desc}</Text>
+             <Text style={{ flex: 2 }}>{item.deno}</Text>
             <Text style={{ flex: 2 }}>{item.qty}</Text>
             {hsnPresent && <Text style={{ flex: 2 }}>{item.hsn}</Text>}
             <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
@@ -268,6 +270,7 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.tableHeader}>
           <Text style={{ flex: 1 }}>S.No</Text>
           <Text style={{ flex: 4 }}>Item Description</Text>
+          <Text style={{ flex: 2 }}>Deno</Text>
           <Text style={{ flex: 2 }}>Quantity</Text>
           {hsnPresent && <Text style={{ flex: 2 }}>HSN</Text>}
           <Text style={{ flex: 2 }}>Rate ()</Text>
@@ -277,6 +280,7 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
           <View key={idx} style={styles.tableRow}>
             <Text style={{ flex: 1 }}>{idx + 1}</Text>
             <Text style={{ flex: 4 }}>{item.desc}</Text>
+            <Text style={{ flex: 2 }}>{item.deno}</Text>
             <Text style={{ flex: 2 }}>{item.qty}</Text>
             {hsnPresent && <Text style={{ flex: 2 }}>{item.hsn}</Text>}
             <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>

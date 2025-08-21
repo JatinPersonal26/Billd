@@ -13,7 +13,7 @@ import {
   BillOrQuoteFinalType,
   isHsnPresent,
 } from "@/lib/BillAndQouteCalculator";
-
+import { numberToWordsIndian } from '@/lib/amountToWords';
 // Font registration
 Font.register({
   family: "Roboto",
@@ -143,6 +143,7 @@ export const AvaniAssociatesQuotation = ({
         <View style={[styles.row, styles.tableHeader]}>
           <Text style={styles.col1}>S.No</Text>
           <Text style={styles.col2}>Description</Text>
+          <Text style={styles.col3}>Deno</Text>
           <Text style={styles.col3}>Qty</Text>
           {isHsn && <Text style={styles.col3}>HSN</Text>}
           <Text style={styles.col4}>Rate</Text>
@@ -154,6 +155,7 @@ export const AvaniAssociatesQuotation = ({
           <View key={idx} style={styles.row}>
             <Text style={styles.col1}>{idx + 1}</Text>
             <Text style={styles.col2}>{item.desc}</Text>
+            <Text style={styles.col3}>{item.deno}</Text>
             <Text style={styles.col3}>{item.qty}</Text>
             {isHsn && <Text style={styles.col3}>{item.hsn}</Text>}
             <Text style={styles.col4}>{item.rate.toFixed(2)}</Text>
@@ -171,6 +173,9 @@ export const AvaniAssociatesQuotation = ({
           )}
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
             Grand Total: {bill.totalWithGst.toFixed(2)}
+          </Text>
+          <Text>
+          Rs: {numberToWordsIndian(bill.totalWithGst)} Only
           </Text>
         </View>
       </Page>
@@ -208,7 +213,7 @@ export const AvaniAssociatesBill = ({
         <View style={styles.sectionDivider} />
 
         {/* Quotation Title */}
-        <Text style={styles.quotationTitle}>Bill</Text>
+        <Text style={styles.quotationTitle}>Invoice</Text>
 
         {/* Bill Info */}
         <View style={styles.row}>
@@ -233,6 +238,7 @@ export const AvaniAssociatesBill = ({
         <View style={[styles.row, styles.tableHeader]}>
           <Text style={styles.col1}>S.No</Text>
           <Text style={styles.col2}>Description</Text>
+          <Text style={styles.col3}>Deno</Text>
           <Text style={styles.col3}>Qty</Text>
           {isHsn && <Text style={styles.col3}>HSN</Text>}
           <Text style={styles.col4}>Rate</Text>
@@ -244,6 +250,7 @@ export const AvaniAssociatesBill = ({
           <View key={idx} style={styles.row}>
             <Text style={styles.col1}>{idx + 1}</Text>
             <Text style={styles.col2}>{item.desc}</Text>
+            <Text style={styles.col3}>{item.deno}</Text>
             <Text style={styles.col3}>{item.qty}</Text>
             {isHsn && <Text style={styles.col3}>{item.hsn}</Text>}
             <Text style={styles.col4}>{item.rate.toFixed(2)}</Text>
@@ -261,6 +268,9 @@ export const AvaniAssociatesBill = ({
           )}
           <Text style={{ fontSize: 12, fontWeight: "bold" }}>
             Grand Total: {bill.totalWithGst.toFixed(2)}
+          </Text>
+          <Text>
+          Rs: {numberToWordsIndian(bill.totalWithGst)} Only
           </Text>
         </View>
       </Page>

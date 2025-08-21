@@ -71,8 +71,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
+  console.log("bill:", bill);
+  const hsnPresent = isHsnPresent(bill);
+  return (
+    <Document>
     <Page size="A4" style={styles.page}>
       {/* Header Row */}
       <View style={styles.headerRow}>
@@ -98,6 +101,7 @@ export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
         <Text style={styles.colSno}>S.No</Text>
         <Text style={styles.colDesc}>Description</Text>
         <Text style={styles.colDeno}>Deno</Text>
+        {hsnPresent && <Text style={styles.colDeno}>HSN</Text>}
         <Text style={styles.colQty}>Qty</Text>
         <Text style={styles.colRate}>Rate</Text>
         <Text style={styles.colTotal}>Total</Text>
@@ -108,6 +112,7 @@ export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
           <Text style={styles.colSno}>{idx + 1}</Text>
           <Text style={styles.colDesc}>{item.desc}</Text>
           <Text style={styles.colDeno}>{item.deno}</Text>
+           {hsnPresent && <Text style={styles.colDeno}>{item.hsn}</Text>}
           <Text style={styles.colQty}>{item.qty}</Text>
           <Text style={styles.colRate}>{item.rate.toLocaleString()}</Text>
           <Text style={styles.colTotal}>{item.total.toLocaleString()}</Text>
@@ -129,6 +134,7 @@ export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
     </Page>
   </Document>
 );
+};
 export const TanviSerrBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
   console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);

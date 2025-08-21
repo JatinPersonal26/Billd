@@ -11,7 +11,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
-const logoUrl = "http://localhost:3000/logos/shank-marine.jpg";
+const logoUrl = '/logos/shank-marine.jpg';
 // Register Roboto font
 Font.register({
   family: "Roboto",
@@ -141,6 +141,7 @@ export const ShankMarineQuotation = ({
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        <Text style={{ flex: 1 }}>Deno</Text>
         {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
@@ -152,6 +153,7 @@ export const ShankMarineQuotation = ({
         <View key={idx} style={styles.tableRow}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          <Text style={{ flex: 1 }}>{item.deno}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
@@ -229,6 +231,7 @@ export const ShankMarineBill = ({
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        <Text style={{ flex: 1 }}>Deno</Text>
         {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
@@ -240,6 +243,7 @@ export const ShankMarineBill = ({
         <View key={idx} style={styles.tableRow}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          <Text style={{ flex: 1 }}>{item.deno}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>

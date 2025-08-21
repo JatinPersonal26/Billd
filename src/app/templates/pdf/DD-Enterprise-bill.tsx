@@ -131,6 +131,7 @@ export const DDEnterprises_BillPDF = ({
         </Text>
       </View>
 
+    <View style={{ flexGrow: 1 }} />  
       {/* Footer */}
       <View style={styles.section}>
         <Text>Thanking You,</Text>

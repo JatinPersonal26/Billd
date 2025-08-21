@@ -77,8 +77,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const LSMarineQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const LSMarineQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
+  console.log("bill:", bill);
+  const hsnPresent = isHsnPresent(bill);
+  return (
+    <Document>
     <Page size="A4" style={styles.page}>
       {/* Header */}
       <View style={styles.headerContainer}>
@@ -106,6 +109,8 @@ export const LSMarineQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       <View style={[styles.tableRow, styles.tableHeader]}>
         <Text style={[styles.cell, styles.cell1]}>S.No</Text>
         <Text style={[styles.cell, styles.cell2]}>Description</Text>
+        <Text style={[styles.cell, styles.cell3]}>Deno</Text>
+        {hsnPresent && <Text style={[styles.cell, styles.cell3]}>HSN</Text>}
         <Text style={[styles.cell, styles.cell3]}>Qty</Text>
         <Text style={[styles.cell, styles.cell4]}>Rate</Text>
         <Text style={[styles.cell, styles.cell5]}>Total</Text>
@@ -116,6 +121,8 @@ export const LSMarineQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
         <View key={idx} style={styles.tableRow}>
           <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
           <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
+          <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
+         {hsnPresent && <Text style={[styles.cell, styles.cell3]}>{item.hsn}</Text>}
           <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
           <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
           <Text style={[styles.cell, styles.cell5]}>{item.total.toFixed(2)}</Text>
@@ -136,6 +143,7 @@ export const LSMarineQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
     </Page>
   </Document>
 );
+};
 export const LSMARINEBIll = ({ bill }: { bill: BillOrQuoteFinalType }) => {
   console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);
@@ -168,6 +176,7 @@ export const LSMARINEBIll = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       <View style={[styles.tableRow, styles.tableHeader]}>
         <Text style={[styles.cell, styles.cell1]}>S.No</Text>
         <Text style={[styles.cell, styles.cell2]}>Description</Text>
+        <Text style={[styles.cell, styles.cell3]}>Deno</Text>
         {hsnPresent && <Text style={[styles.cell, styles.cell3]}>HSN</Text>}
         <Text style={[styles.cell, styles.cell3]}>Qty</Text>
         <Text style={[styles.cell, styles.cell4]}>Rate</Text>
@@ -179,6 +188,7 @@ export const LSMARINEBIll = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View key={idx} style={styles.tableRow}>
           <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
           <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
+          <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
          {hsnPresent && <Text style={[styles.cell, styles.cell3]}>{item.hsn}</Text>}
           <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
           <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
