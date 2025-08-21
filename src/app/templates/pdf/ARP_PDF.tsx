@@ -8,6 +8,7 @@ import {
 } from "@react-pdf/renderer";
 import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 import { numberToWordsIndian } from '@/lib/amountToWords';
+import { it } from "node:test";
 const styles = StyleSheet.create({
   page: {
     fontSize: 11,
@@ -61,7 +62,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const ARPQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
+export const ARPQuotation = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header */}
@@ -93,6 +100,8 @@ export const ARPQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+        <Text style={{ flex: 1 }}>Deno</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Amount</Text>
@@ -103,6 +112,8 @@ export const ARPQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
         <View style={styles.tableRow} key={idx}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          <Text style={{ flex: 1 }}>{item.deno}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>
@@ -123,11 +134,15 @@ export const ARPQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
     </Page>
   </Document>
 );
-export const ARPBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
-  console.log("bill:", bill);
-  const hsnPresent = isHsnPresent(bill);
+};
+export const ARPBill = ({
+  bill,
+}: {
+  bill: BillOrQuoteFinalType;
+}) => {
+  const isHsn = isHsnPresent(bill);
   return (
-    <Document>
+  <Document>
     <Page size="A4" style={styles.page}>
       {/* Header */}
       <View style={styles.headerRow}>
@@ -155,10 +170,11 @@ export const ARPBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       </View>
 
       {/* Table Header */}
-      <View style={styles.tableHeader}>
+            <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
-        {hsnPresent && <Text style={{ flex: 2 }}>HSN</Text>}
+        <Text style={{ flex: 1 }}>Deno</Text>
+        {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
         <Text style={{ flex: 2 }}>Amount</Text>
@@ -169,7 +185,8 @@ export const ARPBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.tableRow} key={idx}>
           <Text style={{ flex: 1 }}>{idx + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
-          {hsnPresent && <Text style={{ flex: 2 }}>{item.hsn}</Text>}
+          <Text style={{ flex: 1 }}>{item.deno}</Text>
+          {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>
           <Text style={{ flex: 2 }}>{item.total.toFixed(2)}</Text>

@@ -97,6 +97,7 @@ export const Quotation_DevEnterprises = ({
       <View style={styles.tableHeader}>
         <Text style={{ flex: 1 }}>S.No</Text>
         <Text style={{ flex: 3 }}>Description</Text>
+         <Text style={{ flex: 1 }}>Deno</Text>
         {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={{ flex: 1 }}>Qty</Text>
         <Text style={{ flex: 2 }}>Rate</Text>
@@ -106,6 +107,7 @@ export const Quotation_DevEnterprises = ({
         <View key={i} style={styles.tableRow}>
           <Text style={{ flex: 1 }}>{i + 1}</Text>
           <Text style={{ flex: 3 }}>{item.desc}</Text>
+          <Text style={{ flex: 1 }}>{item.deno}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={{ flex: 1 }}>{item.qty}</Text>
           <Text style={{ flex: 2 }}>{item.rate.toFixed(2)}</Text>

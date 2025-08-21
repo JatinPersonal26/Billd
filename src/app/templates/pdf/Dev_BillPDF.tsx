@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
+import { it } from 'node:test';
 
 Font.register({
   family: 'Roboto',
@@ -107,6 +108,7 @@ export const Bill_DEV_PDF = ({
       <View style={styles.tableHeader}>
         <Text style={styles.flex1}>S.No</Text>
         <Text style={styles.flex3}>Description</Text>
+        <Text style={styles.flex1}>Deno</Text>
         {isHsn && <Text style={{ flex: 1 }}>HSN</Text>}
         <Text style={styles.flex1}>Qty</Text>
         <Text style={styles.flex1}>Rate</Text>
@@ -117,6 +119,7 @@ export const Bill_DEV_PDF = ({
         <View key={idx} style={styles.tableRow}>
           <Text style={styles.flex1}>{idx + 1}</Text>
           <Text style={styles.flex3}>{item.desc}</Text>
+          <Text style={styles.flex1}>{item.deno}</Text>
           {isHsn && <Text style={{ flex: 1 }}>{item.hsn}</Text>}
           <Text style={styles.flex1}>{item.qty}</Text>
           <Text style={styles.flex1}>{item.rate.toFixed(2)}</Text>

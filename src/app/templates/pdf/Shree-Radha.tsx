@@ -182,6 +182,8 @@ export const SRKAQuotation = ({
         </Text>
       </View>
 
+    <View style={{ flexGrow: 1 }} />  
+
       {/* Closing */}
       <View style={styles.thankYou}>
         <Text>Thanking You,</Text>
@@ -273,6 +275,8 @@ export const SRKABill = ({
         </Text>
       </View>
 
+          <View style={{ flexGrow: 1 }} />  
+      
       {/* Closing */}
       <View style={styles.thankYou}>
         <Text>Thanking You,</Text>

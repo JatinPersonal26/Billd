@@ -1,6 +1,7 @@
 import React from "react";
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
 import { BillOrQuoteFinalType,isHsnPresent } from "@/lib/BillAndQouteCalculator";
+import { it } from "node:test";
 
 // Use built-in Times-Roman font (no registration needed)
 const styles = StyleSheet.create({
@@ -77,8 +78,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const PrakashQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
-  <Document>
+export const PrakashQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
+  console.log("bill:", bill);
+  const hsnPresent = isHsnPresent(bill);
+  return (
+    <Document>
     <Page size="A4" style={styles.page}>
       {/* Header */}
       <View style={styles.headerContainer}>
@@ -100,9 +104,12 @@ export const PrakashQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
       <Text style={styles.title}>Quotation</Text>
 
       {/* Table Header */}
+     {/* Table Header */}
       <View style={[styles.tableRow, styles.tableHeader]}>
         <Text style={[styles.cell, styles.cell1]}>S.No</Text>
         <Text style={[styles.cell, styles.cell2]}>Description</Text>
+        <Text style={[styles.cell, styles.cell3]}>Deno</Text>
+        {hsnPresent && <Text style={styles.cell2}>HSN</Text>}
         <Text style={[styles.cell, styles.cell3]}>Qty</Text>
         <Text style={[styles.cell, styles.cell4]}>Rate</Text>
         <Text style={[styles.cell, styles.cell5]}>Total</Text>
@@ -113,6 +120,8 @@ export const PrakashQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
         <View key={idx} style={styles.tableRow}>
           <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
           <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
+          <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
+          {hsnPresent && <Text style={styles.cell2}>{item.hsn}</Text>}
           <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
           <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
           <Text style={[styles.cell, styles.cell5]}>{item.total.toFixed(2)}</Text>
@@ -133,6 +142,7 @@ export const PrakashQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => (
     </Page>
   </Document>
 );
+};
 export const PrakashBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
   console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);
@@ -162,6 +172,7 @@ export const PrakashBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       <View style={[styles.tableRow, styles.tableHeader]}>
         <Text style={[styles.cell, styles.cell1]}>S.No</Text>
         <Text style={[styles.cell, styles.cell2]}>Description</Text>
+        <Text style={[styles.cell, styles.cell3]}>Deno</Text>
         {hsnPresent && <Text style={styles.cell2}>HSN</Text>}
         <Text style={[styles.cell, styles.cell3]}>Qty</Text>
         <Text style={[styles.cell, styles.cell4]}>Rate</Text>
@@ -173,6 +184,7 @@ export const PrakashBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View key={idx} style={styles.tableRow}>
           <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
           <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
+          <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
           {hsnPresent && <Text style={styles.cell2}>{item.hsn}</Text>}
           <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
           <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
