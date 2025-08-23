@@ -42,5 +42,5 @@ export function numberToWordsIndian(num: number): string {
     .replace(/\s+/g, ' ')
     .trim();
 
-  return str + ' Only';
+  return str ;
 }

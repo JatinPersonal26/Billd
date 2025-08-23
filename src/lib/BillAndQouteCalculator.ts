@@ -81,7 +81,7 @@ export async function CalculateBillOrQuote(
 
     let totalAmountOnBill = 0;
     const finalBillItems: BillItem[] = bill.items.map((item) => {
-      const adjustedRate = Math.ceil(item.rate * (1 + variation / 100));
+      const adjustedRate = item.rate * (1 + variation / 100);
       const total = item.qty * adjustedRate;
       totalAmountOnBill += total;
 
@@ -99,9 +99,9 @@ export async function CalculateBillOrQuote(
     finalBill.total = totalAmountOnBill;
     finalBill.isCompanyRegular = company.isRegular;
     finalBill.gstCharges = company.isRegular
-      ? Math.ceil((totalAmountOnBill * bill.gst) / 100)
+      ? (totalAmountOnBill * bill.gst) / 100
       : 0; // this is for composite company i.e gstCharges = 0 explicitly;
-    finalBill.totalWithGst = finalBill.total + finalBill.gstCharges;
+    finalBill.totalWithGst = Math.ceil(finalBill.total + finalBill.gstCharges);
     finalBill.quotationNo = generateQuotationNo(company.abr);
     if (finalBill.isPrimary) {
       const clonedBill = { ...finalBill };
