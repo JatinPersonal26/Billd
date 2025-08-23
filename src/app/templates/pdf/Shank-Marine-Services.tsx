@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginBottom: 20,
+    marginBottom: 10, // reduced margin to make space for heading
     gap: 10,
   },
   logo: {
@@ -53,6 +53,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     color: "#004d40",
+  },
+  heading: {
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#000",
   },
  headerRow1: {
   flexDirection: "row",
@@ -107,14 +114,14 @@ export const ShankMarineQuotation = ({
   return (
   <Document>
     <Page size="A4" style={styles.page}>
-      {/* Header Row with Logo and Company Name */}
-      <View style={styles.headerRow}>
-        <Image
-          src={logoUrl} 
-          style={styles.logo}
-        />
-        <Text style={styles.companyName}>SHANK MARINE SERVICES</Text>
-      </View>
+        {/* Header Row */}
+        <View style={styles.headerRow}>
+          <Image src={logoUrl} style={styles.logo} />
+          <Text style={styles.companyName}>SHANK MARINE SERVICES</Text>
+        </View>
+
+        {/* Quotation Heading */}
+        <Text style={styles.heading}>QUOTATION</Text>
 
       {/* Company Info */}
       <View style={styles.section}>
@@ -185,15 +192,15 @@ export const ShankMarineBill = ({
   const isHsn = isHsnPresent(bill);
   return (
   <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header Row with Logo and Company Name */}
-      <View style={styles.headerRow}>
-        <Image
-          src={logoUrl} 
-          style={styles.logo}
-        />
-        <Text style={styles.companyName}>SHANK MARINE SERVICES</Text>
-      </View>
+   <Page size="A4" style={styles.page}>
+        {/* Header Row */}
+        <View style={styles.headerRow}>
+          <Image src={logoUrl} style={styles.logo} />
+          <Text style={styles.companyName}>SHANK MARINE SERVICES</Text>
+        </View>
+
+        {/* Tax Invoice Heading */}
+        <Text style={styles.heading}>TAX INVOICE</Text>
 
       {/* Company Info */}
       <View style={styles.section}>
