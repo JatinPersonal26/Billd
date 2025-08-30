@@ -273,6 +273,22 @@ export const AvaniAssociatesBill = ({
           Rs: {numberToWordsIndian(bill.totalWithGst)} Only
           </Text>
         </View>
+        <View
+  style={{
+    position: "absolute",
+    bottom: 40,
+    left: 35,
+    fontSize: 9,
+    color: "#555",
+    maxWidth: "50%",
+  }}
+>
+  <Text style={{ fontWeight: "bold" }}>Bank Account Details:</Text>
+  <Text>Bank: Indian Overseas Bank</Text>
+  <Text>Name: Avani Associates</Text>
+  <Text>Account No: 260602000000441</Text>
+  <Text>IFSC: IOBA0002606</Text>
+</View>
       </Page>
     </Document>
   );

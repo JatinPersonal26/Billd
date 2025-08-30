@@ -306,14 +306,44 @@ export const AshaEnterprisesBill = ({
         </View>
       ))}
 
-      {/* Totals */}
+            {/* Totals */}
       <View style={{ marginTop: 10, alignItems: "flex-end" }}>
         <Text>Total: {bill.total.toFixed(2)}</Text>
         <Text style={{ fontSize: 9, marginTop: 4 }}>
           In Words: {numberToWordsIndian(bill.totalWithGst)} Only
         </Text>
       </View>
-      <View style={styles.terms}>
+
+            {/* Bank Details - Bottom Right */}
+      <View
+        style={{
+          position: "absolute",
+          bottom: 40,
+          right: 35,
+          fontSize: 9,
+          color: "#555",
+          textAlign: "right",
+        }}
+      >
+        <Text style={{ fontWeight: "bold" }}>Bank Details:</Text>
+        <Text>ASHA ENTERPRISES</Text>
+        <Text>INDIAN BANK</Text>
+        <Text>Account No.: 7578884399</Text>
+        <Text>IFSC: IDIB000S298</Text>
+        <Text>Sriharipuram Branch, Visakhapatnam, AP-530011</Text>
+      </View>
+
+      {/* Terms & Conditions - Bottom Left */}
+      <View
+        style={{
+          position: "absolute",
+          bottom: 40,
+          left: 35,
+          fontSize: 9,
+          color: "#555",
+          maxWidth: "50%",
+        }}
+      >
         <Text>Terms & Conditions:</Text>
         <Text>- Validity - 60 days</Text>
         <Text>- Taxes Inclusive</Text>

@@ -1,9 +1,10 @@
+// src/app/templates/pdf/PrakashTemplates.tsx
+
 import React from "react";
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
-import { BillOrQuoteFinalType,isHsnPresent } from "@/lib/BillAndQouteCalculator";
-import { it } from "node:test";
+import { BillOrQuoteFinalType, isHsnPresent } from "@/lib/BillAndQouteCalculator";
 
-// Use built-in Times-Roman font (no registration needed)
+// Styles
 const styles = StyleSheet.create({
   page: {
     fontFamily: "Times-Roman",
@@ -42,10 +43,10 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: "#1E3A8A",
   },
-  table: {
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: "#555",
+  leftDetails: {
+    marginTop: 5,
+    fontSize: 10,
+    textAlign: "left",
   },
   tableRow: {
     flexDirection: "row",
@@ -79,131 +80,137 @@ const styles = StyleSheet.create({
 });
 
 export const PrakashQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
-  console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);
   return (
     <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.companyName}>PRAKASH ENTERPRISES</Text>
-        <Text style={styles.address}>
-          {bill.companyAddress}
-        </Text>
-        <Text style={styles.address}>GSTIN/UNI: 37ALDPC8220A2ZR</Text>
-        <Text style={styles.address}>Contact Ph: 7093229214</Text>
-      </View>
-
-      {/* Right side details */}
-      <View style={styles.rightDetails}>
-        <Text>Quotation No: {bill.quotationNo}</Text>
-        <Text>Date: __________</Text>
-      </View>
-
-      {/* Title */}
-      <Text style={styles.title}>Quotation</Text>
-
-      {/* Table Header */}
-     {/* Table Header */}
-      <View style={[styles.tableRow, styles.tableHeader]}>
-        <Text style={[styles.cell, styles.cell1]}>S.No</Text>
-        <Text style={[styles.cell, styles.cell2]}>Description</Text>
-        <Text style={[styles.cell, styles.cell3]}>Deno</Text>
-        {hsnPresent && <Text style={styles.cell2}>HSN</Text>}
-        <Text style={[styles.cell, styles.cell3]}>Qty</Text>
-        <Text style={[styles.cell, styles.cell4]}>Rate</Text>
-        <Text style={[styles.cell, styles.cell5]}>Total</Text>
-      </View>
-
-      {/* Table Rows */}
-      {bill.items.map((item, idx) => (
-        <View key={idx} style={styles.tableRow}>
-          <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
-          <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
-          <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
-          {hsnPresent && <Text style={styles.cell2}>{item.hsn}</Text>}
-          <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
-          <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
-          <Text style={[styles.cell, styles.cell5]}>{item.total.toFixed(2)}</Text>
+      <Page size="A4" style={styles.page}>
+        {/* Header */}
+        <View style={styles.headerContainer}>
+          <Text style={styles.companyName}>PRAKASH ENTERPRISES</Text>
+          <Text style={styles.address}>{bill.companyAddress}</Text>
+          <Text style={styles.address}>GSTIN/UNI: 37ALDPC8220A2ZR</Text>
+          <Text style={styles.address}>Contact Ph: 7093229214</Text>
         </View>
-      ))}
 
-      {/* Totals */}
-      <View style={styles.totals}>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
+        {/* Right side Quotation No / Date */}
+        <View style={styles.rightDetails}>
+          <Text>Quotation No: {bill.quotationNo}</Text>
+          <Text>Date: __________</Text>
+        </View>
+
+        {/* Title */}
+        <Text style={styles.title}>Quotation</Text>
+
+        {/* Recipient ("To") */}
+        <View style={styles.leftDetails}>
+          <Text style={{ fontWeight: "bold" }}>To:</Text>
+          <Text>{bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
+          <Text>{bill.to.address}</Text>
+        </View>
+
+        {/* Table Header */}
+        <View style={[styles.tableRow, styles.tableHeader]}>
+          <Text style={[styles.cell, styles.cell1]}>S.No</Text>
+          <Text style={[styles.cell, styles.cell2]}>Description</Text>
+          <Text style={[styles.cell, styles.cell3]}>Deno</Text>
+          {hsnPresent && <Text style={[styles.cell, styles.cell2]}>HSN</Text>}
+          <Text style={[styles.cell, styles.cell3]}>Qty</Text>
+          <Text style={[styles.cell, styles.cell4]}>Rate</Text>
+          <Text style={[styles.cell, styles.cell5]}>Total</Text>
+        </View>
+
+        {/* Table Rows */}
+        {bill.items.map((item, idx) => (
+          <View key={idx} style={styles.tableRow}>
+            <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
+            <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
+            <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
+            {hsnPresent && <Text style={[styles.cell, styles.cell2]}>{item.hsn}</Text>}
+            <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
+            <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
+            <Text style={[styles.cell, styles.cell5]}>{item.total.toFixed(2)}</Text>
+          </View>
+        ))}
+
+        {/* Totals */}
+        <View style={styles.totals}>
+          <Text style={{ fontWeight: "bold" }}>Grand Total: {bill.totalWithGst.toFixed(2)}</Text>
+        </View>
+
+        {/* Terms */}
+        <Text style={styles.terms}>
+          Terms & Conditions: Subject to Visakhapatnam jurisdiction only.
         </Text>
-      </View>
-
-      {/* Terms */}
-      <Text style={styles.terms}>
-        Terms & Conditions: Subject to Visakhapatnam jurisdiction only.
-      </Text>
-    </Page>
-  </Document>
-);
+      </Page>
+    </Document>
+  );
 };
+
 export const PrakashBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
-  console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);
   return (
     <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.companyName}>PRAKASH ENTERPRISES</Text>
-        <Text style={styles.address}>
-          {bill.companyAddress}
-        </Text>
-        <Text style={styles.address}>GSTIN/UNI: 37ALDPC8220A2ZR</Text>
-        <Text style={styles.address}>Contact Ph: 7093229214</Text>
-      </View>
-
-      {/* Right side details */}
-      <View style={styles.rightDetails}>
-        <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: __________</Text>
-      </View>
-
-      {/* Title */}
-      <Text style={styles.title}>Bill</Text>
-
-      {/* Table Header */}
-      <View style={[styles.tableRow, styles.tableHeader]}>
-        <Text style={[styles.cell, styles.cell1]}>S.No</Text>
-        <Text style={[styles.cell, styles.cell2]}>Description</Text>
-        <Text style={[styles.cell, styles.cell3]}>Deno</Text>
-        {hsnPresent && <Text style={styles.cell2}>HSN</Text>}
-        <Text style={[styles.cell, styles.cell3]}>Qty</Text>
-        <Text style={[styles.cell, styles.cell4]}>Rate</Text>
-        <Text style={[styles.cell, styles.cell5]}>Total</Text>
-      </View>
-
-      {/* Table Rows */}
-      {bill.items.map((item, idx) => (
-        <View key={idx} style={styles.tableRow}>
-          <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
-          <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
-          <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
-          {hsnPresent && <Text style={styles.cell2}>{item.hsn}</Text>}
-          <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
-          <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
-          <Text style={[styles.cell, styles.cell5]}>{item.total.toFixed(2)}</Text>
+      <Page size="A4" style={styles.page}>
+        {/* Header */}
+        <View style={styles.headerContainer}>
+          <Text style={styles.companyName}>PRAKASH ENTERPRISES</Text>
+          <Text style={styles.address}>{bill.companyAddress}</Text>
+          <Text style={styles.address}>GSTIN/UNI: 37ALDPC8220A2ZR</Text>
+          <Text style={styles.address}>Contact Ph: 7093229214</Text>
         </View>
-      ))}
 
-      {/* Totals */}
-      <View style={styles.totals}>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
+        {/* Right side Bill No / Date */}
+        <View style={styles.rightDetails}>
+          <Text>Bill No: {bill.invoiceNo}</Text>
+          <Text>Date: __________</Text>
+        </View>
+
+        {/* Title */}
+        <Text style={styles.title}>Bill</Text>
+
+        {/* Recipient ("To") */}
+        <View style={styles.leftDetails}>
+          <Text style={{ fontWeight: "bold" }}>To:</Text>
+          <Text>{bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
+          <Text>{bill.to.address}</Text>
+        </View>
+
+        {/* Table Header */}
+        <View style={[styles.tableRow, styles.tableHeader]}>
+          <Text style={[styles.cell, styles.cell1]}>S.No</Text>
+          <Text style={[styles.cell, styles.cell2]}>Description</Text>
+          <Text style={[styles.cell, styles.cell3]}>Deno</Text>
+          {hsnPresent && <Text style={[styles.cell, styles.cell2]}>HSN</Text>}
+          <Text style={[styles.cell, styles.cell3]}>Qty</Text>
+          <Text style={[styles.cell, styles.cell4]}>Rate</Text>
+          <Text style={[styles.cell, styles.cell5]}>Total</Text>
+        </View>
+
+        {/* Table Rows */}
+        {bill.items.map((item, idx) => (
+          <View key={idx} style={styles.tableRow}>
+            <Text style={[styles.cell, styles.cell1]}>{idx + 1}</Text>
+            <Text style={[styles.cell, styles.cell2]}>{item.desc}</Text>
+            <Text style={[styles.cell, styles.cell3]}>{item.deno}</Text>
+            {hsnPresent && <Text style={[styles.cell, styles.cell2]}>{item.hsn}</Text>}
+            <Text style={[styles.cell, styles.cell3]}>{item.qty}</Text>
+            <Text style={[styles.cell, styles.cell4]}>{item.rate.toFixed(2)}</Text>
+            <Text style={[styles.cell, styles.cell5]}>{item.total.toFixed(2)}</Text>
+          </View>
+        ))}
+
+        {/* Totals */}
+        <View style={styles.totals}>
+          <Text style={{ fontWeight: "bold" }}>Grand Total: {bill.totalWithGst.toFixed(2)}</Text>
+        </View>
+
+        {/* Terms */}
+        <Text style={styles.terms}>
+          Terms & Conditions: Subject to Visakhapatnam jurisdiction only.
         </Text>
-      </View>
-
-      {/* Terms */}
-      <Text style={styles.terms}>
-        Terms & Conditions: Subject to Visakhapatnam jurisdiction only.
-      </Text>
-    </Page>
-  </Document>
-);
+      </Page>
+    </Document>
+  );
 };
