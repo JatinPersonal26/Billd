@@ -51,7 +51,14 @@ headerRow: {
   justifyContent: "space-between",
   alignItems: "flex-start",
 },
-
+bankDetails: {
+    position: "absolute",
+    bottom: 40,
+    left: 40,       // Moved to bottom-left
+    fontSize: 9,
+    textAlign: "left",
+    lineHeight: 1.4,
+  },
 sectionRight: {
   marginVertical: 6,
   maxWidth: "40%",       // reduce width so it stays in same line
@@ -309,6 +316,14 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         <View style={styles.signBox}>
           <Text>Authorized Signatory</Text>
           <Text>(Signature with Stamp)</Text>
+        </View>
+
+        <View style={styles.bankDetails}>
+          <Text style={{ fontWeight: "bold" }}>Bank Details:</Text>
+          <Text>Firm Name: Valliant & Co</Text>
+          <Text>Bank Name: Indian Overseas Bank</Text>
+          <Text>Account No. 260602000000367, IFSC: IOBA0002606</Text>
+          <Text>JAGGU JUNCTION Branch, Visakhapatnam, AP-530011</Text>
         </View>
       </Page>
     </Document>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
-import { BillOrQuoteFinalType,isHsnPresent } from "@/lib/BillAndQouteCalculator";
+import { BillOrQuoteFinalType, isHsnPresent } from "@/lib/BillAndQouteCalculator";
 
 const styles = StyleSheet.create({
   page: {
@@ -30,8 +30,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#222",
-    marginVertical: 12,
+    marginVertical: 20, // increased spacing
     textDecoration: "underline",
+  },
+  addressBlock: {
+    marginBottom: 20, // increased spacing
   },
   section: {
     marginBottom: 8,
@@ -61,141 +64,152 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "flex-end",
   },
-  terms: {
-    fontSize: 10,
-    marginTop: 20,
-    borderTopWidth: 1,
-    borderColor: "#ccc",
-    paddingTop: 6,
+  bottomLeft: {
+    position: "absolute",
+    bottom: 40,
+    left: 40,
+    fontSize: 9,
     color: "#555",
+    maxWidth: "50%",
   },
 });
 
 export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
-  console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);
   return (
     <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header Row */}
-      <View style={styles.headerRow}>
-        <Text style={styles.companyName}>TANVI SREE MARINE WORKS</Text>
-        <Text style={styles.dateText}>PAN: ARAPH7877N</Text>
-
-      </View>
-
-      {/* Title */}
-      <Text style={styles.title}>QUOTATION</Text>
-
-      {/* To Section */}
-      <View style={styles.section}>
-        <Text>To: {bill.to.name}</Text>
-        <Text>{bill.to.ship}</Text>
-        <Text>{bill.to.address}</Text>
-        <Text>Date: __________</Text>
-        <Text>Quotation No: {bill.quotationNo}</Text>
-      </View>
-
-      {/* Table */}
-      <View style={styles.tableHeader}>
-        <Text style={styles.colSno}>S.No</Text>
-        <Text style={styles.colDesc}>Description</Text>
-        <Text style={styles.colDeno}>Deno</Text>
-        {hsnPresent && <Text style={styles.colDeno}>HSN</Text>}
-        <Text style={styles.colQty}>Qty</Text>
-        <Text style={styles.colRate}>Rate</Text>
-        <Text style={styles.colTotal}>Total</Text>
-      </View>
-
-      {bill.items.map((item, idx) => (
-        <View style={styles.tableRow} key={idx}>
-          <Text style={styles.colSno}>{idx + 1}</Text>
-          <Text style={styles.colDesc}>{item.desc}</Text>
-          <Text style={styles.colDeno}>{item.deno}</Text>
-           {hsnPresent && <Text style={styles.colDeno}>{item.hsn}</Text>}
-          <Text style={styles.colQty}>{item.qty}</Text>
-          <Text style={styles.colRate}>{item.rate.toLocaleString()}</Text>
-          <Text style={styles.colTotal}>{item.total.toLocaleString()}</Text>
+      <Page size="A4" style={styles.page}>
+        {/* Header Row */}
+        <View style={styles.headerRow}>
+          <View>
+            <Text style={styles.companyName}>TANVI SREE MARINE WORKS</Text>
+            <View style={styles.addressBlock}>
+              <Text>     </Text>
+              <Text>D.No. 14-4-35, 2nd Floor, S1, Ratnam Associates</Text>
+              <Text>Kolagatlvari Street, Vizianagaram - 535002</Text>
+            </View>
+          </View>
+          <Text style={styles.dateText}>PAN: ARAPH7877N</Text>
         </View>
-      ))}
 
-      {/* Totals */}
-      <View style={styles.totals}>
-        <Text>Grand Total: {bill.totalWithGst.toLocaleString()}</Text>
-        <Text>In Words: Rupees Four Lakh Three Thousand Nine Hundred Fifty Eight Only</Text>
-      </View>
+        {/* Title */}
+        <Text style={styles.title}>QUOTATION</Text>
 
-      {/* Terms */}
-      <Text style={styles.terms}>
-        Terms & Conditions:{"\n"}
-        - Validity: 90 Days{"\n"}
-        - Taxes: Inclusive
-      </Text>
-    </Page>
-  </Document>
-);
+        {/* To Section */}
+        <View style={styles.section}>
+          <Text>To: {bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
+          <Text>{bill.to.address}</Text>
+          <Text>Date: __________</Text>
+          <Text>Quotation No: {bill.quotationNo}</Text>
+        </View>
+
+        {/* Table */}
+        <View style={styles.tableHeader}>
+          <Text style={styles.colSno}>S.No</Text>
+          <Text style={styles.colDesc}>Description</Text>
+          <Text style={styles.colDeno}>Deno</Text>
+          {hsnPresent && <Text style={styles.colDeno}>HSN</Text>}
+          <Text style={styles.colQty}>Qty</Text>
+          <Text style={styles.colRate}>Rate</Text>
+          <Text style={styles.colTotal}>Total</Text>
+        </View>
+
+        {bill.items.map((item, idx) => (
+          <View style={styles.tableRow} key={idx}>
+            <Text style={styles.colSno}>{idx + 1}</Text>
+            <Text style={styles.colDesc}>{item.desc}</Text>
+            <Text style={styles.colDeno}>{item.deno}</Text>
+            {hsnPresent && <Text style={styles.colDeno}>{item.hsn}</Text>}
+            <Text style={styles.colQty}>{item.qty}</Text>
+            <Text style={styles.colRate}>{item.rate.toLocaleString()}</Text>
+            <Text style={styles.colTotal}>{item.total.toLocaleString()}</Text>
+          </View>
+        ))}
+
+        {/* Totals */}
+        <View style={styles.totals}>
+          <Text>Grand Total: {bill.totalWithGst.toLocaleString()}</Text>
+          <Text>In Words: Rupees Four Lakh Three Thousand Nine Hundred Fifty Eight Only</Text>
+        </View>
+
+        {/* Bottom Left - Terms */}
+        <View style={styles.bottomLeft}>
+          <Text>Terms & Conditions:</Text>
+          <Text>- Validity: 90 Days</Text>
+          <Text>- Taxes: Inclusive</Text>
+        </View>
+      </Page>
+    </Document>
+  );
 };
+
 export const TanviSerrBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
-  console.log("bill:", bill);
   const hsnPresent = isHsnPresent(bill);
   return (
     <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header Row */}
-      <View style={styles.headerRow}>
-        <Text style={styles.companyName}>TANVI SREE MARINE WORKS</Text>
-        <Text style={styles.dateText}>PAN: ARAPH7877N</Text>
-
-      </View>
-
-      {/* Title */}
-      <Text style={styles.title}>Bill</Text>
-
-      {/* To Section */}
-      <View style={styles.section}>
-        <Text>To: {bill.to.name}</Text>
-        <Text>{bill.to.ship}</Text>
-        <Text>{bill.to.address}</Text>
-        <Text>Date: __________</Text>
-        <Text>Bill No: {bill.invoiceNo}</Text>
-      </View>
-
-      {/* Table */}
-      <View style={styles.tableHeader}>
-        <Text style={styles.colSno}>S.No</Text>
-        <Text style={styles.colDesc}>Description</Text>
-        <Text style={styles.colDeno}>Deno</Text>
-        {hsnPresent && <Text style={styles.colDeno}>HSN</Text>}
-        <Text style={styles.colQty}>Qty</Text>
-        <Text style={styles.colRate}>Rate</Text>
-        <Text style={styles.colTotal}>Total</Text>
-      </View>
-
-      {bill.items.map((item, idx) => (
-        <View style={styles.tableRow} key={idx}>
-          <Text style={styles.colSno}>{idx + 1}</Text>
-          <Text style={styles.colDesc}>{item.desc}</Text>
-          <Text style={styles.colDeno}>{item.deno}</Text>
-           {hsnPresent && <Text style={styles.colDeno}>{item.hsn}</Text>}
-          <Text style={styles.colQty}>{item.qty}</Text>
-          <Text style={styles.colRate}>{item.rate.toLocaleString()}</Text>
-          <Text style={styles.colTotal}>{item.total.toLocaleString()}</Text>
+      <Page size="A4" style={styles.page}>
+        {/* Header Row */}
+        <View style={styles.headerRow}>
+          <View>
+            <Text style={styles.companyName}>TANVI SREE MARINE WORKS</Text>
+            <View style={styles.addressBlock}>
+              <Text>        </Text>
+              <Text>D.No. 14-4-35, 2nd Floor, S1, Ratnam Associates</Text>
+              <Text>Kolagatlvari Street, Vizianagaram - 535002</Text>
+            </View>
+          </View>
+          <Text style={styles.dateText}>PAN: ARAPH7877N</Text>
         </View>
-      ))}
 
-      {/* Totals */}
-      <View style={styles.totals}>
-        <Text>Grand Total: {bill.totalWithGst.toLocaleString()}</Text>
-        <Text>In Words: Rupees Four Lakh Three Thousand Nine Hundred Fifty Eight Only</Text>
-      </View>
+        {/* Title */}
+        <Text style={styles.title}>BILL</Text>
 
-      {/* Terms */}
-      <Text style={styles.terms}>
-        Terms & Conditions:{"\n"}
-        - Validity: 90 Days{"\n"}
-        - Taxes: Inclusive
-      </Text>
-    </Page>
-  </Document>
-);
+        {/* To Section */}
+        <View style={styles.section}>
+          <Text>To: {bill.to.name}</Text>
+          <Text>{bill.to.ship}</Text>
+          <Text>{bill.to.address}</Text>
+          <Text>Date: __________</Text>
+          <Text>Bill No: {bill.invoiceNo}</Text>
+        </View>
+
+        {/* Table */}
+        <View style={styles.tableHeader}>
+          <Text style={styles.colSno}>S.No</Text>
+          <Text style={styles.colDesc}>Description</Text>
+          <Text style={styles.colDeno}>Deno</Text>
+          {hsnPresent && <Text style={styles.colDeno}>HSN</Text>}
+          <Text style={styles.colQty}>Qty</Text>
+          <Text style={styles.colRate}>Rate</Text>
+          <Text style={styles.colTotal}>Total</Text>
+        </View>
+
+        {bill.items.map((item, idx) => (
+          <View style={styles.tableRow} key={idx}>
+            <Text style={styles.colSno}>{idx + 1}</Text>
+            <Text style={styles.colDesc}>{item.desc}</Text>
+            <Text style={styles.colDeno}>{item.deno}</Text>
+            {hsnPresent && <Text style={styles.colDeno}>{item.hsn}</Text>}
+            <Text style={styles.colQty}>{item.qty}</Text>
+            <Text style={styles.colRate}>{item.rate.toLocaleString()}</Text>
+            <Text style={styles.colTotal}>{item.total.toLocaleString()}</Text>
+          </View>
+        ))}
+
+        {/* Totals */}
+        <View style={styles.totals}>
+          <Text>Grand Total: {bill.totalWithGst.toLocaleString()}</Text>
+          <Text>In Words: Rupees Four Lakh Three Thousand Nine Hundred Fifty Eight Only</Text>
+        </View>
+
+        {/* Bottom Left - Terms */}
+        <View style={styles.bottomLeft}>
+          <Text>Terms & Conditions:</Text>
+          <Text>- Validity: 90 Days</Text>
+          <Text>- Taxes: Inclusive</Text>
+        </View>
+      </Page>
+    </Document>
+  );
 };

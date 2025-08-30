@@ -35,6 +35,14 @@ const styles = StyleSheet.create({
     lineHeight: 1.6,
     color: "#000",
   },
+   bankDetails: {
+    position: "absolute",
+    bottom: 40,      
+    right: 40,       
+    fontSize: 10,
+    lineHeight: 1.4,
+    textAlign: "right",
+  },
   companyName: {
     textAlign: "center",
     fontSize: 20,
@@ -200,89 +208,98 @@ export const SRKABill = ({
 }) => {
   const isHsn = isHsnPresent(bill);
   return (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Company Info */}
-      <Text style={styles.companyName}>Shree Radha Krishna Associates</Text>
-      <Text style={styles.companyDetails}>
-        GSTIN: 37CYSPR6107F1ZY | Mobile: {bill.companyPhoneNo}
-      </Text>
-      <Text style={styles.companyDetails}>
-       {bill.companyAddress}
-      </Text>
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {/* Company Info */}
+        <Text style={styles.companyName}>Shree Radha Krishna Associates</Text>
+        <Text style={styles.companyDetails}>
+          GSTIN: 37CYSPR6107F1ZY | Mobile: {bill.companyPhoneNo}
+        </Text>
+        <Text style={styles.companyDetails}>{bill.companyAddress}</Text>
 
-      {/* Quotation Label */}
-      <Text style={styles.quotationHeader}>TAX INVOICE</Text>
+        {/* Invoice Header */}
+        <Text style={styles.quotationHeader}>TAX INVOICE</Text>
 
-      {/* Billed To */}
-     <View style={styles.headerRow}>
-  {/* Left side */}
-  <View style={styles.toBlock}>
-    <Text>To</Text>
-    <Text>{bill.to.name}</Text>
-    <Text>{bill.to.ship}</Text>
-    <Text>{bill.to.address}</Text>
-    <Text>Bill No: {bill.invoiceNo}</Text>
-    <Text>Date: __________</Text>
-  </View>
+        {/* Billed To */}
+        <View style={styles.headerRow}>
+          {/* Left side */}
+          <View style={styles.toBlock}>
+            <Text>To</Text>
+            <Text>{bill.to.name}</Text>
+            <Text>{bill.to.ship}</Text>
+            <Text>{bill.to.address}</Text>
+            <Text>Bill No: {bill.invoiceNo}</Text>
+            <Text>Date: __________</Text>
+          </View>
 
-  {/* Right side */}
-  <View style={styles.rightBlock}>
-      <Text>Order No: {bill.to.OrderNo || "__________"}</Text>
-  <Text>
-    Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
-  </Text>
-  </View>
-</View>
+          {/* Right side */}
+          <View style={styles.rightBlock}>
+            <Text>Order No: {bill.to.OrderNo || "__________"}</Text>
+            <Text>
+              Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
+            </Text>
+          </View>
+        </View>
 
-      {/* Table Header */}
-      <View style={styles.tableHeader}>
-        <Text style={{ ...styles.cell, ...styles.sno }}>S.No</Text>
-        <Text style={{ ...styles.cell, ...styles.desc }}>Description</Text>
-        {isHsn && <Text style={{ ...styles.cell, ...styles.desc }}>HSN</Text>}
-        <Text style={{ ...styles.cell, ...styles.deno }}>Deno</Text>
-        <Text style={{ ...styles.cell, ...styles.qty }}>Qty</Text>
-        <Text style={{ ...styles.cell, ...styles.rate }}>Rate</Text>
-        <Text style={{ ...styles.cell, ...styles.total }}>Total</Text>
-      </View>
+        {/* Table Header */}
+        <View style={styles.tableHeader}>
+          <Text style={{ ...styles.cell, ...styles.sno }}>S.No</Text>
+          <Text style={{ ...styles.cell, ...styles.desc }}>Description</Text>
+          {isHsn && <Text style={{ ...styles.cell, ...styles.desc }}>HSN</Text>}
+          <Text style={{ ...styles.cell, ...styles.deno }}>Deno</Text>
+          <Text style={{ ...styles.cell, ...styles.qty }}>Qty</Text>
+          <Text style={{ ...styles.cell, ...styles.rate }}>Rate</Text>
+          <Text style={{ ...styles.cell, ...styles.total }}>Total</Text>
+        </View>
 
-      {/* Table Rows */}
-      {bill.items.map((item, index) => (
-        <View key={index} style={styles.tableRow}>
-          <Text style={{ ...styles.cell, ...styles.sno }}>{index + 1}</Text>
-          <Text style={{ ...styles.cell, ...styles.desc }}>{item.desc}</Text>
-          {isHsn && <Text style={{ ...styles.cell, ...styles.desc }}>{item.hsn}</Text>}
-          <Text style={{ ...styles.cell, ...styles.deno }}>{item.deno}</Text>
-          <Text style={{ ...styles.cell, ...styles.qty }}>{item.qty}</Text>
-          <Text style={{ ...styles.cell, ...styles.rate }}>
-            {item.rate.toFixed(2)}
+        {/* Table Rows */}
+        {bill.items.map((item, index) => (
+          <View key={index} style={styles.tableRow}>
+            <Text style={{ ...styles.cell, ...styles.sno }}>{index + 1}</Text>
+            <Text style={{ ...styles.cell, ...styles.desc }}>{item.desc}</Text>
+            {isHsn && (
+              <Text style={{ ...styles.cell, ...styles.desc }}>{item.hsn}</Text>
+            )}
+            <Text style={{ ...styles.cell, ...styles.deno }}>{item.deno}</Text>
+            <Text style={{ ...styles.cell, ...styles.qty }}>{item.qty}</Text>
+            <Text style={{ ...styles.cell, ...styles.rate }}>
+              {item.rate.toFixed(2)}
+            </Text>
+            <Text style={{ ...styles.cell, ...styles.total }}>
+              {item.total.toFixed(2)}
+            </Text>
+          </View>
+        ))}
+
+        {/* Totals */}
+        <View style={styles.totalBlock}>
+          <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+          <Text> GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+          <Text style={styles.bold}>
+            Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
           </Text>
-          <Text style={{ ...styles.cell, ...styles.total }}>
-            {item.total.toFixed(2)}
+          <Text>
+            Rupees {numberToWordsIndian(bill.totalWithGst)} Only
           </Text>
         </View>
-      ))}
 
-      {/* Totals */}
-      <View style={styles.totalBlock}>
-        <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-        <Text> GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
-        <Text style={styles.bold}>
-          Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-        <Text>
-          Rupees {numberToWordsIndian(bill.totalWithGst)} Only
-        </Text>
-      </View>
+        {/* Bank Details */}
+        <View style={styles.bankDetails}>
+          <Text style={styles.bold}>Bank Details:</Text>
+          <Text>SHREE RADHA KRISHNA ASSOCIATES</Text>
+          <Text>INDIAN BANK</Text>
+          <Text>Account No. 7011210530, IFSC : IDIB000S298</Text>
+          <Text>Sriharipuram Branch, Visakhapatnam, AP-530011</Text>
+        </View>
 
-          <View style={{ flexGrow: 1 }} />  
-      
-      {/* Closing */}
-      <View style={styles.thankYou}>
-        <Text>Thanking You,</Text>
-        <Text>Yours Faithfully</Text>
-      </View>
-    </Page>
-  </Document>
-);
+        <View style={{ flexGrow: 1 }} />
+
+        {/* Closing */}
+        <View style={styles.thankYou}>
+          <Text>Thanking You,</Text>
+          <Text>Yours Faithfully</Text>
+        </View>
+      </Page>
+    </Document>
+  );
 };
