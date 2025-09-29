@@ -116,7 +116,7 @@ export const AvaniAssociatesQuotation = ({
             <Text>FIS ID - {bill.fis || "236568"}</Text>
             <Text>GSTIN: 37DJEPK7358M1ZI</Text>
             <Text>PAN: DJEPK7358M</Text>
-            <Text>Mob: 9731537511</Text>
+            <Text>Mob: 9631537511</Text>
           </View>
         </View>
 
@@ -163,21 +163,27 @@ export const AvaniAssociatesQuotation = ({
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={styles.totalBlock}>
-          <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-          {bill.isCompanyRegular && (
-            <Text>
-              GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
-            </Text>
-          )}
-          <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Grand Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-          <Text>
-          Rs: {numberToWordsIndian(bill.totalWithGst)} Only
-          </Text>
-        </View>
+{/* Totals */}
+<View style={styles.totalBlock}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text>
+        Rs: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
       </Page>
     </Document>
   );
@@ -206,7 +212,7 @@ export const AvaniAssociatesBill = ({
             <Text>FIS ID - {bill.fis || "236568"}</Text>
             <Text>GSTIN: 37DJEPK7358M1ZI</Text>
             <Text>PAN: DJEPK7358M</Text>
-            <Text>Mob: 9731537511</Text>
+            <Text>Mob: 9631537511</Text>
           </View>
         </View>
 
@@ -258,21 +264,27 @@ export const AvaniAssociatesBill = ({
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={styles.totalBlock}>
-          <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-          {bill.isCompanyRegular && (
-            <Text>
-              GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
-            </Text>
-          )}
-          <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Grand Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-          <Text>
-          Rs: {numberToWordsIndian(bill.totalWithGst)} Only
-          </Text>
-        </View>
+{/* Totals */}
+<View style={styles.totalBlock}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text>
+        Rs: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
         <View
   style={{
     position: "absolute",

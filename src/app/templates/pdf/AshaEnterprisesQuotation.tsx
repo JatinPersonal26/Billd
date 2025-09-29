@@ -200,12 +200,26 @@ export const AshaEnterprisesQuotation = ({
       ))}
 
       {/* Totals */}
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Total: {bill.total.toFixed(2)}</Text>
-        <Text style={{ fontSize: 9, marginTop: 4 }}>
-          In Words: {numberToWordsIndian(bill.totalWithGst)} Only
-        </Text>
-      </View>
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 9, marginTop: 4 }}>
+        In Words: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
       <View style={styles.terms}>
         <Text>Terms & Conditions:</Text>
         <Text>- Validity - 60 days</Text>
@@ -307,12 +321,27 @@ export const AshaEnterprisesBill = ({
       ))}
 
             {/* Totals */}
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text>Total: {bill.total.toFixed(2)}</Text>
-        <Text style={{ fontSize: 9, marginTop: 4 }}>
-          In Words: {numberToWordsIndian(bill.totalWithGst)} Only
-        </Text>
-      </View>
+{/* Totals */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 9, marginTop: 4 }}>
+        In Words: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
             {/* Bank Details - Bottom Right */}
       <View

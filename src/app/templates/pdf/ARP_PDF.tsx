@@ -120,12 +120,19 @@ export const ARPQuotation = ({
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
+{/* Totals / Billing Summary */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  <Text>Total: ₹ {bill.total.toFixed(2)}</Text>
+  {bill.gst > 0 && (
+    <Text>GST ({bill.gst}%): ₹ {bill.gstCharges.toFixed(2)}</Text>
+  )}
+  <Text style={{ fontWeight: "bold", fontSize: 12 }}>
+    Final Amount Payable: ₹ {bill.totalWithGst.toFixed(2)}
+  </Text>
+  <Text>
+    Amount in Words: {numberToWordsIndian(bill.totalWithGst)} Only
+  </Text>
+</View>
 
       {/* Terms */}
       <Text style={styles.terms}>
@@ -193,12 +200,19 @@ export const ARPBill = ({
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
+{/* Totals / Billing Summary */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  <Text>Total: ₹ {bill.total.toFixed(2)}</Text>
+  {bill.gst > 0 && (
+    <Text>GST ({bill.gst}%): ₹ {bill.gstCharges.toFixed(2)}</Text>
+  )}
+  <Text style={{ fontWeight: "bold", fontSize: 12 }}>
+    Final Amount Payable: ₹ {bill.totalWithGst.toFixed(2)}
+  </Text>
+  <Text>
+    Amount in Words: {numberToWordsIndian(bill.totalWithGst)} Only
+  </Text>
+</View>
 
       {/* Terms */}
       <Text style={styles.terms}>

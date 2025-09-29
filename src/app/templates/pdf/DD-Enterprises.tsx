@@ -121,15 +121,34 @@ export const DDEnterprises_PDF = ({
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={styles.totalBlock}>
-        <Text style={[styles.rightText, { fontWeight: 'bold' }]}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-        <Text style={[styles.rightText, styles.italic]}>
-          Rupees {numberToWordsIndian(bill.totalWithGst)} Only
-        </Text>
-      </View>
+{/* Totals */}
+<View style={styles.totalBlock}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={styles.rightText}>
+        Subtotal (Excluding GST): ₹ {bill.total.toFixed(2)}
+      </Text>
+      <Text style={styles.rightText}>
+        GST ({bill.gst}%): ₹ {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 12, marginTop: 4 }]}>
+        Final Payable Amount: ₹ {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={[styles.rightText, styles.italic]}>
+        Amount in Words: Rupees {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 12 }]}>
+        Final Payable Amount (Inclusive of Taxes): ₹ {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={[styles.rightText, styles.italic]}>
+        Amount in Words: Rupees {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
       
     <View style={{ flexGrow: 1 }} />  

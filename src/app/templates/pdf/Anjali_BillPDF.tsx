@@ -125,10 +125,29 @@ export const Anjali_BillPDF = ({
             </View>
           ))}
     
-          <View style={styles.totalBlock}>
-            <Text style={[styles.right, { fontWeight: 'bold' }]}>Grand Total: {bill.totalWithGst.toFixed(2)}</Text>
-            <Text style={styles.right}>In Words: {numberToWordsIndian(bill.totalWithGst)} Only</Text>
-          </View>
+<View style={styles.totalBlock}>
+  <Text style={[styles.right, { fontWeight: 'bold', fontSize: 11 }]}>
+    Billing Summary:
+  </Text>
+
+  <Text style={styles.right}>
+    Total of Items: ₹ {bill.total.toFixed(2)}
+  </Text>
+
+  {bill.gst > 0 && (
+    <Text style={styles.right}>
+      GST ({bill.gst}%): ₹ {bill.gstCharges.toFixed(2)}
+    </Text>
+  )}
+
+  <Text style={[styles.right, { fontWeight: 'bold', fontSize: 12 }]}>
+    Final Amount Payable: ₹ {bill.totalWithGst.toFixed(2)}
+  </Text>
+
+  <Text style={styles.right}>
+    Amount in Words: {numberToWordsIndian(bill.totalWithGst)} Only
+  </Text>
+</View>
      
           <View style={[styles.section, { marginBottom: 20 }]}>
              <Text style={styles.label}>Terms & Conditions:</Text>

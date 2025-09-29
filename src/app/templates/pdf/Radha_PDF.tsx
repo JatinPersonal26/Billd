@@ -130,11 +130,22 @@ export const RadhaEnterprisesBill = ({
         </View>
       ))}
 
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
+{/* Totals */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst > 0 ? (
+    <>
+      <Text>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={{ fontWeight: "bold", marginTop: 2 }}>
+        Total Payable: {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  ) : (
+    <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+      Total Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+    </Text>
+  )}
+</View>
 
       <Text style={styles.terms}>
         Terms & Conditions: Goods once sold will not be taken back. Subject to Visakhapatnam
@@ -196,11 +207,22 @@ export const RadhaEnterprisesQuote = ({
         </View>
       ))}
 
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
+{/* Totals */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst > 0 ? (
+    <>
+      <Text>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={{ fontWeight: "bold", marginTop: 2 }}>
+        Total Payable: {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  ) : (
+    <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+      Total Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+    </Text>
+  )}
+</View>
 
       <Text style={styles.terms}>
         Terms & Conditions: Goods once sold will not be taken back. Subject to Visakhapatnam

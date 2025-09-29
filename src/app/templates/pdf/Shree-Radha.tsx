@@ -178,17 +178,25 @@ export const SRKAQuotation = ({
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={styles.totalBlock}>
-        <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-        <Text> GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
-        <Text style={styles.bold}>
-          Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-        <Text>
-          Rupees {numberToWordsIndian(bill.totalWithGst)} Only
-        </Text>
-      </View>
+{/* Totals */}
+<View style={styles.totalBlock}>
+  {bill.gst === 0 ? (
+    <Text style={styles.bold}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={styles.bold}>
+        Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text>
+        Rupees {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
     <View style={{ flexGrow: 1 }} />  
 
@@ -271,17 +279,25 @@ export const SRKABill = ({
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={styles.totalBlock}>
-          <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-          <Text> GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
-          <Text style={styles.bold}>
-            Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-          <Text>
-            Rupees {numberToWordsIndian(bill.totalWithGst)} Only
-          </Text>
-        </View>
+{/* Totals */}
+<View style={styles.totalBlock}>
+  {bill.gst === 0 ? (
+    <Text style={styles.bold}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={styles.bold}>
+        Grand Round Off Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text>
+        Rupees {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
         {/* Bank Details */}
         <View style={styles.bankDetails}>

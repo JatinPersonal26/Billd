@@ -115,9 +115,22 @@ export const Quotation_DevEnterprises = ({
         </View>
       ))}
 
-      <View style={{ marginTop: 12, textAlign: 'right' }}>
-        <Text style={{ fontSize: 13, fontWeight: 'bold' }}>Total: {bill.totalWithGst.toFixed(2)}</Text>
-      </View>
+{/* Totals */}
+<View style={{ marginTop: 12, textAlign: 'right' }}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={{ textAlign: 'right' }}>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text style={{ textAlign: 'right' }}>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={{ fontSize: 13, fontWeight: 'bold', textAlign: 'right', marginTop: 4 }}>
+        Final Payable Amount: {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  ) : (
+    <Text style={{ fontSize: 13, fontWeight: 'bold', textAlign: 'right' }}>
+      Final Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+    </Text>
+  )}
+</View>
 
         <Text style={styles.terms}>Subject to Visakhapatnam Jurisdiction Only | Goods once sold will not be taken back</Text>
       
