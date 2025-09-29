@@ -11,7 +11,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { BillOrQuoteFinalType, isHsnPresent } from "@/lib/BillAndQouteCalculator";
-
+import { numberToWordsIndian } from '@/lib/amountToWords';
 const logoUrl = "/logos/shank-marine.jpg";
 
 // Register Roboto font
@@ -172,12 +172,27 @@ export const ShankMarineQuotation = ({
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-          <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-            Grand Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-        </View>
+{/* Totals */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 9, marginTop: 4 }}>
+        In Words: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
         {/* Terms & Conditions */}
         <Text style={[styles.footerText, styles.terms]}>
           Terms & Conditions: All services are subject to port regulations.
@@ -233,8 +248,8 @@ export const ShankMarineBill = ({
         <View style={styles.section}>
           <Text style={{ fontWeight: "bold" }}>To:</Text>
           <Text>{bill.to.name}</Text>
-          <Text>{bill.to.address}</Text>
           <Text>{bill.to.ship}</Text>
+          <Text>{bill.to.address}</Text>
         </View>
 
         {/* Table Header */}
@@ -261,12 +276,27 @@ export const ShankMarineBill = ({
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-          <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-            Grand Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-        </View>
+{/* Totals */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontWeight: "bold", fontSize: 13 }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 9, marginTop: 4 }}>
+        In Words: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
         {/* Bank Details One Line Above Terms */}
        <Text style={[styles.footerText, { bottom: 70 }]}>

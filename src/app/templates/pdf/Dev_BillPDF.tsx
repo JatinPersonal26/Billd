@@ -127,10 +127,24 @@ export const Bill_DEV_PDF = ({
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={styles.section}>
-        <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 13 }]}>Total: {bill.totalWithGst.toFixed(2)}</Text>
-      </View>
+{/* Totals */}
+<View style={styles.section}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={[styles.rightText]}>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text style={[styles.rightText]}>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 13, marginTop: 4 }]}>
+        Final Payable Amount: {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={[styles.rightText, { fontWeight: 'bold', fontSize: 13 }]}>
+        Final Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  )}
+</View>
 
       {/* Bank Details */}
       <View style={styles.bankDetails}>

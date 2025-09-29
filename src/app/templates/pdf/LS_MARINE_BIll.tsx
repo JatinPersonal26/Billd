@@ -129,17 +129,24 @@ export const LSMarineQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={styles.totals}>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
-
-      {/* Terms */}
-      <Text style={styles.terms}>
-        Terms & Conditions: Subject to Vishakhapatnam jurisdiction only.
+{/* Totals */}
+<View style={styles.totals}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={{ textAlign: 'right' }}>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text style={{ textAlign: 'right' }}>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={{ fontWeight: 'bold', textAlign: 'right', marginTop: 2 }}>
+        Total Payable Amount: {bill.totalWithGst.toFixed(2)}
       </Text>
+    </>
+  ) : (
+    <>
+      <Text style={{ fontWeight: 'bold', textAlign: 'right' }}>
+        Total Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  )}
+</View>
     </Page>
   </Document>
 );
@@ -196,12 +203,24 @@ export const LSMARINEBIll = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={styles.totals}>
-        <Text style={{ fontWeight: "bold" }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
+{/* Totals */}
+<View style={styles.totals}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={{ textAlign: 'right' }}>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text style={{ textAlign: 'right' }}>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={{ fontWeight: 'bold', textAlign: 'right', marginTop: 2 }}>
+        Total Payable Amount: {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={{ fontWeight: 'bold', textAlign: 'right' }}>
+        Total Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  )}
+</View>
 
       {/* Terms */}
       <Text style={styles.terms}>

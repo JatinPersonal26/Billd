@@ -149,12 +149,24 @@ export const VaishnaviEnterprisesQuotation = ({
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
+{/* Totals */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={{ textAlign: "right" }}>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text style={{ textAlign: "right" }}>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={{ fontWeight: "bold", textAlign: "right", marginTop: 2 }}>
+        Total Payable Amount: {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={{ fontWeight: "bold", textAlign: "right" }}>
+        Total Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  )}
+</View>
 
       <Text style={styles.terms}>
         Thank you for considering Vaishnavi Enterprises. Prices valid for 15 days from the date of quotation.
@@ -220,12 +232,24 @@ export const VaishnaviEnterprisesBill = ({
         </View>
       ))}
 
-      {/* Totals */}
-      <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-        <Text style={{ fontWeight: "bold", fontSize: 13 }}>
-          Grand Total: {bill.totalWithGst.toFixed(2)}
-        </Text>
-      </View>
+{/* Totals */}
+<View style={{ marginTop: 10, alignItems: "flex-end" }}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={{ textAlign: "right" }}>Subtotal (Excl. GST): {bill.total.toFixed(2)}</Text>
+      <Text style={{ textAlign: "right" }}>GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}</Text>
+      <Text style={{ fontWeight: "bold", textAlign: "right", marginTop: 2 }}>
+        Total Payable Amount: {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={{ fontWeight: "bold", textAlign: "right" }}>
+        Total Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+      </Text>
+    </>
+  )}
+</View>
 
       <Text style={styles.terms}>
         Thank you for considering Vaishnavi Enterprises. Prices valid for 15 days from the date of quotation.

@@ -4,6 +4,7 @@ import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { BillOrQuoteFinalType,isHsnPresent } from '@/lib/BillAndQouteCalculator';
 import { it } from 'node:test';
+import { numberToWordsIndian } from '@/lib/amountToWords';
 
 // Watermark style
 const watermarkStyle = {
@@ -151,12 +152,34 @@ export const Bill_DEC_PDF = ({
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={{ marginTop: 10 }}>
-          <Text style={{ textAlign: "right", fontWeight: "bold", fontSize: 12 }}>
-            Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-        </View>
+{/* Totals */}
+<View style={{ marginTop: 10 }}>
+  {bill.gst > 0 ? (
+    <>
+      <Text style={{ textAlign: "right" }}>
+        Subtotal (Excluding GST): {bill.total.toFixed(2)}
+      </Text>
+      <Text style={{ textAlign: "right" }}>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ textAlign: "right", fontWeight: "bold", fontSize: 12, marginTop: 4 }}>
+        Final Payable Amount: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={{ textAlign: "right", fontStyle: "italic" }}>
+        In Words: Rupees {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={{ textAlign: "right", fontWeight: "bold", fontSize: 12 }}>
+        Final Amount (Inclusive of GST): {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text style={{ textAlign: "right", fontStyle: "italic" }}>
+        In Words: Rupees {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
         {/* Terms */}
         <View style={styles.terms}>

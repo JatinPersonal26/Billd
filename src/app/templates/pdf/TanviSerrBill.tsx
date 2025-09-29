@@ -1,7 +1,7 @@
 import React from "react";
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
 import { BillOrQuoteFinalType, isHsnPresent } from "@/lib/BillAndQouteCalculator";
-
+import { numberToWordsIndian } from '@/lib/amountToWords';
 const styles = StyleSheet.create({
   page: {
     fontFamily: "Times-Roman",
@@ -127,11 +127,27 @@ export const TanviSriQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={styles.totals}>
-          <Text>Grand Total: {bill.totalWithGst.toLocaleString()}</Text>
-          <Text>In Words: Rupees Four Lakh Three Thousand Nine Hundred Fifty Eight Only</Text>
-        </View>
+{/* Totals */}
+<View style={styles.totals}>
+  {bill.gst > 0 ? (
+    <>
+      <Text>Subtotal (Excl. GST): {bill.total.toLocaleString()}</Text>
+      <Text>GST ({bill.gst}%): {bill.gstCharges.toLocaleString()}</Text>
+      <Text style={{ fontWeight: "bold", marginTop: 2 }}>
+        Total Payable Amount: {bill.totalWithGst.toLocaleString()}
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={{ fontWeight: "bold" }}>
+        Total Amount (Inclusive of GST): {bill.totalWithGst.toLocaleString()}
+      </Text>
+    </>
+  )}
+  <Text>
+    In Words: {numberToWordsIndian(bill.totalWithGst)} Only
+  </Text>
+</View>
 
         {/* Bottom Left - Terms */}
         <View style={styles.bottomLeft}>
@@ -197,11 +213,27 @@ export const TanviSerrBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={styles.totals}>
-          <Text>Grand Total: {bill.totalWithGst.toLocaleString()}</Text>
-          <Text>In Words: Rupees Four Lakh Three Thousand Nine Hundred Fifty Eight Only</Text>
-        </View>
+{/* Totals */}
+<View style={styles.totals}>
+  {bill.gst > 0 ? (
+    <>
+      <Text>Subtotal (Excl. GST): {bill.total.toLocaleString()}</Text>
+      <Text>GST ({bill.gst}%): {bill.gstCharges.toLocaleString()}</Text>
+      <Text style={{ fontWeight: "bold", marginTop: 2 }}>
+        Total Payable Amount: {bill.totalWithGst.toLocaleString()}
+      </Text>
+    </>
+  ) : (
+    <>
+      <Text style={{ fontWeight: "bold" }}>
+        Total Amount (Inclusive of GST): {bill.totalWithGst.toLocaleString()}
+      </Text>
+    </>
+  )}
+  <Text>
+    In Words: {numberToWordsIndian(bill.totalWithGst)} Only
+  </Text>
+</View>
 
         {/* Bottom Left - Terms */}
         <View style={styles.bottomLeft}>

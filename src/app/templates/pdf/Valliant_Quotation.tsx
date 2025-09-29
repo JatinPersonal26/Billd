@@ -12,7 +12,7 @@ import {
   BillOrQuoteFinalType,
   isHsnPresent,
 } from "@/lib/BillAndQouteCalculator";
-
+import { numberToWordsIndian } from '@/lib/amountToWords';
 // Font registration
 Font.register({
   family: "Roboto",
@@ -189,11 +189,27 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         ))}
 
         {/* Totals */}
-        <View style={[styles.section, { alignItems: "flex-end" }]}>
-          <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-        </View>
+{/* Totals */}
+<View style={[styles.section, { alignItems: "flex-end" }]}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text>
+        Rs: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
         {/* Terms */}
         <View style={styles.terms}>
@@ -296,11 +312,27 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
         ))}
 
         {/* Totals */}
-        <View style={[styles.section, { alignItems: "flex-end" }]}>
-          <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-            Total: {bill.totalWithGst.toFixed(2)}
-          </Text>
-        </View>
+{/* Totals */}
+<View style={[styles.section, { alignItems: "flex-end" }]}>
+  {bill.gst === 0 ? (
+    <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+      Total: {bill.totalWithGst.toFixed(2)}
+    </Text>
+  ) : (
+    <>
+      <Text>Subtotal: {bill.total.toFixed(2)}</Text>
+      <Text>
+        GST ({bill.gst}%): {bill.gstCharges.toFixed(2)}
+      </Text>
+      <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+        Grand Total: {bill.totalWithGst.toFixed(2)}
+      </Text>
+      <Text>
+        Rs: {numberToWordsIndian(bill.totalWithGst)} Only
+      </Text>
+    </>
+  )}
+</View>
 
         {/* Terms */}
         <View style={styles.terms}>

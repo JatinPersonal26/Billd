@@ -18,6 +18,7 @@ export type BillOrQuoteFinalType = {
   companyAddress: string;
   isCompanyRegular: boolean;
   gst: number;
+  isGst: boolean;
   fis: string;
   items: BillItem[];
   total: number;
@@ -55,6 +56,7 @@ export async function CalculateBillOrQuote(
       companyAddress: company.address,
       isCompanyRegular: false,
       gst: bill.gst,
+      isGst: false,
       fis: company.fis,
       items: [],
       total: 0,
@@ -75,9 +77,9 @@ export async function CalculateBillOrQuote(
             Math.random() * (bill.variationMax - bill.variationMin + 1)
           ) + bill.variationMin;
 
-    if (!company.isRegular) {
-      variation += bill.gst;
-    }
+    if (bill.gst == 0) {
+    variation += bill.gst;
+   }
 
     let totalAmountOnBill = 0;
     const finalBillItems: BillItem[] = bill.items.map((item) => {
@@ -98,9 +100,12 @@ export async function CalculateBillOrQuote(
     finalBill.items = finalBillItems;
     finalBill.total = totalAmountOnBill;
     finalBill.isCompanyRegular = company.isRegular;
-    finalBill.gstCharges = company.isRegular
-      ? (totalAmountOnBill * bill.gst) / 100
-      : 0; // this is for composite company i.e gstCharges = 0 explicitly;
+    // finalBill.gstCharges = company.isRegular
+    //   ? (totalAmountOnBill * bill.gst) / 100
+    //   : 0; // this is for composite company i.e gstCharges = 0 explicitly;
+    finalBill.gstCharges = bill.gst == 0
+    ? (totalAmountOnBill * bill.gst) / 100
+    : 0; 
     finalBill.totalWithGst = Math.ceil(finalBill.total + finalBill.gstCharges);
     finalBill.quotationNo = generateQuotationNo(company.abr);
     if (finalBill.isPrimary) {
