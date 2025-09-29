@@ -74,7 +74,7 @@ export async function CalculateBillOrQuote(
       bill.primary === company.fis
         ? 0
         : Math.floor(
-            Math.random() * Math.random() * (bill.variationMax - bill.variationMin + 1)
+            Math.random() * (bill.variationMax - bill.variationMin + 1)
           ) + bill.variationMin;
 
     if (bill.gst == 0) {
