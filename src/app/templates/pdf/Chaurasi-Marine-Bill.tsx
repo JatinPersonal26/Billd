@@ -97,7 +97,7 @@ export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType
         {/* Payment Summary */}
         <View style={styles.summaryBlock}>
           <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-          {bill.gst > 0 && <Text>GST ({bill.gst}%): ₹ {bill.gstCharges.toFixed(2)}</Text>}
+          {bill.gst > 0 && <Text>GST ({bill.gst}%):  {bill.gstCharges.toFixed(2)}</Text>}
           <Text style={{ fontWeight: 'bold', fontSize: 12 }}>
             Final Payable Amount: {bill.totalWithGst.toFixed(2)}
           </Text>
@@ -164,7 +164,7 @@ export const Quote_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalTyp
         {/* Payment Summary */}
         <View style={styles.summaryBlock}>
           <Text>Subtotal: {bill.total.toFixed(2)}</Text>
-          {bill.gst > 0 && <Text>GST ({bill.gst}%): ₹ {bill.gstCharges.toFixed(2)}</Text>}
+          {bill.gst > 0 && <Text>GST ({bill.gst}%):  {bill.gstCharges.toFixed(2)}</Text>}
           <Text style={{ fontWeight: 'bold', fontSize: 12 }}>
             Final Payable Amount: {bill.totalWithGst.toFixed(2)}
           </Text>
