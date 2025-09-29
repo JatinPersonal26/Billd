@@ -106,7 +106,7 @@ export async function CalculateBillOrQuote(
     finalBill.gstCharges = bill.gst > 0
     ? (totalAmountOnBill * bill.gst) / 100
     : 0; 
-    finalBill.totalWithGst = Math.ceil(finalBill.total + finalBill.gstCharges);
+    finalBill.totalWithGst = Math.round(finalBill.total + finalBill.gstCharges);
     finalBill.quotationNo = generateQuotationNo(company.abr);
     if (finalBill.isPrimary) {
       const clonedBill = { ...finalBill };
