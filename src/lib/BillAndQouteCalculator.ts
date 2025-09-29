@@ -103,7 +103,7 @@ export async function CalculateBillOrQuote(
     // finalBill.gstCharges = company.isRegular
     //   ? (totalAmountOnBill * bill.gst) / 100
     //   : 0; // this is for composite company i.e gstCharges = 0 explicitly;
-    finalBill.gstCharges = bill.gst == 0
+    finalBill.gstCharges = bill.gst > 0
     ? (totalAmountOnBill * bill.gst) / 100
     : 0; 
     finalBill.totalWithGst = Math.ceil(finalBill.total + finalBill.gstCharges);
