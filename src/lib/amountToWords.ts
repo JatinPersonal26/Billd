@@ -13,33 +13,34 @@ export function numberToWordsIndian(num: number): string {
   ];
 
   if ((num = Math.floor(num)) === 0) return 'Zero';
-  if (num > 999999999) return 'Overflow';
 
-  const getTwoDigitWord = (n: number): string => {
-    if (n === 0) return '';
-    if (n < 20) return a[n];
-    return `${b[Math.floor(n / 10)]} ${a[n % 10]}`.trim();
+  if (num.toString().length > 9) return 'Overflow';
+
+  const n = ('000000000' + num)
+    .slice(-9)
+    .match(/^(\d{2})(\d{2})(\d{2})(\d{3})$/);
+
+  if (!n) return '';
+
+  const getTwoDigitWord = (str: string) => {
+    const number = parseInt(str, 10);
+    if (number === 0) return '';
+    if (number < 20) return a[number];
+    const tens = parseInt(str[0], 10);
+    const units = parseInt(str[1], 10);
+    return `${b[tens]} ${a[units]}`.trim();
   };
 
-  let result = '';
+  const str = [
+    getTwoDigitWord(n[1]) && `${getTwoDigitWord(n[1])} Crore`,
+    getTwoDigitWord(n[2]) && `${getTwoDigitWord(n[2])} Lakh`,
+    getTwoDigitWord(n[3]) && `${getTwoDigitWord(n[3])} Thousand`,
+    getTwoDigitWord(n[4]) && `${getTwoDigitWord(n[4])}`,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 
-  const crore = Math.floor(num / 10000000);
-  num %= 10000000;
-
-  const lakh = Math.floor(num / 100000);
-  num %= 100000;
-
-  const thousand = Math.floor(num / 1000);
-  num %= 1000;
-
-  const hundred = Math.floor(num / 100);
-  const remainder = num % 100;
-
-  if (crore) result += `${getTwoDigitWord(crore)} Crore `;
-  if (lakh) result += `${getTwoDigitWord(lakh)} Lakh `;
-  if (thousand) result += `${getTwoDigitWord(thousand)} Thousand `;
-  if (hundred) result += `${a[hundred]} Hundred `;
-  if (remainder) result += `${getTwoDigitWord(remainder)} `;
-
-  return result.trim();
+  return str ;
 }
