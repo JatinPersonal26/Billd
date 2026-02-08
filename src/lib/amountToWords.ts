@@ -42,5 +42,4 @@ export function numberToWordsIndian(num: number): string {
   if (remainder) result += `${getTwoDigitWord(remainder)} `;
 
   return result.trim();
-  
 }
