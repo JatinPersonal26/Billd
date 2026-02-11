@@ -27,7 +27,6 @@ export type BillOrQuoteFinalType = {
   isPrimary: boolean;
   invoiceNo?: string;
   quotationNo: string;
-  date: string;
   to: {
     name: string;
     ship: string;
@@ -66,7 +65,6 @@ export async function CalculateBillOrQuote(
       isPrimary: bill.primary === company.fis,
       invoiceNo: bill.to.InvoiceNo || await generateInvoiceNo(company.abr,isPreview),
       quotationNo: "",
-      date: new Date().toISOString().split("T")[0],
       to: bill.to,
       type: Template_Types.Quote,
     };
