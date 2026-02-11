@@ -93,7 +93,7 @@ export const Bill_DEV_PDF = ({
       {/* Invoice Info */}
       <View style={[styles.section, styles.row]}>
         <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: __________</Text>
+        <Text>Date: {bill.to.Date || "__________"}</Text>
       </View>
 
       {/* Customer Info */}

@@ -146,7 +146,7 @@ export const SRKAQuotation = ({
     <Text>{bill.to.name}</Text>
     <Text>{bill.to.ship}</Text>
     <Text>{bill.to.address}</Text>
-    <Text>Date: __________</Text>
+    <Text>Date: {bill.to.Date || "__________"}</Text>
     </View>
     </View>
 
@@ -237,7 +237,7 @@ export const SRKABill = ({
             <Text>{bill.to.ship}</Text>
             <Text>{bill.to.address}</Text>
             <Text>Bill No: {bill.invoiceNo}</Text>
-            <Text>Date: __________</Text>
+            <Text>Date: {bill.to.Date || "__________"}</Text>
           </View>
 
           {/* Right side */}

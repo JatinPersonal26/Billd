@@ -92,7 +92,7 @@ export const ARPQuotation = ({
         <Text>To: {bill.to.name}</Text>
         <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
-        <Text>Date: __________</Text>
+        <Text>Date: {bill.to.Date || "__________"}</Text>
         <Text>Quotation No: {bill.quotationNo}</Text>
       </View>
 
@@ -172,7 +172,7 @@ export const ARPBill = ({
         <Text>To: {bill.to.name}</Text>
         <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
-        <Text>Date: __________</Text>
+        <Text>Date: {bill.to.Date || "__________"}</Text>
         <Text>Bill No: {bill.quotationNo}</Text>
       </View>
 

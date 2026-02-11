@@ -71,7 +71,7 @@ export const SheetalTradersBill = ({
       {/* Bill Info */}
       <View style={styles.row}>
         <Text>Bill No: {bill.invoiceNo}</Text>
-        <Text>Date: __________</Text>
+       <Text>Date: {bill.to.Date || "__________"}</Text>
       </View>
 
       {/* Billed To */}
@@ -149,7 +149,7 @@ export const SheetalTradersQuote = ({
       {/* Bill Info */}
       <View style={styles.row}>
         <Text>Quote No: {bill.quotationNo}</Text>
-        <Text>Date: __________</Text>
+        <Text>Date: {bill.to.Date || "__________"}</Text>
       </View>
 
       {/* Billed To */}
