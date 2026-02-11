@@ -150,7 +150,7 @@ export const ValliantQuotation = ({ bill }: { bill: BillOrQuoteFinalType }) => {
             <Text style={styles.label}>Quotation No: {bill.quotationNo}</Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Date: {bill.to.Date || "__________"}</Text>
+            <Text style={styles.label}>Date: __________</Text>
             <Text></Text>
           </View>
           <View style={styles.detailRow}>
@@ -261,7 +261,7 @@ export const ValliantBill = ({ bill }: { bill: BillOrQuoteFinalType }) => {
       <Text style={styles.label}>Bill No: {bill.invoiceNo}</Text>
     </View>
     <View style={styles.detailRow}>
-      <Text style={styles.label}>Date: {bill.to.Date || "__________"}</Text>
+      <Text style={styles.label}>Date: __________</Text>
     </View>
     <View style={styles.detailRow}>
       <Text style={styles.label}>Valid Until:</Text>

@@ -130,7 +130,7 @@ export const AvaniAssociatesQuotation = ({
           <Text>Quotation No: {bill.quotationNo}</Text>
         </View>
         <View style={styles.row}>
-          <Text>Date: {bill.to.Date || "__________"}</Text>
+          <Text>Date: __________</Text>
         </View>
         <View style={{ marginVertical: 5 }}>
           <Text style={{ fontWeight: "bold" }}>To:</Text>
@@ -228,7 +228,7 @@ export const AvaniAssociatesBill = ({
 </View>
 
 <View style={styles.row}>
-  <Text>Date: {bill.to.Date || "__________"}</Text>
+  <Text>Date: __________</Text>
   <Text>
     Dated To: {bill.to.Dated ? bill.to.Dated : "__________"}
   </Text>

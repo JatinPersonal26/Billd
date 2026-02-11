@@ -137,7 +137,7 @@ export const ShankMarineQuotation = ({
         {/* Quotation Details */}
         <View style={styles.section}>
           <Text>Quotation No: {bill.quotationNo}</Text>
-          <Text>Date: {bill.to.Date || "__________"}</Text>
+          <Text>Date: __________</Text>
         </View>
 
         {/* Recipient */}
@@ -236,7 +236,7 @@ export const ShankMarineBill = ({
         <View style={styles.headerRow1}>
           <View style={styles.section}>
             <Text>Bill No: {bill.invoiceNo}</Text>
-            <Text>Date: {bill.to.Date || "__________"}</Text>
+            <Text>Date: __________</Text>
           </View>
           <View style={styles.sectionRight}>
             <Text>Order No: {bill.to.OrderNo || "__________"}</Text>

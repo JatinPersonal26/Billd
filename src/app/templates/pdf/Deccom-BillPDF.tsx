@@ -110,7 +110,7 @@ export const Bill_DEC_PDF = ({
               <Text style={styles.label}>Bill No:</Text> {bill.invoiceNo}
             </Text>
             <Text>
-              <Text style={styles.label}>Date: {bill.to.Date || "__________"}</Text>
+              <Text style={styles.label}>Date: __________</Text>
             </Text>
           </View>
           <View style={styles.row}>

@@ -172,7 +172,7 @@ export const AshaEnterprisesQuotation = ({
         <Text>{bill.to.ship}</Text>
         <Text>{bill.to.address}</Text>
         <Text>Quotation No: {bill.quotationNo}</Text>
-        <Text style={{ marginTop: 6 }}>Date: {bill.to.Date || "__________"}</Text>
+        <Text style={{ marginTop: 6 }}>Date: __________</Text>
       </View>
 
       {/* Table Header */}
@@ -283,7 +283,7 @@ export const AshaEnterprisesBill = ({
     <Text>{bill.to.ship}</Text>
     <Text>{bill.to.address}</Text>
     <Text>Invoice No. {bill.invoiceNo}</Text>
-    <Text style={{ marginTop: 6 }}>Date: {bill.to.Date || "__________"}</Text>
+    <Text style={{ marginTop: 6 }}>Date: __________</Text>
 
   </View>
 
