@@ -97,7 +97,7 @@ export const RadhaEnterprisesBill = ({
 
       <View style={styles.topRow}>
         <Text></Text>
-        <Text>Date: __________</Text>
+        <Text>Date: {bill.to.Date || "__________"}</Text>
       </View>
 
       <View style={styles.section}>
@@ -175,7 +175,7 @@ export const RadhaEnterprisesQuote = ({
 
       <View style={styles.topRow}>
         <Text></Text>
-        <Text>Date: __________</Text>
+        <Text>Date: {bill.to.Date || "__________"}</Text>
       </View>
 
       <View style={styles.section}>
