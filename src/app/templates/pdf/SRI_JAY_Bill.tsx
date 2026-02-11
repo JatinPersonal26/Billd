@@ -72,14 +72,22 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderBottomWidth: 0.5,
     borderBottomColor: "#CCC",
+    alignItems: "flex-start",
   },
 
   col1: { flex: 0.6 },
-  col2: { flex: 3 },
+ col2: {
+  flex: 3,
+  paddingRight: 6,
+  flexWrap: "wrap",
+},
   col3: { flex: 1 },
   col4: { flex: 1 },
   col5: { flex: 1.2 },
-
+colDeno: {        // NEW smaller column
+  flex: 1,
+  paddingRight: 4,
+},
   totals: {
     marginTop: 15,
     alignItems: "flex-end",
@@ -139,6 +147,7 @@ export const SriJayEnterprisesBill = ({
         <View style={styles.tableHeader}>
           <Text style={styles.col1}>#</Text>
           <Text style={styles.col2}>Description</Text>
+          <Text style={styles.colDeno}>Deno</Text>
           <Text style={styles.col3}>Qty</Text>
           {isHsn && <Text style={styles.col3}>HSN</Text>}
           <Text style={styles.col4}>Rate</Text>
@@ -149,6 +158,7 @@ export const SriJayEnterprisesBill = ({
           <View key={index} style={styles.tableRow}>
             <Text style={styles.col1}>{index + 1}</Text>
             <Text style={styles.col2}>{item.desc}</Text>
+            <Text style={styles.colDeno}>{item.deno}</Text>
             <Text style={styles.col3}>{item.qty}</Text>
             {isHsn && <Text style={styles.col3}>{item.hsn}</Text>}
             <Text style={styles.col4}>{item.rate.toFixed(2)}</Text>

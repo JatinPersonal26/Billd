@@ -96,11 +96,23 @@ const styles = StyleSheet.create({
     borderBottomColor: "#DDD",
   },
 
-  col1: { flex: 0.6 },
-  col2: { flex: 3 },
-  col3: { flex: 1 },
-  col4: { flex: 1 },
-  col5: { flex: 1.2 },
+ col1: { flex: 0.6 },
+
+    colDesc: {
+    flex: 4,
+    paddingRight: 6,
+    flexWrap: "wrap",
+    },
+
+    colDeno: {
+    flex: 1,
+    textAlign: "center",
+    },
+
+    colQty: { flex: 1, textAlign: "right" },
+    colHsn: { flex: 1, textAlign: "center" },
+    colRate: { flex: 1, textAlign: "right" },
+    colAmount: { flex: 1.2, textAlign: "right" },
 
   totals: {
     marginTop: 12,
@@ -159,26 +171,38 @@ export const SriJayEnterprisesQuotation = ({
         </View>
 
         {/* Table Header */}
-        <View style={styles.tableHeader}>
-          <Text style={styles.col1}>#</Text>
-          <Text style={styles.col2}>Description</Text>
-          <Text style={styles.col3}>Qty</Text>
-          {isHsn && <Text style={styles.col3}>HSN</Text>}
-          <Text style={styles.col4}>Rate</Text>
-          <Text style={styles.col5}>Amount</Text>
+       <View style={styles.tableHeader}>
+        <Text style={styles.col1}>#</Text>
+        <Text style={styles.colDesc}>Description</Text>
+        <Text style={styles.colDeno}>Deno</Text>
+        <Text style={styles.colQty}>Qty</Text>
+        {isHsn && <Text style={styles.colHsn}>HSN</Text>}
+        <Text style={styles.colRate}>Rate</Text>
+        <Text style={styles.colAmount}>Amount</Text>
         </View>
 
         {/* Items */}
         {bill.items.map((item, index) => (
-          <View key={index} style={styles.tableRow}>
-            <Text style={styles.col1}>{index + 1}</Text>
-            <Text style={styles.col2}>{item.desc}</Text>
-            <Text style={styles.col3}>{item.qty}</Text>
-            {isHsn && <Text style={styles.col3}>{item.hsn}</Text>}
-            <Text style={styles.col4}>{item.rate.toFixed(2)}</Text>
-            <Text style={styles.col5}>{item.total.toFixed(2)}</Text>
-          </View>
-        ))}
+  <View
+    key={index}
+    style={{
+      flexDirection: "row",
+      paddingVertical: 6,
+      paddingHorizontal: 3,
+      borderBottomWidth: 0.5,
+      borderBottomColor: "#DDD",
+      alignItems: "flex-start",
+    }}
+  >
+    <Text style={styles.col1}>{index + 1}</Text>
+    <Text style={styles.colDesc}>{item.desc}</Text>
+    <Text style={styles.colDeno}>{item.deno}</Text>
+    <Text style={styles.colQty}>{item.qty}</Text>
+    {isHsn && <Text style={styles.colHsn}>{item.hsn}</Text>}
+    <Text style={styles.colRate}>{item.rate.toFixed(2)}</Text>
+    <Text style={styles.colAmount}>{item.total.toFixed(2)}</Text>
+  </View>
+))}
 
         {/* Totals */}
         <View style={styles.totals}>
