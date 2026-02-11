@@ -29,6 +29,8 @@ import { VaishnaviEnterprisesBill } from "@/app/templates/pdf/Vaishnavi_PDF";
 import { SheetalTradersBill } from "@/app/templates/pdf/SheetalTradersBill";
 import { SheetalTradersQuote } from "@/app/templates/pdf/SheetalTradersBill";
 import {ARPBill, ARPQuotation} from "@/app/templates/pdf/ARP_PDF"
+import{SriJayEnterprisesBill} from "@/app/templates/pdf/SRI_JAY_Bill"
+import{SriJayEnterprisesQuotation} from "@/app/templates/pdf/SRI_JAY_Quotation"
 import {TanviSriQuotation} from "@/app/templates/pdf/TanviSerrBill"
 import {TanviSerrBill} from "@/app/templates/pdf/TanviSerrBill"
 import {PrakashBill, PrakashQuotation} from "@/app/templates/pdf/Prakash_BIll"
@@ -209,7 +211,11 @@ const TemplateMap: Record<
     [Template_Types.Bill]:  LSMARINEBIll,
     [Template_Types.Quote]: LSMarineQuotation,
   },
-  
+  "99807":{
+    [Template_Types.Bill]:  SriJayEnterprisesBill,
+    [Template_Types.Quote]: SriJayEnterprisesQuotation,
+  }
+
 };
 
 

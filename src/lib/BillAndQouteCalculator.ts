@@ -34,6 +34,7 @@ export type BillOrQuoteFinalType = {
     address: string;
     OrderNo?: string;
     Dated?: string;
+    Date?: string;
   };
   type: Template_Types;
 };
@@ -154,10 +155,13 @@ export async function generateInvoiceNo(
 }
 export function generateQuotationNo(prefix: string = "INV"): string {
   const now = new Date();
-  const currentYear = now.getFullYear();
-  const nextYear = currentYear + 1;
+  const year = now.getFullYear();
+  const currentYear = year -1;
+  const nextYear = year;
+  const currentYearShort = currentYear.toString().slice(-2);
+  const nextYearShort = nextYear.toString().slice(-2);
   const randomPart = Math.floor(1000 + Math.random() * 9000);
-  return `${prefix}-${randomPart}-${currentYear}-${nextYear}`;
+  return `${prefix}-${randomPart}-${currentYearShort}-${nextYearShort}`;
 }
 
 export const isHsnPresent = (bill: BillOrQuoteFinalType) => {
