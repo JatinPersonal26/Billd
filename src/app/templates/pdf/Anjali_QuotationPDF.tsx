@@ -100,7 +100,7 @@ export const Anjali_QuotationPDF = ({
         {bill.to.ship && <Text>{bill.to.ship}</Text>}
         <Text>{bill.to.address}</Text>
         <Text>Quotation No: {bill.quotationNo}</Text>
-        <Text>Date: __________</Text>
+        <Text>Date: {bill.to.Date || "__________"}</Text>
       </View>
 
       <View style={styles.tableHeader}>

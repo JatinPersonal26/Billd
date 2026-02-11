@@ -109,7 +109,7 @@ export const Quotation_DEC_PDF = ({
               <Text style={styles.label}>Quotation No:</Text> {bill.quotationNo}
             </Text>
             <Text>
-              <Text style={styles.label}>Date: __________</Text>
+              <Text style={styles.label}>Date: {bill.to.Date || "__________"}</Text>
             </Text>
           </View>
           <View style={styles.row}>

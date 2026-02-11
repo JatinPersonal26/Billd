@@ -103,7 +103,8 @@ export default function Home() {
         ship: "",
         OrderNo: "",
         InvoiceNo: "",
-       Dated: undefined, 
+        Dated: undefined, 
+        Date: undefined,
       },
     },
   });
@@ -439,23 +440,41 @@ export default function Home() {
                     )}
                   />
                  <FormField
-  control={control}
-  name="to.Dated"
-  rules={{ required: false }} // optional
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Dated</FormLabel>
-      <Input
-        type="date"
-        // If no date, let it stay undefined so input shows blank
-        value={field.value ?? ""}
-        onChange={(e) =>
-          field.onChange(e.target.value === "" ? undefined : e.target.value)
-        }
-      />
-    </FormItem>
-  )}
-/>
+                      control={control}
+                      name="to.Dated"
+                      rules={{ required: false }} // optional
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Dated To</FormLabel>
+                          <Input
+                            type="date"
+                            // If no date, let it stay undefined so input shows blank
+                            value={field.value ?? ""}
+                            onChange={(e) =>
+                              field.onChange(e.target.value === "" ? undefined : e.target.value)
+                            }
+                          />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={control}
+                      name="to.Date"
+                      rules={{ required: false }} // optional
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Date</FormLabel>
+                          <Input
+                            type="date"
+                            // If no date, let it stay undefined so input shows blank
+                            value={field.value ?? ""}
+                            onChange={(e) =>
+                              field.onChange(e.target.value === "" ? undefined : e.target.value)
+                            }
+                          />
+                        </FormItem>
+                      )}
+                    />
                   <FormField
                     control={control}
                     name="to.InvoiceNo"

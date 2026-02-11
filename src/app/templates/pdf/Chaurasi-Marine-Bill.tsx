@@ -61,7 +61,7 @@ export const Bill_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalType
           </View>
           <View>
             <Text>Phone: 8052421836</Text>
-            <Text>Date: __________</Text>
+            <Text>Date: {bill.to.Date || "__________"}</Text>
           </View>
         </View>
 
@@ -128,7 +128,7 @@ export const Quote_CHAURASIA_MARINE_PDF = ({ bill }: { bill: BillOrQuoteFinalTyp
           </View>
           <View>
             <Text>GSTIN: 37CFVPC9122D1ZC</Text>
-            <Text>Date: __________</Text>
+            <Text>Date: {bill.to.Date || "__________"}</Text>
           </View>
         </View>
 
