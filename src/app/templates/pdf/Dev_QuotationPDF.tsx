@@ -79,7 +79,7 @@ export const Quotation_DevEnterprises = ({
       <View style={styles.section}>
         <View style={styles.row}>
           <Text>Phone: {bill.companyPhoneNo}</Text>
-          <Text>Date: {bill.to.Date || "__________"}</Text>
+          <Text>Date: __________</Text>
         </View>
         <View style={styles.row}>
           <Text>GSTIN: 37BSVPP0063Q1Z5</Text>

@@ -27,13 +27,13 @@ export type BillOrQuoteFinalType = {
   isPrimary: boolean;
   invoiceNo?: string;
   quotationNo: string;
+  date: string;
   to: {
     name: string;
     ship: string;
     address: string;
     OrderNo?: string;
     Dated?: string;
-    Date?: string;
   };
   type: Template_Types;
 };
@@ -65,6 +65,7 @@ export async function CalculateBillOrQuote(
       isPrimary: bill.primary === company.fis,
       invoiceNo: bill.to.InvoiceNo || await generateInvoiceNo(company.abr,isPreview),
       quotationNo: "",
+      date: new Date().toISOString().split("T")[0],
       to: bill.to,
       type: Template_Types.Quote,
     };
@@ -153,13 +154,10 @@ export async function generateInvoiceNo(
 }
 export function generateQuotationNo(prefix: string = "INV"): string {
   const now = new Date();
-  const year = now.getFullYear();
-  const currentYear = year -1;
-  const nextYear = year;
-  const currentYearShort = currentYear.toString().slice(-2);
-  const nextYearShort = nextYear.toString().slice(-2);
+  const currentYear = now.getFullYear();
+  const nextYear = currentYear + 1;
   const randomPart = Math.floor(1000 + Math.random() * 9000);
-  return `${prefix}-${randomPart}-${currentYearShort}-${nextYearShort}`;
+  return `${prefix}-${randomPart}-${currentYear}-${nextYear}`;
 }
 
 export const isHsnPresent = (bill: BillOrQuoteFinalType) => {
