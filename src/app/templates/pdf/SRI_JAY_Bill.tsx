@@ -32,31 +32,62 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+
   watermark: {
-  position: "absolute",
-  top: "45%",
-  left: 0,
-  right: 0,
-  textAlign: "center",
-  fontSize: 65,
-  fontWeight: "bold",
-  color: "#0F766E",
-  opacity: 0.06,
-  transform: "rotate(-30deg)",
-},
+    position: "absolute",
+    top: "45%",
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    fontSize: 65,
+    fontWeight: "bold",
+    color: "#0F766E",
+    opacity: 0.06,
+    transform: "rotate(-30deg)",
+  },
 
   title: {
     textAlign: "center",
     fontSize: 14,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 12,
   },
 
-  row: {
+  /* -------- Formatted Info Section -------- */
+
+  infoContainer: {
+    marginBottom: 12,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: "#DDD",
+  },
+
+  infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 8,
+    marginBottom: 4,
   },
+
+  infoBlock: {
+    width: "48%",
+    flexDirection: "row",
+  },
+
+  infoLabel: {
+    fontWeight: "bold",
+    width: 85,
+  },
+
+  /* -------- Bill To -------- */
+
+  billToSection: {
+    marginBottom: 12,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: "#DDD",
+  },
+
+  /* -------- Table -------- */
 
   tableHeader: {
     flexDirection: "row",
@@ -76,22 +107,45 @@ const styles = StyleSheet.create({
   },
 
   col1: { flex: 0.6 },
- col2: {
-  flex: 3,
-  paddingRight: 6,
-  flexWrap: "wrap",
-},
+
+  col2: {
+    flex: 3,
+    paddingRight: 6,
+    flexWrap: "wrap",
+  },
+
+  colDeno: {
+    flex: 1,
+    paddingRight: 4,
+  },
+
   col3: { flex: 1 },
   col4: { flex: 1 },
   col5: { flex: 1.2 },
-colDeno: {        // NEW smaller column
-  flex: 1,
-  paddingRight: 4,
-},
+
+  /* -------- Totals -------- */
+
   totals: {
     marginTop: 15,
     alignItems: "flex-end",
   },
+
+  /* -------- Bank -------- */
+
+  bankSection: {
+    marginTop: 25,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#999",
+    fontSize: 9,
+  },
+
+  bankTitle: {
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+
+  /* -------- Signature -------- */
 
   signature: {
     marginTop: 40,
@@ -109,41 +163,60 @@ export const SriJayEnterprisesBill = ({
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={styles.watermark}>
-                TAX INVOICE
-                </Text>
-        {/* Dark Header */}
+        <Text style={styles.watermark}>TAX INVOICE</Text>
+
+        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.companyName}>SRI JAY ENTERPRISES</Text>
-          <Text>
-            60-32-96/1, Sriharipuram, Janatha Colony
-          </Text>
-          <Text>
-            Visakhapatnam, Andhra Pradesh - 530011
-          </Text>
-          <Text>
-            GST No: 37BSVPP0063Q2ZR
-          </Text>
-          <Text>
-            Contact: {bill.companyPhoneNo}
-          </Text>
+          <Text>60-32-96/1, Sriharipuram, Janatha Colony</Text>
+          <Text>Visakhapatnam, Andhra Pradesh - 530011</Text>
+          <Text>GST No: 37BSVPP0063Q2ZR</Text>
+          <Text>Contact: {bill.companyPhoneNo}</Text>
+          <Text>FIS: 251001</Text>
         </View>
 
         <Text style={styles.title}>TAX INVOICE</Text>
 
-        <View style={styles.row}>
-          <Text>Invoice No: {bill.invoiceNo}</Text>
-          <Text>Date: {bill.to.Date || "__________"}</Text>
+        {/* -------- Properly Formatted Info -------- */}
+        <View style={styles.infoContainer}>
+
+          <View style={styles.infoRow}>
+            <View style={styles.infoBlock}>
+              <Text style={styles.infoLabel}>Invoice No:</Text>
+              <Text>{bill.invoiceNo}</Text>
+            </View>
+
+            <View style={styles.infoBlock}>
+              <Text style={styles.infoLabel}>Date:</Text>
+              <Text>{bill.to.Date || "__________"}</Text>
+            </View>
+          </View>
+
+          <View style={styles.infoRow}>
+            <View style={styles.infoBlock}>
+              <Text style={styles.infoLabel}>Order No:</Text>
+              <Text>{bill.to.OrderNo || "__________"}</Text>
+            </View>
+
+            <View style={styles.infoBlock}>
+              <Text style={styles.infoLabel}>Dated To:</Text>
+              <Text>{bill.to.Dated || "__________"}</Text>
+            </View>
+          </View>
+
         </View>
 
-        <View style={{ marginBottom: 10 }}>
-          <Text style={{ fontWeight: "bold" }}>Bill To:</Text>
+        {/* -------- Bill To -------- */}
+        <View style={styles.billToSection}>
+          <Text style={{ fontWeight: "bold", marginBottom: 4 }}>
+            Bill To:
+          </Text>
           <Text>{bill.to.name}</Text>
           <Text>{bill.to.ship}</Text>
           <Text>{bill.to.address}</Text>
         </View>
 
-        {/* Table */}
+        {/* -------- Table Header -------- */}
         <View style={styles.tableHeader}>
           <Text style={styles.col1}>#</Text>
           <Text style={styles.col2}>Description</Text>
@@ -154,6 +227,7 @@ export const SriJayEnterprisesBill = ({
           <Text style={styles.col5}>Amount</Text>
         </View>
 
+        {/* -------- Items -------- */}
         {bill.items.map((item, index) => (
           <View key={index} style={styles.tableRow}>
             <Text style={styles.col1}>{index + 1}</Text>
@@ -166,7 +240,7 @@ export const SriJayEnterprisesBill = ({
           </View>
         ))}
 
-        {/* Totals */}
+        {/* -------- Totals -------- */}
         <View style={styles.totals}>
           {bill.gst !== 0 && (
             <>
@@ -184,8 +258,20 @@ export const SriJayEnterprisesBill = ({
           </Text>
         </View>
 
+        {/* -------- Bank Details -------- */}
+        <View style={styles.bankSection}>
+          <Text style={styles.bankTitle}>Bank Details:</Text>
+          <Text>SRI JAY ENTERPRISES</Text>
+          <Text>Indian Overseas Bank</Text>
+          <Text>A/C No: 260602000000574</Text>
+          <Text>IFSC: IOBA0002606</Text>
+          <Text>JAGGU JUNCTION Branch</Text>
+          <Text>Visakhapatnam, AP - 530011</Text>
+        </View>
+
+        {/* -------- Signature -------- */}
         <View style={styles.signature}>
-            <Text>{"\n\n\n\n"}</Text>
+          <Text>{"\n\n\n\n"}</Text>
           <Text>For SRI JAY ENTERPRISES</Text>
           <Text>Authorized Signatory</Text>
         </View>
