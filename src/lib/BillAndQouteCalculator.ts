@@ -156,8 +156,8 @@ export async function generateInvoiceNo(
 export function generateQuotationNo(prefix: string = "INV"): string {
   const now = new Date();
   const year = now.getFullYear();
-  const currentYear = year -1;
-  const nextYear = year;
+  const currentYear = year;
+  const nextYear = year + 1;
   const currentYearShort = currentYear.toString().slice(-2);
   const nextYearShort = nextYear.toString().slice(-2);
   const randomPart = Math.floor(1000 + Math.random() * 9000);
